@@ -1,5 +1,6 @@
 ---
-title: Vanilla adapter
+title: Vanilla
+parent: Adapters
 ---
 
 # 🧠 Behavior Explanation

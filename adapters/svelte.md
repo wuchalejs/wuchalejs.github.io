@@ -1,5 +1,6 @@
 ---
 title: Svelte
+parent: Adapters
 ---
 
 # 1. 🚀 Installation

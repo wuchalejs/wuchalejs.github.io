@@ -1,5 +1,6 @@
 ---
 title: Adapters
+has_children: true
 ---
 
 These are the officially supported adapters.
