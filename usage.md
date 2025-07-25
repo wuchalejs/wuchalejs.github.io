@@ -16,7 +16,7 @@ export function plural(num, candidates, rule = n => n === 1 ? 0 : 1) {
 
 Use it
 
-```svelte
+```html
 <script>
     import {plural} from '/src/utils.js'
     let itemCount = 5
@@ -45,7 +45,7 @@ The `.js` file suffix depends on the specific adapter.
 
 Complex nested structures are preserved:
 
-```svelte
+```html
 <p>Welcome to <strong>{appName}</strong>, {userName}!</p>
 ```
 
@@ -58,7 +58,7 @@ Welcome to <0/>, {0}!
 
 Disambiguate identical texts:
 
-```svelte
+```html
 <!-- @wc-context: navigation -->
 <button>Home</button>
 

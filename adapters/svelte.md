@@ -42,7 +42,7 @@ export async function handle({ event, resolve }) {
 
 ## For Svelte (SPA)
 
-```svelte
+```html
 <!-- src/App.svelte -->
 <script>
     import { setCatalog } from 'wuchale/runtime.svelte.js'
@@ -77,7 +77,7 @@ default heuristic function is provided out of the box. Here's how it works:
 
 Examples:
 
-```svelte
+```html
 <p>This is extracted</p>
 <!-- @wc-ignore -->
 <p>This is not extracted</p>
@@ -90,7 +90,7 @@ Examples:
 
 Examples:
 
-```svelte
+```html
 <img alt="Profile Picture" class="not-extracted" />
 ```
 
@@ -112,7 +112,7 @@ const lowercase = $derived('not extracted')
 // Force extraction with comment
 const forced = $derived(/* @wc-include */ 'force extracted')
 ```
-```svelte
+```html
 <p title={'Extracted'}>{/* @wc-ignore */ 'Ignore this'}</p>
 ```
 

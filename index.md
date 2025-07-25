@@ -1,3 +1,8 @@
+---
+title: Home
+nav_order: 0
+---
+
 <p align="center">
     <img width="180" src="https://raw.githubusercontent.com/K1DV5/wuchale/main/images/logo.svg" alt="Vite logo">
 </p>
@@ -20,7 +25,7 @@
 Traditional i18n solutions require you to wrap every translatable string with
 function calls or components. `wuchale` doesn't.
 
-```svelte
+```html
 <!-- Traditional i18n -->
 <p>{t('Hello')}</p>
 <p><Trans>Welcome {userName}</Trans></p>

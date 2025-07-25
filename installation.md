@@ -71,7 +71,7 @@ This command:
 Now that the loader file is created, you can edit it, export the things you
 need from there, and setup how the translations are loaded.
 
-```svelte
+```html
 <!-- src/App.svelte -->
 <script>
     import { loadLocale } from 'wuchale/run-client'
@@ -91,7 +91,7 @@ need from there, and setup how the translations are loaded.
 
 Write your Svelte components naturally. `wuchale` will extract and compile translations automatically:
 
-```svelte
+```html
 <h1>Welcome to our store!</h1>
 <p>Hello {userName}, you have {itemCount} items in your cart.</p>
 ```
