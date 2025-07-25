@@ -15,28 +15,22 @@ Svelte applications may or may not use SvelteKit and that makes the loading of t
 
 ```typescript
 // src/routes/+layout.js
-import { setCatalog } from 'wuchale/runtime.svelte.js'
+import type { LayoutLoad } from './$types'
+import { locales } from 'virtual:wuchale/locales'
+import { loadCatalogs } from 'wuchale/run-client'
+import { loadIDs, loadCatalog } from '../locales/loader.svelte.js'
 
-export async function load({ url }) {
+export const prerender = true
+
+export const load: LayoutLoad = async ({url}) => {
     const locale = url.searchParams.get('locale') ?? 'en'
-    // or you can use [locale] in your dir names to get something like /en/path as params here
-    setCatalog(await import(`../locales/${locale}.svelte.js`))
-    return { locale }
-}
-```
-
-```typescript
-// src/hooks.server.js
-import { initRegistry } from 'wuchale/runtime'
-
-const runWithCatalog = await initRegistry()
-
-/** @type {import('@sveltejs/kit').Handle} */
-export async function handle({ event, resolve }) {
-    const locale = event.url.searchParams.get('locale') ?? 'en'
-    const catalog = await import(`./locales/${locale}.svelte.js`)
-    const response = await runWithCatalog(catalog, async () => await resolve(event))
-	return response
+    if (!(locale in locales)) {
+        return
+    }
+    return {
+        locale,
+        catalogs: await loadCatalogs(locale, loadIDs, loadCatalog)
+    }
 }
 ```
 
@@ -44,17 +38,14 @@ export async function handle({ event, resolve }) {
 
 ```html
 <!-- src/App.svelte -->
-<script>
-    import { setCatalog } from 'wuchale/runtime.svelte.js'
-    
-    let locale = $state('en')
-    
-    async function loadTranslations(locale) {
-        setCatalog(await import(`./locales/${locale}.svelte.js`))
-    }
+<script lang="ts">
+  import { loadLocale } from 'wuchale/run-client'
+  import Counter from './lib/Counter.svelte'
+
+  let locale = $state('en')
 </script>
 
-{#await loadTranslations(locale)}
+{#await loadLocale(locale)}
     <!-- @wc-ignore -->
     Loading translations...
 {:then}
