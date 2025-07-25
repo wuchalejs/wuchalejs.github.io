@@ -1,7 +1,7 @@
 ---
 title: Adapters
 has_children: true
-order: 3
+nav_order: 3
 ---
 
 These are the officially supported adapters.
