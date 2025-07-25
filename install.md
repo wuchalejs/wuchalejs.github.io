@@ -1,5 +1,6 @@
 ---
 title: Installation
+order: 1
 ---
 
 To install `wuchale`, you have to install the base package and the adapter(s)

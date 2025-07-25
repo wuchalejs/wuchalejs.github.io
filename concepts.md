@@ -1,5 +1,6 @@
 ---
 title: Concepts
+order: 4
 ---
 
 ![Diagram](https://raw.githubusercontent.com/K1DV5/wuchale/main/images/diagram.svg)
