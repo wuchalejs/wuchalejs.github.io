@@ -60,14 +60,41 @@ const vanillaAdapterConf = vanillaAdapter({
     // signature should be: (text: string, details: object) => boolean | undefined
     // details has the following properties:
         // scope: "markup" | "attribute" | "script",
-        // topLevel?: "variable" | "function" | "expression",
+        // declaring?: "variable" | "function" | "expression",
+        // insideFuncDef?: boolean,
         // topLevelCall?: string,
         // call?: string,
         // element?: string,
         // attribute?: string,
         // file?: string,
     heuristic: defaultHeuristic,
-    
+
+    // Whether to split the compiled catalogs into even smaller files
+    granularLoad: false,
+
+    // When using granularLoad, generate a load ID for each file. The ID should
+    // be like a keyword, only [a-zA-Z0-9_] are allowed. You can return the same
+    // ID to group compiled catalogs to prevent too much splitting
+    generateLoadID: defaultGenerateLoadID,
+
+    // Write content that would be virtual to disk
+    writeFiles: {
+        // the compiled catalogs
+        compiled: false,
+        // the catalogs proxy
+        proxy: false,
+        // the transformed code
+        transformed: false,
+        // Output directory for the transformed code.
+        outDir: 'src/locales/.output'
+    },
+
+    // By default, the runtime instance variable is initialized on the top
+    // level. But this may make the new content not available on reload unless the
+    // server is restarted. Use this to avoid that problem by initializing the
+    // runtime variable inside each function definition.
+    initInsideFunc,
+
     // Your plural function name
     pluralFunc: 'plural',
 })

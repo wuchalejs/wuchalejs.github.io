@@ -9,7 +9,11 @@ Please follow the installation guide. It uses svelte as an example.
 
 # 2. Setup in Your App
 
-Svelte applications may or may not use SvelteKit and that makes the loading of the compiled catalogs a bit different.
+Svelte applications may or may not use SvelteKit and that makes the loading of
+the compiled catalogs a bit different. `wuchale` tries to detect whether
+SvelteKit is in use and write the suitable default loader. Assuming it was
+correct, follow the following steps. If it was wrong, edit the loader file
+first.
 
 ## For SvelteKit (SSR/SSG)
 
@@ -137,7 +141,8 @@ const svelteAdapter = {
     // signature should be: (text: string, details: object) => boolean | undefined
     // details has the following properties:
         // scope: "markup" | "attribute" | "script",
-        // topLevel?: "variable" | "function" | "expression",
+        // declaring?: "variable" | "function" | "expression",
+        // insideFuncDef?: boolean,
         // topLevelCall?: string,
         // call?: string,
         // element?: string,
@@ -145,6 +150,34 @@ const svelteAdapter = {
         // file?: string,
     heuristic: defaultHeuristic,
     
+    // Whether to split the compiled catalogs into even smaller files
+    granularLoad: false,
+
+    // In some cases, avoiding async loading and directly importing the
+    // catalogs by the code that uses them may be desired. This is how Paraglide
+    // works. However, it is not recommended as all catalogs then get bundled with
+    // the code that uses them even though only one is required by the user. This
+    // can inflate the bundle side. But if this is desired anyway, it can be
+    // enabled here.
+    bundleLoad: false
+
+    // When using granularLoad, generate a load ID for each file. The ID should
+    // be like a keyword, only [a-zA-Z0-9_] are allowed. You can return the same
+    // ID to group compiled catalogs to prevent too much splitting
+    generateLoadID: defaultGenerateLoadID,
+
+    // Write content that would be virtual to disk
+    writeFiles: {
+        // the compiled catalogs
+        compiled: false,
+        // the catalogs proxy
+        proxy: false,
+        // the transformed code
+        transformed: false,
+        // Output directory for the transformed code.
+        outDir: 'src/locales/.output'
+    },
+
     // Your plural function name
     pluralFunc: 'plural',
 }

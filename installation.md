@@ -89,11 +89,16 @@ need from there, and setup how the translations are loaded.
 
 ### 7. Start Coding!
 
-Write your Svelte components naturally. `wuchale` will extract and compile translations automatically:
+Write your Svelte components naturally. `wuchale` will extract and compile
+translations automatically:
 
 ```html
 <h1>Welcome to our store!</h1>
 <p>Hello {userName}, you have {itemCount} items in your cart.</p>
 ```
 
-For full usage examples, look inside the **[examples directory](https://github.com/K1DV5/wuchale/tree/main/examples)**.
+For full usage examples, look inside the **[examples
+repository](https://github.com/wuchalejs/examples)**. It contains examples for
+different usage patterns.
+
+After installing, you can learn about the [Usage](./usage).
