@@ -1,6 +1,6 @@
 ---
 title: Installation
-nav_order: 1
+description: Installation guide
 ---
 
 To install `wuchale`, you have to install the base package and the adapter(s)
@@ -12,13 +12,13 @@ This installation guide assumes a simple Svelte project as an example. The
 specific different steps required for different setups will be given in the
 specific adapter page.
 
-# 1. Install
+## 1. Install
 
 ```bash
 npm install wuchale @wuchale/svelte
 ```
 
-# 2. Configure Vite
+## 2. Configure Vite
 
 ```javascript
 // vite.config.js
@@ -33,11 +33,12 @@ export default {
 }
 ```
 
-# 3. Create Configuration
+## 3. Create Configuration
 
 Create `wuchale.config.js` in your project root:
 
 ```javascript
+// wuchale.config.js
 // @ts-check
 import { adapter as svelte } from "@wuchale/svelte"
 import { defineConfig } from "wuchale"
@@ -54,7 +55,7 @@ export default defineConfig({
 })
 ```
 
-# 4. Initialize locales
+## 4. Initialize locales
 
 ```bash
 npx wuchale init
@@ -66,12 +67,12 @@ This command:
 - Creates the loader file if it doesn't exist
 - If the loader didn't exist before, it scans the source files and extracts the texts as a first time scan
 
-### 6. Setup in Your App
+## 5. Setup in Your App
 
 Now that the loader file is created, you can edit it, export the things you
 need from there, and setup how the translations are loaded.
 
-```html
+```svelte
 <!-- src/App.svelte -->
 <script>
     import { loadLocale } from 'wuchale/run-client'
@@ -87,12 +88,12 @@ need from there, and setup how the translations are loaded.
 {/await}
 ```
 
-### 7. Start Coding!
+## 6. Start Coding!
 
 Write your Svelte components naturally. `wuchale` will extract and compile
 translations automatically:
 
-```html
+```svelte
 <h1>Welcome to our store!</h1>
 <p>Hello {userName}, you have {itemCount} items in your cart.</p>
 ```
