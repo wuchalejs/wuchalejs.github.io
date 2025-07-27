@@ -7,7 +7,10 @@ export default defineConfig({
 	integrations: [
 		starlight({
 			title: 'Wuchale',
-			social: [{ icon: 'github', label: 'GitHub', href: 'https://github.com/wuchalejs/wuchale' }],
+			social: [
+                { icon: 'github', label: 'GitHub', href: 'https://github.com/wuchalejs/wuchale' },
+                { icon: 'npm', label: 'NPM', href: 'https://npmjs.com/package/wuchale' },
+            ],
 			sidebar: [
 				{
 					label: 'Guides',
