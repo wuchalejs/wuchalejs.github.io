@@ -3,7 +3,7 @@ title: Concepts
 nav_order: 4
 ---
 
-![Diagram](https://raw.githubusercontent.com/K1DV5/wuchale/main/images/diagram.svg)
+![Diagram](https://raw.githubusercontent.com/wuchalejs/wuchalejs.github.io/main/public/favicon.svg)
 
 ### Compilation Process
 
