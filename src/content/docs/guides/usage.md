@@ -60,7 +60,7 @@ it or not.
 
 Complex nested structures are preserved:
 
-```html
+```svelte
 <p>Welcome to <strong>{appName}</strong>, {userName}!</p>
 ```
 
@@ -77,7 +77,7 @@ When we don't want to modify the adapter, which applies to all files under the
 adapter, we can use comment directives to override the decisions of the
 adapter:
 
-```html
+```svelte
 <!-- @wc-ignore -->
 <button>Home</button>
 ```
@@ -92,7 +92,7 @@ To disambiguate identical texts or to give more details, we can use the comment
 to give it the context and they will be extracted separately with their own
 contexts which can help the translator later.
 
-```html
+```svelte
 <!-- @wc-context: navigation -->
 <button>Home</button>
 
@@ -114,7 +114,7 @@ export function plural(num, candidates, rule = n => n === 1 ? 0 : 1) {
 
 Use it
 
-```html
+```svelte
 <script>
     import {plural} from '/src/utils.js'
     let itemCount = 5

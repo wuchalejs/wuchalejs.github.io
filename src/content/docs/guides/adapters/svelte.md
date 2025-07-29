@@ -40,7 +40,7 @@ export const load: LayoutLoad = async ({url}) => {
 
 ## For Svelte (SPA)
 
-```html
+```svelte
 <!-- src/App.svelte -->
 <script lang="ts">
   import { loadLocale } from 'wuchale/run-client'
@@ -72,7 +72,7 @@ default heuristic function is provided out of the box. Here's how it works:
 
 Examples:
 
-```html
+```svelte
 <p>This is extracted</p>
 <!-- @wc-ignore -->
 <p>This is not extracted</p>
@@ -85,7 +85,7 @@ Examples:
 
 Examples:
 
-```html
+```svelte
 <img alt="Profile Picture" class="not-extracted" />
 ```
 
@@ -107,7 +107,7 @@ const lowercase = $derived('not extracted')
 // Force extraction with comment
 const forced = $derived(/* @wc-include */ 'force extracted')
 ```
-```html
+```svelte
 <p title={'Extracted'}>{/* @wc-ignore */ 'Ignore this'}</p>
 ```
 
