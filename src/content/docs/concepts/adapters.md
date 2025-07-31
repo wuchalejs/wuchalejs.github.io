@@ -1,7 +1,5 @@
 ---
 title: Adapters
-has_children: true
-nav_order: 3
 ---
 
 `wuchale` is designed to work in different codebases which may use different
@@ -30,7 +28,3 @@ The main things adapters have to handle is the following:
 - The location of the extracted catalogs
 - Whether to write to disk and where
 
-These are the officially supported adapters.
-
-- [Vanilla](./vanilla)
-- [Svelte](./svelte)

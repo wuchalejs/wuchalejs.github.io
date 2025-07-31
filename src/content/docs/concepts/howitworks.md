@@ -1,6 +1,5 @@
 ---
-title: Concepts
-nav_order: 4
+title: How it works
 ---
 
 ![Diagram](https://raw.githubusercontent.com/wuchalejs/wuchalejs.github.io/main/public/favicon.svg)
