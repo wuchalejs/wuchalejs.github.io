@@ -6,7 +6,7 @@ import starlight from '@astrojs/starlight';
 export default defineConfig({
 	integrations: [
 		starlight({
-			title: 'Wuchale',
+			title: 'wuchale',
             logo: {
                 src: './public/favicon.svg',
             },
@@ -17,10 +17,10 @@ export default defineConfig({
             ],
 			sidebar: [
 				{
-					label: 'Start here',
+					label: 'Introduction',
 					items: [
-						{ label: 'Installation', slug: 'start/installation' },
-						{ label: 'Usage', slug: 'start/usage' },
+						{ label: 'Get started', slug: 'intro/start' },
+						{ label: 'Why wuchale', slug: 'intro/why' },
 					],
 				},
 				{

@@ -1,6 +1,5 @@
 ---
-title: Installation
-description: Installation guide
+title: Getting started
 ---
 
 To install `wuchale`, you have to install the base package and the adapter(s)
@@ -103,3 +102,25 @@ repository](https://github.com/wuchalejs/examples)**. It contains examples for
 different usage patterns.
 
 After installing, you can learn about the [Usage](./usage).
+
+# Setup
+
+To see specific loaders in action, you can look inside the **[examples
+repository](https://github.com/wuchalejs/examples)**.
+
+# What gets extracted
+
+There are three possible places for a user-facing text to be in:
+
+- Markup: inside HTML tags like `<p>text</p>`
+- Attribute: insite element attributes like `<span title="Text"></span>`
+- Script: strings inside JavaScript code
+
+Inside of these, which texts exactly are extracted is decided by the adapter in
+use, because not all text should be extracted as user facing text. Some
+attributes and strings are not meant to be seen by the user.
+
+The adapter uses a heuristic function to make these decisions and that function
+can be overriden using the configuration. This heuristic function receives the
+text along with other details about the text and can decide whether to extract
+it or not.
