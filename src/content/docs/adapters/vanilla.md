@@ -44,57 +44,13 @@ package.
 
 For the main configuration, look in the [configuration reference](/reference/config).
 
-```javascript
+For the common adapter configuration, look in the [common adapter options](/reference/adapter-common/).
 
-import { adapter as vanillaAdapter } from "wuchale/adapter-vanilla"
+### `initInsideFunc`
+**type**: `boolean`
+**default**: `false`
 
-const vanillaAdapterConf = vanillaAdapter({
-    // Where to store translation files. {locale} will be replaced with the respective locale.
-    catalog: './src/locales/{locale}',
-    
-    // Files to scan for translations and transform
-    files: ['src/**/*.{js,ts}'],
-    
-    // Custom extraction logic
-    // signature should be: (text: string, details: object) => boolean | undefined
-    // details has the following properties:
-        // scope: "markup" | "attribute" | "script",
-        // declaring?: "variable" | "function" | "expression",
-        // insideFuncDef?: boolean,
-        // topLevelCall?: string,
-        // call?: string,
-        // element?: string,
-        // attribute?: string,
-        // file?: string,
-    heuristic: defaultHeuristic,
-
-    // Whether to split the compiled catalogs into even smaller files
-    granularLoad: false,
-
-    // When using granularLoad, generate a load ID for each file. The ID should
-    // be like a keyword, only [a-zA-Z0-9_] are allowed. You can return the same
-    // ID to group compiled catalogs to prevent too much splitting
-    generateLoadID: defaultGenerateLoadID,
-
-    // Write content that would be virtual to disk
-    writeFiles: {
-        // the compiled catalogs
-        compiled: false,
-        // the catalogs proxy
-        proxy: false,
-        // the transformed code
-        transformed: false,
-        // Output directory for the transformed code.
-        outDir: 'src/locales/.output'
-    },
-
-    // By default, the runtime instance variable is initialized on the top
-    // level. But this may make the new content not available on reload unless the
-    // server is restarted. Use this to avoid that problem by initializing the
-    // runtime variable inside each function definition.
-    initInsideFunc,
-
-    // Your plural function name
-    pluralFunc: 'plural',
-})
-```
+By default, the runtime instance variable is initialized on the top
+level. But this may make the new content not available on reload unless the
+server is restarted. Use this to avoid that problem by initializing the
+runtime variable inside each function definition.

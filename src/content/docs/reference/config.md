@@ -37,15 +37,31 @@ main configuration is discussed here.
 
 **type**: `{[locale: string]:`[`LocaleConf`](#localeconf)`}`
 
-This must be a mapping from a locale key to a configuration object (see below). The key must be a valid keyword. Therefore it can only contain alphanumeric characters and `_`. For example, `en`, `en_US`, `eng` are valid, but `en-US` is invalid.
+This must be a mapping from a locale key to a configuration object (see below).
+The key must be a valid keyword. Therefore it can only contain alphanumeric
+characters and `_`. For example, `en`, `en_US`, `eng` are valid, but `en-US` is
+invalid.
 
 #### `LocaleConf`
 
 Properties:
 
-- **`name`** (`string`, required): The name of the language. It can be written in the language itself, like `Español`. This is useful if you don't want to repeat yourself and would like to display the name in the UI by importing it, for language selectors for example.
-- **`nPlurals`** (`number`): The number of plurals in the language. Most languages have only two (one and many) but some have more.
-- **`plural`** (`string`): The plural rule of the language, represented as an expression with the variable `n` that selects the suitable text from the available candidates in an array by returning its zero-based index. The candidates will come from the translation catalogs as an array. For most languages, the default rule: `n == 1 ? 0 : 1` is used. But for languages that need it, a different more complex expression can be defined. **Note** that this has to be a string expression with `n` as the variable. It will later be the body of an arrow function.
+- **`name`** (`string`, required): The name of the language. It can be written
+    in the language itself, like `Español`. This is useful if you don't want to
+    repeat yourself and would like to display the name in the UI by importing it,
+    for language selectors for example.
+
+- **`nPlurals`** (`number`): The number of plurals in the language. Most
+    languages have only two (one and many) but some have more.
+
+- **`plural`** (`string`): The plural rule of the language, represented as an
+    expression with the variable `n` that selects the suitable text from the
+    available candidates in an array by returning its zero-based index. The
+    candidates will come from the translation catalogs as an array. For most
+    languages, the default rule: `n == 1 ? 0 : 1` is used. But for languages that
+    need it, a different more complex expression can be defined. **Note** that this
+    has to be a string expression with `n` as the variable. It will later be the
+    body of an arrow function.
 
 Example:
 
@@ -62,24 +78,30 @@ Example:
 **type**: `string`
 **default**: `en`
 
-The key of the source languages from the `locales` config. This is the language you use in the source code and will not need to be translated. In most cases this will be English.
+The key of the source languages from the `locales` config. This is the language
+you use in the source code and will not need to be translated. In most cases
+this will be English.
 
 ### `adapters`
 
 **type**: `{[key: string]: Adapter}`
 **default**: `{}`
 
-Adapters are what handle the project specific operations like extracting the texts from the code and transforming it. They have to be provided with their own keys. The keys are how you can separate different parts of the project into smaller pieces and refer to them. The key also has to be a valid keyword like locale keys.
+Adapters are what handle the project specific operations like extracting the
+texts from the code and transforming it. They have to be provided with their
+own keys. The keys are how you can separate different parts of the project into
+smaller pieces and refer to them. The key also has to be a valid keyword like
+locale keys.
 
 ### `hmr`
 
 **type**: `boolean`
 **default**: `true`
 
-Enable HMR updates during development. You can disable this to avoid the small overhead
-of live translation updates and work solely with the source language.
-HMR is highly optimized: it updates only the affected components,
-preserving application state and avoiding full reloads.
+Enable HMR updates during development. You can disable this to avoid the small
+overhead of live translation updates and work solely with the source language.
+HMR is highly optimized: it updates only the affected components, preserving
+application state and avoiding full reloads.
 
 ### `geminiAPIKey`
 

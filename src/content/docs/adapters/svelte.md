@@ -120,60 +120,15 @@ package.
 
 For the main configuration, look in the [configuration reference](/reference/config).
 
-```javascript
+For the common adapter configuration, look in the [common adapter options](/reference/adapter-common/).
 
-import { adapter as svelte } from "@wuchale/svelte"
+### `bundleLoad`
+**type**: `boolean`
+**default**: `false`
 
-const svelteAdapter = {
-    // Where to store translation files. {locale} will be replaced with the respective locale.
-    catalog: './src/locales/{locale}',
-    
-    // Files to scan for translations
-    // You can technically specify non svelte js/ts files, but they would not be reactive
-    files: ['src/**/*.svelte', 'src/**/*.svelte.{js,ts}'],
-    
-    // Custom extraction logic
-    // signature should be: (text: string, details: object) => boolean | undefined
-    // details has the following properties:
-        // scope: "markup" | "attribute" | "script",
-        // declaring?: "variable" | "function" | "expression",
-        // insideFuncDef?: boolean,
-        // topLevelCall?: string,
-        // call?: string,
-        // element?: string,
-        // attribute?: string,
-        // file?: string,
-    heuristic: defaultHeuristic,
-    
-    // Whether to split the compiled catalogs into even smaller files
-    granularLoad: false,
-
-    // In some cases, avoiding async loading and directly importing the
-    // catalogs by the code that uses them may be desired. This is how Paraglide
-    // works. However, it is not recommended as all catalogs then get bundled with
-    // the code that uses them even though only one is required by the user. This
-    // can inflate the bundle side. But if this is desired anyway, it can be
-    // enabled here.
-    bundleLoad: false
-
-    // When using granularLoad, generate a load ID for each file. The ID should
-    // be like a keyword, only [a-zA-Z0-9_] are allowed. You can return the same
-    // ID to group compiled catalogs to prevent too much splitting
-    generateLoadID: defaultGenerateLoadID,
-
-    // Write content that would be virtual to disk
-    writeFiles: {
-        // the compiled catalogs
-        compiled: false,
-        // the catalogs proxy
-        proxy: false,
-        // the transformed code
-        transformed: false,
-        // Output directory for the transformed code.
-        outDir: 'src/locales/.output'
-    },
-
-    // Your plural function name
-    pluralFunc: 'plural',
-}
-```
+In some cases, avoiding async loading and directly importing the
+catalogs by the code that uses them may be desired. This is how Paraglide
+works. However, it is not recommended as all catalogs then get bundled with
+the code that uses them even though only one is required by the user. This
+can inflate the bundle side. But if this is desired anyway, it can be
+enabled here.
