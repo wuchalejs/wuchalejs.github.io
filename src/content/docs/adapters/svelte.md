@@ -1,13 +1,8 @@
 ---
 title: Svelte
-parent: Adapters
 ---
 
-# 1. 🚀 Installation
-
-Please follow the installation guide. It uses svelte as an example.
-
-# 2. Setup in Your App
+## Setup in Your App
 
 Svelte applications may or may not use SvelteKit and that makes the loading of
 the compiled catalogs a bit different. `wuchale` tries to detect whether
@@ -15,7 +10,7 @@ SvelteKit is in use and write the suitable default loader. Assuming it was
 correct, follow the following steps. If it was wrong, edit the loader file
 first.
 
-## For SvelteKit (SSR/SSG)
+### For SvelteKit (SSR/SSG)
 
 ```javascript
 // src/routes/+layout.js
@@ -38,7 +33,7 @@ export async function load({url}) {
 }
 ```
 
-## For Svelte (SPA)
+### For Svelte (SPA)
 
 ```svelte
 <!-- src/App.svelte -->
@@ -57,17 +52,17 @@ export async function load({url}) {
 {/await}
 ```
 
-# 🧠 Behavior Explanation (Svelte adapter)
+## Behavior Explanation (Svelte adapter)
 
-## What Gets Extracted?
+### What Gets Extracted?
 
 This is decided by the heuristic function which you can customize. A sensible
 default heuristic function is provided out of the box. Here's how it works:
 
-### General rule (applies everywhere):
+#### General rule (applies everywhere):
 - If the text contains no letters used in any natural language (e.g., just numbers or symbols), it is ignored.
 
-### In `markup` (`<p>Text</p>`):
+#### In `markup` (`<p>Text</p>`):
 - All textual content is extracted.
 
 Examples:
@@ -78,7 +73,7 @@ Examples:
 <p>This is not extracted</p>
 ```
 
-### In `attribute` (`<div title="Info">`):
+#### In `attribute` (`<div title="Info">`):
 - If the first character is a lowercase English letter (`[a-z]`), it is ignored.
 - If the element is a `<path>`, it is ignored (e.g., for SVG `d="M10 10..."` attributes).
 - Otherwise, it is extracted.
@@ -89,7 +84,7 @@ Examples:
 <img alt="Profile Picture" class="not-extracted" />
 ```
 
-### In `script` (`<script>` and `.svelte.js/ts`):
+#### In `script` (`<script>` and `.svelte.js/ts`):
 
 `script` is handled by the ES adapter of the core package with some additional restrictions.
 - If it doesn't pass the base heuristic from the ES adapter, it is ignored.
@@ -121,9 +116,9 @@ package.
 > - `@wc-include` — forces extraction  
 > These always take precedence.
 
-# 🛠️ Configuration Reference
+## Configuration Reference
 
-For the main plugin configuration, look in [Usage](/usage).
+For the main configuration, look in the [configuration reference](/reference/config).
 
 ```javascript
 

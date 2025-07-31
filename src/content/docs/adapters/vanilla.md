@@ -1,11 +1,10 @@
 ---
 title: Vanilla
-parent: Adapters
 ---
 
-# 🧠 Behavior Explanation
+## Behavior Explanation
 
-## What Gets Extracted?
+### What Gets Extracted?
 
 This is decided by the heuristic function which you can customize. A sensible
 default heuristic function is provided out of the box. Here's how it works:
@@ -41,9 +40,9 @@ package.
 > - `@wc-include` — forces extraction  
 > These always take precedence.
 
-# 🛠️ Configuration Reference
+## Configuration Reference
 
-For the main plugin configuration, look in [Usage](/usage).
+For the main configuration, look in the [configuration reference](/reference/config).
 
 ```javascript
 
