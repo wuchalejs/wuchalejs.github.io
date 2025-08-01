@@ -139,6 +139,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                     ```
                 </TabItem>
                 <TabItem label="SvelteKit">
+                    Assuming the use of a search parameter for the locale state: `?locale=en`. But you can use anything else.
                     ```javascript
                     // src/routes/+layout.js
                     import { locales } from 'virtual:wuchale/locales'
@@ -161,7 +162,10 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             </Tabs>
         </TabItem>
         <TabItem label="Vanilla">
-            No extra setup unless on the server.
+            ```javascript
+            import { loadLocale } from 'wuchale/run-client'
+            await loadLocale(locale)
+            ```
         </TabItem>
     </Tabs>
 
@@ -178,39 +182,32 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
         </TabItem>
         <TabItem label="Vanilla">
             ```javascript
-                import { loadLocale } from 'wuchale/run-client'
-
-                const showMsg = (element) => {
-                    element.innerHTML = 'Hello world'
-                }
+            const showMsg = (element) => {
+                element.innerHTML = 'Hello world'
+            }
             ```
         </TabItem>
     </Tabs>
 
 </Steps>
 
-For full usage examples, look inside the **[examples
-repository](https://github.com/wuchalejs/examples)**. It contains examples for
-different usage patterns.
+For full usage examples, look inside the **<a
+    href="https://github.com/wuchalejs/examples" target="_blank">examples
+    repository</a>**. It contains examples for different usage patterns.
 
-# Setup
-
-To see specific loaders in action, you can look inside the **[examples
-repository](https://github.com/wuchalejs/examples)**.
-
-# What gets extracted
+## What gets extracted
 
 There are three possible places for a user-facing text to be in:
 
-- Markup: inside HTML tags like `<p>text</p>`
-- Attribute: insite element attributes like `<span title="Text"></span>`
-- Script: strings inside JavaScript code
+- **Markup**: inside HTML tags like `<p>text</p>`
+- **Attribute**: insite element attributes like `<span title="Text"></span>`
+- **Script**: strings inside JavaScript code
 
 Inside of these, which texts exactly are extracted is decided by the adapter in
 use, because not all text should be extracted as user facing text. Some
 attributes and strings are not meant to be seen by the user.
 
-The adapter uses a heuristic function to make these decisions and that function
-can be overriden using the configuration. This heuristic function receives the
-text along with other details about the text and can decide whether to extract
-it or not.
+The adapter uses a [configurable heuristic
+function](/reference/adapter-common#heuristic) to make these decisions. This
+function receives the text along with other details about the text and can
+decide whether to extract it or not.

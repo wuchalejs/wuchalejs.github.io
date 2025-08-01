@@ -1,8 +1,8 @@
 ---
-title: Useful patterns
+title: Useful tips
 ---
 
-# Event names
+## Event names
 
 In some cases it may be necessary to use DOM event names as strings. But
 according to the default heuristic rule, event names satisfy the criteria to be

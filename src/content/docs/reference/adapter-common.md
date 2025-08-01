@@ -136,9 +136,9 @@ the individual parts of the compiled catalog. The IDs should be valid
 keywords,they can only contain alphanumeric characters and `_`.
 
 If the same IDs are returned for multiple files, the resulting compiled catalog
-will be shared by the files. This can be used to make files that have a slow
-amount of texts share the same compiled catalog to reduce the number of
-requests.
+will be shared by the files. This can be used to combine and share the same
+compiled catalog between files with a small number of texts to reduce the
+number of requests.
 
 The default generator converts the file paths into compatible IDs by replacing
 every special character by `_`.
