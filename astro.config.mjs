@@ -12,16 +12,15 @@ export default defineConfig({
             },
             social: [
                 { icon: 'github', label: 'GitHub', href: 'https://github.com/wuchalejs/wuchale' },
-                { icon: 'discord', label: 'Discord', href: 'https://discord.gg/ypVSZTbzvG' },
                 { icon: 'npm', label: 'NPM', href: 'https://npmjs.com/package/wuchale' },
+                { icon: 'discord', label: 'Discord', href: 'https://discord.gg/ypVSZTbzvG' },
             ],
             sidebar: [
                 {
                     label: 'Introduction',
                     items: [
-                        { label: 'Get started', slug: 'intro/start' },
-                        { label: 'Why wuchale', slug: 'intro/why' },
-                        { label: 'Examples', link: 'https://github.com/wuchalejs/examples', attrs: { target: '_blank' } },
+                        { slug: 'intro/start' },
+                        { slug: 'intro/why' },
                     ],
                 },
                 {
@@ -38,7 +37,11 @@ export default defineConfig({
                 },
                 {
                     label: 'Reference',
-                    autogenerate: { directory: 'reference' },
+                    items: [
+                        { slug: 'reference/config' },
+                        { slug: 'reference/adapter-common' },
+                        { label: 'Examples', link: 'https://github.com/wuchalejs/examples', attrs: { target: '_blank' } },
+                    ],
                 },
             ],
         }),
