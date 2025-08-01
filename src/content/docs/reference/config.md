@@ -119,4 +119,4 @@ in which case the environment variable will not be used even if it is set.
 **type**: `string`
 **default**: `true`
 
-If you find wuchale to be too chatty, you can silence it by setting this to `false`.
+If you find `wuchale` to be too chatty, you can silence it by setting this to `false`.
