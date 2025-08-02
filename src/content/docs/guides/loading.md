@@ -297,3 +297,81 @@ const catalogs = await loadCatalogs(locale, loadIDs, loadCatalog)
 
 Then `catalogs` becomes an object with the `loadID`s as the keys and loaded
 `Runtime` objects as values. This is how the `sveltekit` example works.
+
+## Recommendations
+
+Given that `wuchale` multiple loading strategies, you may be wondering which to
+use when. That depends on some factors.
+
+### Client
+
+For an application that contains a relatively small number of texts as a whole,
+a single adapter without `granularload` is sufficient. For a large application,
+there are multiple methods to manage it:
+
+#### Multiple adapter configurations
+
+```js
+// wuchale.config.js
+export default defineConfig({
+    locales: {
+        // English included by default
+        es: { name: 'Spanish' },
+    },
+    adapters: {
+        product: svelte({
+            files: ['src/product/**/*.svelte'],
+            catalog: 'src/product/locales/{locale}',
+        }),
+        services: svelte({
+            files: ['src/services/**/*.svelte'],
+            catalog: 'src/services/locales/{locale}',
+        }),
+        // ...
+    }
+})
+```
+
+This uses two catalogs per locale for the `products` and `services` parts of
+the application. The number of catalogs does not depend on the number of files.
+
+This is useful when the number of texts per file is not big but the number of
+the files themselves is big. The files can share the same catalogs within their
+adapter configuration.
+
+#### Single adapter with `granularload`
+
+```js
+// wuchale.config.js
+export default defineConfig({
+    locales: {
+        // English included by default
+        es: { name: 'Spanish' },
+    },
+    adapters: {
+        main: svelte({
+            granularload: true,
+            // generateLoadID can be used optionally
+        }),
+    }
+})
+```
+
+This uses a single adapter but the compiled catalogs are broken into small
+parts on a per-file basis by default (unless a custom `generateLoadID` is
+given).
+
+This is useful when there are large numbers of texts in individual files. It
+would not make sense making them share the same catalogs because the resulting
+catalog would be huge.
+
+#### Any combination
+
+If your needs are more complicated, you can combine the above methods into any other method.
+
+### Server
+
+On the server, everything is already there and bundle size becomes irrelevant.
+Therefore, for the server, synchronous loading (direct import) is recommended
+and provides faster app startup and performance as everything is already loaded
+during runtime.
