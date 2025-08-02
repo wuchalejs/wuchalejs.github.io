@@ -204,3 +204,96 @@ export default loadID => catalogs[loadID]?.[locale] ?? new Runtime()
 
 Now this can work for any number of `loadID`s and you don't have to keep track
 of them even if you use `granularload`.
+
+## Loading utilities
+
+There is one more abstraction layer provided: collectively loading catalogs
+when locales change. But this requires different methods on the client and on
+the server.
+
+### On the client
+
+Here there is only one user, so using a single global state to load the
+catalogs to is appropriate. The module used for this is `wuchale/run-client`.
+
+The setup is done in two steps. The first step is registering the load
+functions with the `loadID`s at the central registry. This is done in the
+loader. Continuing with the above example loader, it now becomes very simple.
+
+```js
+// src/locales/loader.js
+import { loadCatalog, loadIDs } from 'virtual:wuchale/loader/sync'
+import { registerLoaders } from 'wuchale/run-client'
+
+export default registerLoaders('main', loadCatalog, loadIDs)
+```
+
+`registerLoaders` returns a function already prepared for use by the importing
+transformed modules so it can be directly exported as `default`.
+
+**Note**: This is actually the default loader content for the vanilla adapter.
+
+The next step is to set the locale. It can be done anywhere you want.
+
+```js
+import { loadLocale } from 'wuchale/run-client'
+
+// ...
+await loadLocale(locale)
+// ...
+```
+
+It uses `await` although it is synchronous. This is to make it usable in both
+cases.
+
+### On the server
+
+There can be multiple different requests at the same time on the server and
+this necessitates the use of a per-request isolation mechanism for the loaded
+catalogs because we don't want one user to see a language they didn't choose
+because of another user.
+
+For this we use the exports from `wuchale/run-server`. And the isolation is
+done using the
+[`AsyncLocalStorage`](https://nodejs.org/api/async_context.html). Again, the
+setup is done in two steps. First, inside the loader file, we instruct the
+catalogs to be loaded and be ready.
+
+```js
+// src/locales/loader.js
+
+import { loadCatalog, loadIDs } from './proxy.js' // or loader/sync
+import { loadLocales } from 'wuchale/run-server'
+
+export default await loadLocales('main', loadIDs, loadCatalog, ['en', 'es'])
+```
+
+Then when we want to process a request, we wrap the request processing with a
+locale setup:
+
+```js
+import { runWithLocale } from 'wuchale/run-server'
+
+app.get('/:locale', (req, res) => {
+    runWithLocale(req.params.locale, () => respond(res))
+})
+```
+
+### Side-effect-free loading
+
+One last loading convenience provided is this. You already know the locale, you
+have the `loadID`s and the load function from the proxy, you just want a
+direct, no side effect way to load the catalogs. For that, the
+`wuchale/run-client` provides another function, which can be used like this:
+
+```js
+import { loadCatalogs } from 'wuchale/run-client'
+import { loadIDs, loadCatalog } from '../locales/loader.js'
+
+let locale = 'en'
+
+const catalogs = await loadCatalogs(locale, loadIDs, loadCatalog)
+```
+
+Then `catalogs` becomes an object with the `loadID`s as the keys and loaded
+`Runtime` objects as values. This is how the `sveltekit` example works.
