@@ -2,7 +2,7 @@
 title: How it works
 ---
 
-![Diagram](https://raw.githubusercontent.com/wuchalejs/wuchalejs.github.io/main/public/favicon.svg)
+![Diagram](https://raw.githubusercontent.com/wuchalejs/wuchalejs.github.io/main/public/diagram.svg)
 
 ### Compilation Process
 
