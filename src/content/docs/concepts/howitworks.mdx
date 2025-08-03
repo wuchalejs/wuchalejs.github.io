@@ -1,0 +1,99 @@
+---
+title: How it works
+---
+
+![Process diagram](/diagram.svg)
+
+## Process
+
+The process consists of four main stages. We will take the following code as an example:
+
+```svelte
+<!-- foo.svelte -->
+<p>Hello</p>
+```
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+And let's assume that we want to have two locales, English (`en`, source locale) and Spanish (`es`).
+
+### Extract and transform
+
+This is the main stage. For each source file, the contents are parsed using the
+suitable parser into an AST representation. Then, two things are done.
+
+#### Extraction
+
+Extractable texts are extracted into the [catalogs](/concepts/catalogs#po-files). From the above example, this is extracted:
+
+<Tabs>
+    <TabItem label="es.po">
+        ```nginx
+        msgid "Hello"
+        msgstr ""
+        ```
+    </TabItem>
+    <TabItem label="en.po">
+        ```nginx
+        msgid "Hello"
+        msgstr "Hello"
+        ```
+    </TabItem>
+</Tabs>
+
+#### Transformation
+
+The source file is modified to replace the texts with a calls that access the
+translations from the [compiled catalogs](/concepts/catalogs#compiled-catalogs).
+The example is transformed into:
+
+```svelte
+<script>
+    import _w_rt_ from '../locales/loader.svelte.js'
+    const _w_runtime_ = _w_rt_('main')
+</script>
+<p>{_w_runtime_.t(0)}</p>
+```
+
+The `0` given to the `.t(0)` call is the index of the text. This is how
+`wuchale` avoids the use of string/hash keys which would unnecessarily bloat
+the bundles.
+
+### Translate
+
+Now that the extracted texts are available, they can be translated. The
+translation can be done on the fly using [Gemini](/guides/gemini) or by
+exchanging the catalogs witha a translator.
+
+In the example, only Spanish needs to be translated.
+
+```diff lang="nginx"
+# es.po
+msgid "Hello"
+- msgstr ""
++ msgstr "Hola"
+```
+
+### Compile
+
+Now both catalogs get compiled into compact JavaScript modules that can be loaded and imported in the code.
+
+<Tabs>
+    <TabItem label="en.compiled.js">
+        ```js
+        export const data = ['Hello']
+        ```
+    </TabItem>
+    <TabItem label="es.compiled.js">
+        ```js
+        export const data = ['Hola']
+        ```
+    </TabItem>
+</Tabs>
+
+### Use
+
+Now the compiled catalogs can be loaded and used inside the code. The loading
+can be done in [many different ways](/guides/loading). `wuchale` makes sure
+that the indices of the texts inside the compiled catalogs matches those inside
+the transformed modules so that the correct text is shown at runtime.
