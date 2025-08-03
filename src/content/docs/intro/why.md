@@ -2,28 +2,112 @@
 title: Why wuchale?
 ---
 
+## No extra syntax
+
 Traditional i18n solutions require you to wrap every translatable string with
-function calls or components. `wuchale` doesn't.
+function calls or components.
+```svelte
+<!-- Lingui -->
+<p><Trans>Hello</Trans></p>
+<!-- Paraglide -->
+<p>{t.welcome_message()}</p>
+<!-- Lingui, i18next and many others -->
+<p>{t('home.welcome.greeting')}</p>
+```
 
-```html
-<!-- Traditional i18n -->
-<p>{t('Hello')}</p>
-<p><Trans>Welcome {userName}</Trans></p>
+`wuchale` takes a different approach and tries to work with your normal code.
 
-<!-- With wuchale -->
+```svelte
 <p>Hello</p>
-<p>Welcome {userName}</p>
 ```
 
 Write your code naturally. No imports, no wrappers, no annotations.
 `wuchale` handles everything at compile time.
 
-## Key Features
+The argument is this:
 
-- **🔧 Zero-effort integration** - Add i18n to existing projects without rewriting code
-- **🚀 Compile-time optimization** - All transformations happen during build, minimal runtime overhead
-- **🔄 Full, granular HMR support** - Live updates during development, including auto-translation
-- **📦 Tiny footprint** - Only 2 or 3 additional dependencies, no bloated `node_modules`
-- **🎯 Smart extraction** - Uses AST analysis: handles nested markup, conditionals, loops, and complex interpolations
-- **🌍 Standard .po files** - Compatible with existing translation tools and workflows
-- **🤖 Optional AI translation** - Gemini integration for automatic translations during development
+> We already write enough syntax to tell if a piece of
+text should be translated or not. We should not have to write
+more just to internationalize it.
+
+Internationalization should be an easy
+choice, not a heavy chore.
+
+A side-effect of this is that pre-existing projects now require very low effort
+to internationalize because the code doesn't have to change, `wuchale`
+understands the code and works with it.
+
+## Protobuf-like compilation
+
+Other i18n solutions add keys to the catalogs to access the specific text.
+
+```js
+// Lingui
+export const messages = JSON.parse(`{"key1":["Hello"],"key2":["World"]}`)
+// i18next
+export const messages = {key1: "Hello", key2: "World"}
+// Paraglide
+export const key1 = () => "Hello"
+export const key2 = () => "World"
+```
+
+`wuchale` avoids using keys altogether and uses an array instead.
+
+```js
+export const data = ["Hello", "World"]
+```
+
+This drastically reduces the bundle size as there are no keys in the catalogs
+and numeric indices are shorter and faster to access data than strings in the
+code as well.
+
+This is somewhat similar to the benefit that [protocol
+buffers](https://protobuf.dev/) provide: schemaless compact exchange format.
+
+## Instant feedback during development
+
+HMR became important for a reason: it allows us to have a fast feedback loop
+and therefore makes adjusting and fixing issues faster, helping to ship
+products faster.
+
+`wuchale` integrates with Vite's HMR deeply and connects everything so that
+when you make changes in one file (be it the code or the catalogs), it is
+reflected in the browser instantly.
+
+It even goes a step further. It [integrates with Gemini](/guides/gemini) and
+does the actual translation on-the-fly, allowing you to edit your source code
+in one language and have it updated in the browser in another language of your
+choosing.
+
+## Flexibility
+
+### Text format
+
+`wuchale` doesn't make assumptions to how you write your code. You may write it
+in any pattern that the language allows and `wuchale` understands it. This is
+important when we want to have some part of the texts formatted differently,
+nesting elements within elements, or any complicated text you can come up with,
+it extracts it preserving what should be together.
+
+```svelte
+<p>Welcome to <i>the app {appName}</i>, <b>{userName}</b>!</p>
+```
+
+### Loading catalogs
+
+Different projects require different ways of loading the catalogs and `wuchale`
+respects your choice if you want to use async loading, break catalogs into
+smaller pieces, on a per-component basis, selectively group some of the files
+but not others, or load them synchronously to avoid too many separate requests,
+or any other strategy you may think of, you can implement it using the provided
+tools.
+
+## Very few dependencies
+
+Unlike traditional i18n solutions that pull in heavy transformation frameworks
+like Babel or complex AST manipulation libraries, `wuchale` maintains an lean
+dependency tree with just a handful of carefully selected, lightweight
+packages, and mainly works with the libraries you use (e.g. Svelte parser for
+Svelte). This minimal footprint means faster install times, reduced bundle
+sizes, smaller attack surfaces, and fewer supply chain vulnerabilities in your
+project.
