@@ -114,7 +114,7 @@ tools.
 Unlike traditional i18n solutions that pull in heavy transformation frameworks
 like Babel or complex AST manipulation libraries, `wuchale` maintains an lean
 dependency tree with just a handful of carefully selected, lightweight
-packages, and mainly works with the libraries you use (e.g. Svelte parser for
-Svelte). This minimal footprint means faster install times, reduced bundle
-sizes, smaller attack surfaces, and fewer supply chain vulnerabilities in your
-project.
+packages, and mainly works with the libraries you already use (e.g. Svelte's
+own parser for Svelte). This minimal footprint means faster install times,
+reduced bundle sizes, smaller attack surfaces, and fewer supply chain
+vulnerabilities in your project.
