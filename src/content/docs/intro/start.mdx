@@ -195,6 +195,44 @@ For full usage examples, look inside the **<a
     href="https://github.com/wuchalejs/examples" target="_blank">examples
     repository</a>**. It contains examples for different usage patterns.
 
+## Workflow
+
+`wuchale`'s workflow is inspired by [Lingui](https://lingui.dev/). It follows
+similar steps but it does most of the steps automatically.
+
+<Tabs>
+    <TabItem label="With Vite">
+        <Steps>
+
+        1. You write your code
+        1. `wuchale` auto extracts the texts into the catalog files
+
+            During this step, if configured, [Gemini](/guides/gemini) does the automatic translation
+
+        1. The translator translates the texts by editing the extracted `.po` files
+        1. `wuchale` picks up the changes and updates the UI [during dev](/guides/hmr)
+        1. When you do the production build, `wuchale` auto compiles the catalogs and passes them to Vite to be included in the final build.
+
+        </Steps>
+    </TabItem>
+    <TabItem label="Without Vite">
+        <Steps>
+
+        1. You write your code
+        1. You invoke the CLI command `wuchale extract` to extract the texts into the catalog files
+
+            During this step, if configured, [Gemini](/guides/gemini) does the automatic translation
+
+        1. The translator translates the texts by editing the extracted `.po` files
+        1. You invoke the CLI command `wuchale extract` again to compile the translated texts and write them to disk
+        1. When you run the app, everything works.
+
+        </Steps>
+    </TabItem>
+</Tabs>
+
+[Learn about how it works](/concepts/howitworks).
+
 ## What gets extracted
 
 There are three possible places for a user-facing text to be in:
