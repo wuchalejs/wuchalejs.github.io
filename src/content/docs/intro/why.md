@@ -33,9 +33,16 @@ more just to internationalize it.
 Internationalization should be an easy
 choice, not a heavy chore.
 
-A side-effect of this is that pre-existing projects now require very low effort
-to internationalize because the code doesn't have to change, `wuchale`
-understands the code and works with it.
+## Easy to add and remove
+
+A side-effect of the above principle is that pre-existing projects now require
+very low effort to internationalize because the code doesn't have to change,
+`wuchale` understands the code and works with it.
+
+Another benefit is that unlike other solutions, your codebase doesn's get
+locked into one library. `wuchale` is still removable easily because you didn't
+modify your code. If you remove `wuchale`, you will still have a perfectly
+functional codebase with just one locale.
 
 ## Protobuf-like compilation
 
