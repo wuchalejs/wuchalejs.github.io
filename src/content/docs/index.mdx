@@ -19,7 +19,7 @@ hero:
         target: _blank
 ---
 
-import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
+import { Card, CardGrid, Tabs, TabItem, LinkButton } from '@astrojs/starlight/components';
 
 <CardGrid stagger>
 	<Card title="Write normal code" icon="pencil">
@@ -73,3 +73,6 @@ import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
         ```
 	</Card>
 </CardGrid>
+
+<LinkButton href="/intro/start">Get started</LinkButton>
+<LinkButton href="/intro/why" variant="secondary">Learn why</LinkButton>
