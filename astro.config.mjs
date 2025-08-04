@@ -24,6 +24,7 @@ export default defineConfig({
                     items: [
                         { slug: 'intro/start' },
                         { slug: 'intro/why' },
+                        { slug: 'intro/roadmap' },
                     ],
                 },
                 {
