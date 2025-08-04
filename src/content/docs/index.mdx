@@ -21,8 +21,6 @@ hero:
 
 import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
 
-## General Idea
-
 <CardGrid stagger>
 	<Card title="Write normal code" icon="pencil">
         Without any need to do anything different:
@@ -30,28 +28,29 @@ import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
         <p>Hello world!</p>
         ```
 	</Card>
-	<Card title="Extract and translate (Gemini)" icon="add-document">
-        Optionally live translate using Gemini
+	<Card title="Extract and translate" icon="translate">
+        Optionally live translate using [Gemini](/guides/gemini)
         <Tabs>
+            <TabItem label="es.po">
+                ```diff lang="nginx" ins="¡Hola Mundo!"
+                msgid "Hello world!"
+                msgstr "¡Hola Mundo!"
+                ```
+            </TabItem>
             <TabItem label="en.po">
                 ```nginx
                 msgid "Hello world!"
                 msgstr "Hello world!"
                 ```
             </TabItem>
-            <TabItem label="es.po">
-                ```nginx
-                msgid "Hello world!"
-                msgstr "¡Hola Mundo!"
-                ```
-            </TabItem>
         </Tabs>
 	</Card>
-	<Card title="Transform and compile catalogs" icon="setting">
+	<Card title="Compile catalogs" icon="rocket">
+        Into arrays. No need for keys.
         <Tabs>
-            <TabItem label="Your code">
-                ```svelte
-                <p>{wuchaleRuntime.t(0)}</p>
+            <TabItem label="es.compiled.js">
+                ```javascript
+                export const data = ["¡Hola Mundo!"]
                 ```
             </TabItem>
             <TabItem label="en.compiled.js">
@@ -59,12 +58,13 @@ import { Card, CardGrid, Tabs, TabItem } from '@astrojs/starlight/components';
                 export const data = ["Hello world!"]
                 ```
             </TabItem>
-            <TabItem label="es.compiled.js">
-                ```javascript
-                export const data = ["¡Hola Mundo!"]
-                ```
-            </TabItem>
         </Tabs>
+	</Card>
+	<Card title="Transform" icon="setting">
+        Update your code to access the translations by index
+        ```svelte
+        <p>{_w_runtime_.t(0)}</p>
+        ```
 	</Card>
 	<Card title="Render" icon="open-book">
         Load the desired compiled catalog, and hand it to your framework
