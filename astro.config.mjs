@@ -10,6 +10,9 @@ export default defineConfig({
             logo: {
                 src: './public/favicon.svg',
             },
+            customCss: [
+                './src/styles/custom.css',
+            ],
             social: [
                 { icon: 'github', label: 'GitHub', href: 'https://github.com/wuchalejs/wuchale' },
                 { icon: 'npm', label: 'NPM', href: 'https://npmjs.com/package/wuchale' },
