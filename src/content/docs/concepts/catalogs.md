@@ -15,7 +15,7 @@ some metadata and the plural rule for the language, the untranslated texts as
 message IDs and the translations. A simple example of the contents, before
 translation is this:
 
-```nginx
+```po
 # es.po
 # ...other headers
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
@@ -32,7 +32,7 @@ msgstr ""
 Then it is edited by the translator (or [Gemini](/guides/gemini)) to also have
 the translation like this:
 
-```nginx
+```po
 # es.po
 # ...other headers
 "Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"

@@ -23,7 +23,7 @@ And
 
 Are both extracted into:
 
-```nginx
+```po
 msgid "Hello {0}, welcome to {1}!"
 msgstr ""
 ```
@@ -43,7 +43,7 @@ also handled gracefully.
 
 This is extracted as:
 
-```nginx
+```po
 msgid "Welcome to <0>the app {0}</0>, <1/>!"
 msgstr ""
 ```

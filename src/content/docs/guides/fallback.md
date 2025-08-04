@@ -12,7 +12,7 @@ meaningless text. For example, for the following code:
 
 When it is extracted initially, it becomes the following for other languages:
 
-```nginx
+```po
 msgid "Hello"
 msgtext ""
 ```
