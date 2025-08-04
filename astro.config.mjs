@@ -13,6 +13,9 @@ export default defineConfig({
             customCss: [
                 './src/styles/custom.css',
             ],
+            editLink: {
+                baseUrl: 'https://github.com/wuchalejs/wuchalejs.github.io/edit/main/',
+            },
             social: [
                 { icon: 'github', label: 'GitHub', href: 'https://github.com/wuchalejs/wuchale' },
                 { icon: 'npm', label: 'NPM', href: 'https://npmjs.com/package/wuchale' },
