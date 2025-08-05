@@ -61,8 +61,8 @@ The next information it takes from the config is the `plural` rule. It bundles t
 
 ```js
 // es.compiled.js
-export const data = [['Un artículo', '# artículos']]
-export const plural = n => n == 1 ? 0 : 1
+export const c = [['Un artículo', '# artículos']]
+export const p = n => n == 1 ? 0 : 1
 ```
 
 There are only two plural forms because Spanish has two. Some languages have
@@ -80,7 +80,7 @@ Then during transformation, your code gets updated to use the current locale's d
     let itemCount = 5
 </script>
 
-<p>{plural(itemCount, _w_runtime_.tp(0), _w_runtime_.pr)}</p>
+<p>{plural(itemCount, _w_runtime_.tp(0), _w_runtime_._.p)}</p>
 ```
 
 That way, the function that you define doesn't have to know about the number of

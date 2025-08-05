@@ -58,8 +58,8 @@ becomes:
 
 ```js
 // es.compiled.main.js
-export const data = ["¡Hola Mundo!", "Bienvenido"]
-export const plural = n => n == 1 ? 0 : 1
+export const c = ["¡Hola Mundo!", "Bienvenido"]
+export const p = n => n == 1 ? 0 : 1
 ```
 
 That's all. No keys, no unnecessary data. During development there is HMR
@@ -72,14 +72,14 @@ catalogs per the source file (`source1.svelte` and `source2.svelte`)
 
 ```js
 // es.compiled.src_path_to_source1_svelte.js
-export const data = ["¡Hola Mundo!"]
-export const plural = n => n == 1 ? 0 : 1
+export const c = ["¡Hola Mundo!"]
+export const p = n => n == 1 ? 0 : 1
 ```
 
 ```js
 // es.compiled.src_path_to_source2_svelte.js
-export const data = ["Bienvenido"]
-export const plural = n => n == 1 ? 0 : 1
+export const c = ["Bienvenido"]
+export const p = n => n == 1 ? 0 : 1
 ```
 
 This may be desired to reduce the bundle size when each page hash a huge number

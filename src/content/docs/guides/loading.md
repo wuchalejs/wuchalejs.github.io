@@ -37,7 +37,7 @@ loaded beforehand or have a reactive mechanism to update them after they are
 returned (for example, the svelte loader does this). Also, the loader has to
 know beforehand the `loadID`s that will be requested to prepare the catalogs.
 
-The `Runtime` is a tiny wrapper class (whole implementation in just [66
+The `Runtime` is a tiny wrapper class (whole implementation in just [57
 lines](https://github.com/wuchalejs/wuchale/blob/main/packages/wuchale/src/runtime.ts))
 for the compiled catalogs that makes it ready to access by the transformed
 modules. It accepts a [compiled catalog](/concepts/catalogs#compiled-catalogs)
@@ -46,7 +46,7 @@ or `undefined` if none is available.
 ```js
 import { Runtime } from 'wuchale/runtime'
 
-const rt = new Runtime({data: ['Hello'], plural: n => n == 1 ? 0 : 1})
+const rt = new Runtime({c: ['Hello'], p: n => n == 1 ? 0 : 1})
 // get the one at index 0
 rt.t(0) // -> returns 'Hello'
 
