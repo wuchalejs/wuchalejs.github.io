@@ -85,6 +85,16 @@ does the actual translation on-the-fly, allowing you to edit your source code
 in one language and have it updated in the browser in another language of your
 choosing.
 
+## Standard format
+
+The Gettext PO file format is one of the most widely supported standards in the
+internationalization ecosystem. Used across countless open source and
+commercial projects, it integrates seamlessly with popular translation
+platforms like Weblate, Crowdin, POEditor, and Transifex, as well as version
+control and CI pipelines. This broad support means you're never locked into a
+custom format or proprietary system. And for that reason, it is the format
+adopted by `wuchale`.
+
 ## Flexibility
 
 ### Text format
