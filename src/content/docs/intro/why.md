@@ -27,11 +27,10 @@ Write your code naturally. No imports, no wrappers, no annotations.
 The argument is this:
 
 > We already write enough syntax to tell if a piece of
-text should be translated or not. We should not have to write
-more just to internationalize it.
+text is user-facing or not. We should not have to write more just to
+internationalize it.
 
-Internationalization should be an easy
-choice, not a heavy chore.
+Internationalization should be an easy choice, not a heavy chore.
 
 ## Easy to add and remove
 
@@ -46,7 +45,7 @@ functional codebase with just one locale.
 
 ## Protobuf-like compilation
 
-Other i18n solutions add keys to the catalogs to access the specific text.
+Other i18n solutions add keys to the catalogs to access the specific message.
 
 ```js
 // Lingui
@@ -92,8 +91,8 @@ choosing.
 
 `wuchale` doesn't make assumptions to how you write your code. You may write it
 in any pattern that the language allows and `wuchale` understands it. This is
-important when we want to have some part of the texts formatted differently,
-nesting elements within elements, or any complicated text you can come up with,
+important when we want to have some part of the messages formatted differently,
+nesting elements within elements, or any complicated message you can come up with,
 it extracts it preserving what should be together.
 
 ```svelte

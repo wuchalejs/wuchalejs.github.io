@@ -52,10 +52,10 @@ This specifies the name of the function that you define to handle [plurals](/gui
 **type**: `(txt: string, details:`[`HeuristicDetails`](#heuristicdetails)`) => boolean | null | undefined`
 **default**: (depends on adapter)
 
-This is a function that decides whether a text is to be extracted or not. It
-can use the text and the details and return a boolean value.
+This is a function that decides whether a message is to be extracted or not. It
+can use the message and the details and return a boolean value.
 
-If it returns `null` or `undefined`, the default heuristic will be used. As such, it is easy to handle just one case or a few cases and let the default heuristic handle the rest. For example, if we want to ignore all text that starts with a `+`, the custom configuration would be:
+If it returns `null` or `undefined`, the default heuristic will be used. As such, it is easy to handle just one case or a few cases and let the default heuristic handle the rest. For example, if we want to ignore all messages that start with a `+`, the custom configuration would be:
 
 ```javascript
 //...
@@ -76,7 +76,7 @@ And the rest will be handled as normal.
 #### `scope`
 **type**: `"markup" | "attribute" | "script"`
 
-What type of scope the text is in.
+What type of scope the message is in.
 
 #### `element`
 **type**: `string`
@@ -86,12 +86,12 @@ The parent element's tag name, if any.
 #### `attribute`
 **type**: `string`
 
-The name of the attribute for which the text is the value.
+The name of the attribute for which the message is the value.
 
 #### `file`
 **type**: `string`
 
-The file path where the text is located, relative to the root directory.
+The file path where the message is located, relative to the root directory.
 
 #### `declaring`
 **type**: `"variable" | "function" | "expression"`
@@ -101,7 +101,7 @@ The type of the top level declaration (if in `script`).
 #### `insideFuncDef`
 **type**: `boolean`
 
-Whether the text is inside a function definition. Can also be an arrow function.
+Whether the message is inside a function definition. Can also be an arrow function.
 
 #### `topLevelCall`
 **type**: `string`
@@ -137,7 +137,7 @@ keywords,they can only contain alphanumeric characters and `_`.
 
 If the same IDs are returned for multiple files, the resulting compiled catalog
 will be shared by the files. This can be used to combine and share the same
-compiled catalog between files with a small number of texts to reduce the
+compiled catalog between files with a small number of messages to reduce the
 number of requests.
 
 The default generator converts the file paths into compatible IDs by replacing

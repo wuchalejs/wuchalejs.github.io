@@ -15,7 +15,7 @@ file but the content is the same.
 ## `@wc-ignore`
 
 When we don't want to modify the adapter's heuristic - which applies to all
-files under the adapter - for some specific text, we can use comment directives
+files under the adapter - for some specific message, we can use comment directives
 to ignore it:
 
 ```svelte
@@ -25,7 +25,7 @@ to ignore it:
 
 ## `@wc-include`
 
-Likewise, to force include a piece of text that would be ignored by the
+Likewise, to force include a message that would be ignored by the
 heuristic, we can use this comment.
 
 ```javascript
@@ -34,7 +34,7 @@ console.log(/* @wc-include */ 'Hello')
 
 ## `@wc-context: {context}`
 
-To disambiguate identical texts or to give more details, we can use the comment
+To disambiguate identical messages or to give more details, we can use the comment
 to give it the context and they will be extracted separately with their own
 contexts which can help the translator later.
 

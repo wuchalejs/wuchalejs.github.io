@@ -9,7 +9,7 @@ title: Vanilla
 This is decided by the heuristic function which you can customize. A sensible
 default heuristic function is provided out of the box. Here's how it works:
 
-- If the text contains no letters used in any natural language (e.g., just numbers or symbols), it is ignored.
+- If the message contains no letters used in any natural language (e.g., just numbers or symbols), it is ignored.
 - If it's in a top-level expression (not inside an assignment or a function definition) it is ignored.
 - If the value is inside `console.*()` call, it is ignored.
 - If the first character is a lowercase English letter (`[a-z]`) or is any non-letter, it is ignored.

@@ -60,7 +60,7 @@ This is decided by the heuristic function which you can customize. A sensible
 default heuristic function is provided out of the box. Here's how it works:
 
 #### General rule (applies everywhere):
-- If the text contains no letters used in any natural language (e.g., just numbers or symbols), it is ignored.
+- If the message contains no letters used in any natural language (e.g., just numbers or symbols), it is ignored.
 
 #### In `markup` (`<p>Text</p>`):
 - All textual content is extracted.

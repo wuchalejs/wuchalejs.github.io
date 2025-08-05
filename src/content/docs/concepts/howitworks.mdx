@@ -24,7 +24,7 @@ suitable parser into an AST representation. Then, two things are done.
 
 #### Extraction
 
-Extractable texts are extracted into the [catalogs](/concepts/catalogs#po-files). From the above example, this is extracted:
+Messages are extracted into the [catalogs](/concepts/catalogs#po-files). From the above example, this is extracted:
 
 <Tabs>
     <TabItem label="es.po">
@@ -43,7 +43,7 @@ Extractable texts are extracted into the [catalogs](/concepts/catalogs#po-files)
 
 #### Transformation
 
-The source file is modified to replace the texts with a calls that access the
+The source file is modified to replace the messages with a calls that access the
 translations from the [compiled catalogs](/concepts/catalogs#compiled-catalogs).
 The example is transformed into:
 
@@ -55,13 +55,13 @@ The example is transformed into:
 <p>{_w_runtime_.t(0)}</p>
 ```
 
-The `0` given to the `.t(0)` call is the index of the text. This is how
+The `0` given to the `.t(0)` call is the index of the message. This is how
 `wuchale` avoids the use of string/hash keys which would unnecessarily bloat
 the bundles.
 
 ### Translate
 
-Now that the extracted texts are available, they can be translated. The
+Now that the extracted messages are available, they can be translated. The
 translation can be done on the fly using [Gemini](/guides/gemini) or by
 exchanging the catalogs witha a translator.
 
@@ -94,5 +94,5 @@ Now both catalogs get compiled into compact JavaScript modules that can be loade
 
 Now the compiled catalogs can be loaded and used inside the code. The loading
 can be done in [many different ways](/guides/loading). `wuchale` makes sure
-that the indices of the texts inside the compiled catalogs matches those inside
-the transformed modules so that the correct text is shown at runtime.
+that the indices of the messages inside the compiled catalogs matches those inside
+the transformed modules so that the correct message is shown at runtime.

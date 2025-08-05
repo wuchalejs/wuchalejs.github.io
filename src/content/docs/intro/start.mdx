@@ -111,7 +111,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
     - Creates the locales directory if it doesn't exist
     - Creates the loader file if it doesn't exist
-    - If the loader didn't exist before, it scans the source files and extracts the texts as a first time scan
+    - If the loader didn't exist before, it scans the source files and extracts the messages as a first time scan
 
 5. Setup in Your App
 
@@ -205,11 +205,11 @@ similar steps but it does most of the steps automatically.
         <Steps>
 
         1. You write your code
-        1. `wuchale` auto extracts the texts into the catalog files
+        1. `wuchale` auto extracts the messages into the catalog files
 
             During this step, if configured, [Gemini](/guides/gemini) does the automatic translation
 
-        1. The translator translates the texts by editing the extracted `.po` files
+        1. The translator translates the messages by editing the extracted `.po` files
         1. `wuchale` picks up the changes and updates the UI [during dev](/guides/hmr)
         1. When you do the production build, `wuchale` auto compiles the catalogs and passes them to Vite to be included in the final build.
 
@@ -219,12 +219,12 @@ similar steps but it does most of the steps automatically.
         <Steps>
 
         1. You write your code
-        1. You invoke the CLI command `wuchale extract` to extract the texts into the catalog files
+        1. You invoke the CLI command `wuchale extract` to extract the messages into the catalog files
 
             During this step, if configured, [Gemini](/guides/gemini) does the automatic translation
 
-        1. The translator translates the texts by editing the extracted `.po` files
-        1. You invoke the CLI command `wuchale extract` again to compile the translated texts and write them to disk
+        1. The translator translates the messages by editing the extracted `.po` files
+        1. You invoke the CLI command `wuchale extract` again to compile the translated messages and write them to disk
         1. When you run the app, everything works.
 
         </Steps>
@@ -235,17 +235,17 @@ similar steps but it does most of the steps automatically.
 
 ## What gets extracted
 
-There are three possible places for a user-facing text to be in:
+There are three possible places for a message to be in:
 
 - **Markup**: inside HTML tags like `<p>text</p>`
 - **Attribute**: insite element attributes like `<span title="Text"></span>`
 - **Script**: strings inside JavaScript code
 
-Inside of these, which texts exactly are extracted is decided by the adapter in
-use, because not all text should be extracted as user facing text. Some
+Inside of these, which messages exactly are extracted is decided by the adapter in
+use, because not all text should be extracted as a message. Some
 attributes and strings are not meant to be seen by the user.
 
 The adapter uses a [configurable heuristic
 function](/reference/adapter-common#heuristic) to make these decisions. This
-function receives the text along with other details about the text and can
-decide whether to extract it or not.
+function receives the message along with other details and can decide whether
+to extract it or not.

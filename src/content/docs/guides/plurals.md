@@ -8,9 +8,9 @@ still works without `wuchale`.
 
 ## Usage
 
-You first define your own function that selects the correct text from provided
+You first define your own function that selects the correct message from provided
 candidates based on the number, replaces the placeholder if needed, and returns
-the final text. The only requirement is that the signature has to match that of
+the final message. The only requirement is that the signature has to match that of
 the below example.
 
 ```javascript

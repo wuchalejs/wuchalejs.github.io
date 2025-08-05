@@ -11,9 +11,9 @@ orchestrator and handles the CLI.
 Specifying multiple adapters is possible to support these use cases:
 
 - To partition the catalog into smaller catalogs. Particularly useful in big
-  applications which may have a *lot* of texts.
+  applications which may have a *lot* of messages.
 - To use different rules for different parts of the project. For example, to
-  ignore certain text patterns in half of the application using a different
+  ignore certain message patterns in half of the application using a different
   heuristic pattern.
 - To use different adapters for different parts of the project. This is
   especially necessary for fullstack projects where JavaScript/TypeScript are

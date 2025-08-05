@@ -44,5 +44,5 @@ This initializes a new project. What exactly it does is the following, for each 
 
 This scans all of the files that match the [configured
 pattern](/reference/adapter-common#files) for the adapters and extracts the
-texts. This can be used when Vite is not used/needed (for example, for server
+messages. This can be used when Vite is not used/needed (for example, for server
 only projects).

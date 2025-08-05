@@ -2,16 +2,16 @@
 title: Catalogs
 ---
 
-A catalog is a structured collection of the extracted texts. First, as soon as
-the texts are extracted, they are put in the `.po` files. And for use within the
+A catalog is a structured collection of the extracted messages. First, as soon as
+the messages are extracted, they are put in the `.po` files. And for use within the
 application after translation, they are compiled into compiled catalogs.
 
 There is one `.po` file per locale.
 
 ## `.po` files
 
-This is the primary catalog format of the texts. It contains some headers with
-some metadata and the plural rule for the language, the untranslated texts as
+This is the primary catalog format of the messages. It contains some headers with
+some metadata and the plural rule for the language, the untranslated messages as
 message IDs and the translations. A simple example of the contents, before
 translation is this:
 
@@ -83,7 +83,7 @@ export const plural = n => n == 1 ? 0 : 1
 ```
 
 This may be desired to reduce the bundle size when each page hash a huge number
-of texts.
+of messages.
 
 ## `loadID`
 

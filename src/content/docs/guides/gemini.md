@@ -2,7 +2,7 @@
 title: Gemini live translation
 ---
 
-`wuchale` can use Gemini to translate texts on-the-fly, during development or
+`wuchale` can use Gemini to translate messages on-the-fly, during development or
 during the CLI invokation. When coupled with the [HMR](/guides/hmr) support,
 you can get a seamless experience where you edit the source code in one
 language and see the updates in the browser in another language live.
@@ -17,7 +17,7 @@ export GEMINI_API_KEY=your_api_key
 ```
 
 And then you can use `wuchale` as normal: start the dev server or use the CLI
-command. It will pick up the untranslated texts and translate them using
+command. It will pick up the untranslated messages and translate them using
 Gemini.
 
 ## Usage limit optimization
@@ -37,6 +37,6 @@ when making a new request and when adding to an existing request.
 
 ### No re-translation
 
-Once a text is translated, it is stored in the catalog, just like a human
+Once a message is translated, it is stored in the catalog, just like a human
 translated it. And `wuchale` never makes another request to translate that same
-text.
+message.

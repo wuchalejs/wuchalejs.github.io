@@ -305,7 +305,7 @@ use when. That depends on some factors.
 
 ### Client
 
-For an application that contains a relatively small number of texts as a whole,
+For an application that contains a relatively small number of messages as a whole,
 a single adapter without `granularload` is sufficient. For a large application,
 there are multiple methods to manage it:
 
@@ -335,7 +335,7 @@ export default defineConfig({
 This uses two catalogs per locale for the `products` and `services` parts of
 the application. The number of catalogs does not depend on the number of files.
 
-This is useful when the number of texts per file is not big but the number of
+This is useful when the number of messages per file is not big but the number of
 the files themselves is big. The files can share the same catalogs within their
 adapter configuration.
 
@@ -361,7 +361,7 @@ This uses a single adapter but the compiled catalogs are broken into small
 parts on a per-file basis by default (unless a custom `generateLoadID` is
 given).
 
-This is useful when there are large numbers of texts in individual files. It
+This is useful when there are large numbers of messages in individual files. It
 would not make sense making them share the same catalogs because the resulting
 catalog would be huge.
 

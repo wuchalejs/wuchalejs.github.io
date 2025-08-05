@@ -2,14 +2,14 @@
 title: Mixed and nested structures
 ---
 
-While simple text fragments are easy to extract, mixed and nested texts are
+While simple messages are easy to extract, mixed and nested messages are
 not. But `wuchale` handles them seamlessly. When writing them in the [`.po`
 files](/concepts/catalogs/#po-files), it uses a simple convention that is easy
 to work with for translators.
 
 ## Text mixed with expressions
 
-These are created when extracting template literals and markup text with expressions in the middle. For example,
+These are created when extracting template literals and markup message with expressions in the middle. For example,
 
 ```js
 const msg = `Hello ${userName}, welcome to ${appName}!`
