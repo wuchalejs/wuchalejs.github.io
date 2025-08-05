@@ -16,7 +16,6 @@ export default defineConfig({
             editLink: {
                 baseUrl: 'https://github.com/wuchalejs/wuchalejs.github.io/edit/main/',
             },
-            lastUpdated: true,
             social: [
                 { icon: 'github', label: 'GitHub', href: 'https://github.com/wuchalejs/wuchale' },
                 { icon: 'npm', label: 'NPM', href: 'https://npmjs.com/package/wuchale' },
