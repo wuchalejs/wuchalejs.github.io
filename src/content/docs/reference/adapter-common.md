@@ -55,19 +55,7 @@ This specifies the name of the function that you define to handle [plurals](/gui
 This is a function that decides whether a message is to be extracted or not. It
 can use the message and the details and return a boolean value.
 
-If it returns `null` or `undefined`, the default heuristic will be used. As such, it is easy to handle just one case or a few cases and let the default heuristic handle the rest. For example, if we want to ignore all messages that start with a `+`, the custom configuration would be:
-
-```javascript
-//...
-heuristic: txt => {
-    if (txt.startsWith('+')) {
-        return false
-    }
-}
-//...
-```
-
-And the rest will be handled as normal.
+If it returns `null` or `undefined`, the default heuristic will be used.
 
 ### `HeuristicDetails`
 

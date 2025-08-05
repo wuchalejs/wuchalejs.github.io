@@ -69,6 +69,27 @@ function](/reference/adapter-common#heuristic) in the configuration. Custom
 heuristics can return `undefined` or `null` to fall back to the default. For
 convenience, the default heuristic is exported by the package.
 
+With that, it is easy to handle just one case or a few cases and let the
+default heuristic handle the rest. For example, if we want to ignore all `title`
+attributes that contain the `+` character, the custom heuristic would be:
+
+```js
+// wuchale.config.js
+    //...
+    adapters: {
+        main: svelte({
+            heuristic: (msg, details) => {
+                if (details.attribute === 'title' && msg.includes('+')) {
+                    return false
+                }
+            }
+        })
+    },
+    //...
+```
+
+And the rest of the checks will be handled with the default.
+
 ## Specific overrides
 
 If you don't want to modify the global heuristic but want to ignore or include
