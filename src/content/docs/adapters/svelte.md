@@ -5,9 +5,9 @@ title: Svelte
 ## Setup in Your App
 
 Svelte applications may or may not use SvelteKit and that makes the loading of
-the compiled catalogs a bit different. `wuchale` tries to detect whether
-SvelteKit is in use and write the suitable default loader. Assuming it was
-correct, follow the following steps. If it was wrong, edit the loader file
+the compiled catalogs a bit different. The Svelte adapter tries to detect
+whether SvelteKit is in use and write the suitable default loader. Assuming it
+was correct, follow the following steps. If it was wrong, edit the loader file
 first.
 
 ### For SvelteKit (SSR/SSG)
@@ -52,42 +52,14 @@ export async function load({url}) {
 {/await}
 ```
 
-## Behavior Explanation (Svelte adapter)
+## Default extraction rules
 
-### What Gets Extracted?
+In addition to the [default rules](/guides/rules), this adapter implements
+additional restrictions.
 
-This is decided by the heuristic function which you can customize. A sensible
-default heuristic function is provided out of the box. Here's how it works:
+### In `script` (`<script>` and `.svelte.js/ts`)
 
-#### General rule (applies everywhere):
-- If the message contains no letters used in any natural language (e.g., just numbers or symbols), it is ignored.
-
-#### In `markup` (`<p>Text</p>`):
-- All textual content is extracted.
-
-Examples:
-
-```svelte
-<p>This is extracted</p>
-<!-- @wc-ignore -->
-<p>This is not extracted</p>
-```
-
-#### In `attribute` (`<div title="Info">`):
-- If the first character is a lowercase English letter (`[a-z]`), it is ignored.
-- If the element is a `<path>`, it is ignored (e.g., for SVG `d="M10 10..."` attributes).
-- Otherwise, it is extracted.
-
-Examples:
-
-```svelte
-<img alt="Profile Picture" class="not-extracted" />
-```
-
-#### In `script` (`<script>` and `.svelte.js/ts`):
-
-`script` is handled by the ES adapter of the core package with some additional restrictions.
-- If it doesn't pass the base heuristic from the ES adapter, it is ignored.
+- If it doesn't pass the base heuristic from the Vanilla adapter, it is ignored.
 - If it's not inside `$derived` or `$derived.by`, it is ignored.
 - If the value is inside `$inspect()` calls, it is ignored.
 - Otherwise, it is extracted.
@@ -105,16 +77,6 @@ const forced = $derived(/* @wc-include */ 'force extracted')
 ```svelte
 <p title={'Extracted'}>{/* @wc-ignore */ 'Ignore this'}</p>
 ```
-
-If you need more control, you can supply your own heuristic function in the
-configuration. Custom heuristics can return `undefined` or `null` to fall back
-to the default. For convenience, the default heuristic is exported by the
-package.
-
-> 💡 You can override extraction with comment directives:
-> - `@wc-ignore` — skips extraction
-> - `@wc-include` — forces extraction  
-> These always take precedence.
 
 ## Configuration Reference
 
