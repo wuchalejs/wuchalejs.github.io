@@ -20,7 +20,8 @@ You can optionally add some commands to your `package.json` for convenience.
 // ...
 "scripts": {
     // ...
-    "extract": "wuchale"
+    "extract": "wuchale",
+    "clean": "wuchale --clean"
 },
 // ...
 ```
