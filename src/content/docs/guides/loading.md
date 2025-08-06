@@ -149,11 +149,11 @@ provide the `loadID`s and a function to load the catalogs. For each loader,
 - **When using vite**: two proxies are provided.
     - Asynchronous:
         ```
-        virtual:wuchale/loader
+        virtual:wuchale/proxy
         ```
     - Synchronous
         ```
-        virtual:wuchale/loader/sync
+        virtual:wuchale/proxy/sync
         ```
 - **When `writeFiles.compiled` is enabled**: only synchronous:
     ```
@@ -186,7 +186,7 @@ Now, the above loader can be simplified, and generalized, to:
 ```js
 // src/locales/loader.js
 import { Runtime } from 'wuchale/runtime'
-import { loadCatalog, loadIDs } from 'virtual:wuchale/loader/sync'
+import { loadCatalog, loadIDs } from 'virtual:wuchale/proxy/sync'
 
 let locale = 'en' // maybe controlled by state
 const locales = ['en', 'es']
@@ -222,7 +222,7 @@ loader. Continuing with the above example loader, it now becomes very simple.
 
 ```js
 // src/locales/loader.js
-import { loadCatalog, loadIDs } from 'virtual:wuchale/loader/sync'
+import { loadCatalog, loadIDs } from 'virtual:wuchale/proxy/sync'
 import { registerLoaders } from 'wuchale/run-client'
 
 export default registerLoaders('main', loadCatalog, loadIDs)
