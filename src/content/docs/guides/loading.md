@@ -203,7 +203,7 @@ export default loadID => catalogs[loadID]?.[locale] ?? new Runtime()
 ```
 
 Now this can work for any number of `loadID`s and you don't have to keep track
-of them even if you use `granularload`.
+of them even if you use `granularLoad`.
 
 ## Loading utilities
 
@@ -306,7 +306,7 @@ use when. That depends on some factors.
 ### Client
 
 For an application that contains a relatively small number of messages as a whole,
-a single adapter without `granularload` is sufficient. For a large application,
+a single adapter without `granularLoad` is sufficient. For a large application,
 there are multiple methods to manage it:
 
 #### Multiple adapter configurations
@@ -339,7 +339,7 @@ This is useful when the number of messages per file is not big but the number of
 the files themselves is big. The files can share the same catalogs within their
 adapter configuration.
 
-#### Single adapter with `granularload`
+#### Single adapter with `granularLoad`
 
 ```js
 // wuchale.config.js
@@ -350,7 +350,7 @@ export default defineConfig({
     },
     adapters: {
         main: svelte({
-            granularload: true,
+            granularLoad: true,
             // generateLoadID can be used optionally
         }),
     }
