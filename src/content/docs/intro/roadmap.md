@@ -21,14 +21,12 @@ develop any adapters.
 
 The first official adapter after Svelte will be React.
 
-## Bundlers
+## LSP server
 
-The second stage after being a Svelte preprocessor in `wuchale`'s development
-was a Vite plugin. Right now, `wuchale` can also work as a standalone CLI in
-addition to being a Vite plugin. And again, the Vite-specific code is now a
-small part of the whole codebase. Therefore, the Vite plugin will become a
-separate package and the remaining will then be something like what TypeScript
-is: a CLI with an API to integrate into many things.
+During development, it would be nice if the string we are writing will be extracted
+or not, right from the editor. This will be implemented.
 
-This opens up possibilities to use it in setups that may not use Vite, such as
-other bundlers if required.
+## Disclaimer
+
+These are not concrete goals set in stone. They are subject to change based on
+circumstances and feedback. And feedback is welcome.
