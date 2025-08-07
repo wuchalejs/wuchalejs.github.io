@@ -21,13 +21,22 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
     <Tabs syncKey="adapter">
         <TabItem label="Svelte">
             ```bash
-            npm install wuchale @wuchale/svelte
+            npm install wuchale @wuchale/svelte @wuchale/vite-plugin
             ```
         </TabItem>
         <TabItem label="Vanilla">
-            ```bash
-            npm install wuchale
-            ```
+            <Tabs syncKey="vanillaVite">
+                <TabItem label="With Vite">
+                    ```bash
+                    npm install wuchale @wuchale/vite-plugin
+                    ```
+                </TabItem>
+                <TabItem label="Without Vite">
+                    ```bash
+                    npm install wuchale
+                    ```
+                </TabItem>
+            </Tabs>
         </TabItem>
     </Tabs>
 
@@ -38,7 +47,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             ```javascript
             // vite.config.js
             import { svelte } from '@sveltejs/vite-plugin-svelte'
-            import { wuchale } from 'wuchale'
+            import { wuchale } from '@wuchale/vite-plugin'
             
             export default {
                 plugins: [
@@ -49,14 +58,21 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             ```
         </TabItem>
         <TabItem label="Vanilla">
-            ```javascript
-            // vite.config.js
-            import {wuchale} from 'wuchale'
+            <Tabs syncKey="vanillaVite">
+                <TabItem label="With Vite">
+                    ```javascript
+                    // vite.config.js
+                    import { wuchale } from '@wuchale/vite-plugin'
 
-            export default {
-                plugins: [wuchale()]
-            }
-            ```
+                    export default {
+                        plugins: [wuchale()]
+                    }
+                    ```
+                </TabItem>
+                <TabItem label="Without Vite">
+                    No need
+                </TabItem>
+            </Tabs>
         </TabItem>
     </Tabs>
 
@@ -71,10 +87,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             import { defineConfig } from "wuchale"
 
             export default defineConfig({
-                locales: {
-                    // English included by default
-                    es: {name: 'Español'},
-                },
+                otherLocales: ['es'],
                 adapters: {
                     main: svelte(),
                 }
@@ -89,10 +102,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             import { defineConfig } from 'wuchale'
 
             export default defineConfig({
-                locales: {
-                    // English included by default
-                    es: {name: 'Español'},
-                },
+                otherLocales: ['es'],
                 adapters: {
                     main: basic()
                 }
@@ -110,8 +120,8 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
     This command:
 
     - Creates the locales directory if it doesn't exist
-    - Creates the loader file if it doesn't exist
-    - If the loader didn't exist before, it scans the source files and extracts the messages as a first time scan
+    - Creates the loader file if it doesn't exist, asking you which is correct
+    - Performs an initial extraction
 
 5. Setup in Your App
 
@@ -162,10 +172,17 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             </Tabs>
         </TabItem>
         <TabItem label="Vanilla">
-            ```javascript
-            import { loadLocale } from 'wuchale/run-client'
-            await loadLocale(locale)
-            ```
+            <Tabs syncKey="vanillaVite">
+                <TabItem label="With Vite">
+                    ```javascript
+                    import { loadLocale } from 'wuchale/run-client'
+                    await loadLocale(locale)
+                    ```
+                </TabItem>
+                <TabItem label="Without Vite">
+                    No need
+                </TabItem>
+            </Tabs>
         </TabItem>
     </Tabs>
 
@@ -181,11 +198,26 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             ```
         </TabItem>
         <TabItem label="Vanilla">
-            ```javascript
-            const showMsg = (element) => {
-                element.innerHTML = 'Hello world'
-            }
-            ```
+            <Tabs syncKey="vanillaVite">
+                <TabItem label="With Vite">
+                    E.g. DOM
+                    ```javascript
+                    const showMsg = (element) => {
+                        element.innerHTML = 'Hello world'
+                    }
+                    ```
+                </TabItem>
+                <TabItem label="Without Vite">
+                    E.g. Server
+                    ```js
+                    import { runWithLocale } from 'wuchale/run-server'
+                    //...
+                    app.get('/:locale', (req, res) => {
+                        runWithLocale(req.params.locale, () => res.send('Hello world'))
+                    })
+                    ```
+                </TabItem>
+            </Tabs>
         </TabItem>
     </Tabs>
 
@@ -219,12 +251,12 @@ similar steps but it does most of the steps automatically.
         <Steps>
 
         1. You write your code
-        1. You invoke the CLI command `wuchale extract` to extract the messages into the catalog files
+        1. You invoke the CLI command `wuchale` to extract the messages into the catalog files
 
             During this step, if configured, [Gemini](/guides/gemini) does the automatic translation
 
         1. The translator translates the messages by editing the extracted `.po` files
-        1. You invoke the CLI command `wuchale extract` again to compile the translated messages and write them to disk
+        1. You invoke the CLI command `wuchale` again to compile the translated messages and write them to disk
         1. When you run the app, everything works.
 
         </Steps>
