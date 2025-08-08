@@ -84,13 +84,4 @@ For the main configuration, look in the [configuration reference](/reference/con
 
 For the common adapter configuration, look in the [common adapter options](/reference/adapter-common/).
 
-### `bundleLoad`
-**type**: `boolean`
-**default**: `false`
-
-In some cases, avoiding async loading and directly importing the
-catalogs by the code that uses them may be desired. This is how Paraglide
-works. However, it is not recommended as all catalogs then get bundled with
-the code that uses them even though only one is required by the user. This
-can inflate the bundle side. But if this is desired anyway, it can be
-enabled here.
+This adapter doesn't have additional configuration options.

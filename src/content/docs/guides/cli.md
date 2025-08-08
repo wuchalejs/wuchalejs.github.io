@@ -5,7 +5,7 @@ title: CLI
 `wuchale` provides a CLI from the package `wuchale`. The CLI can be invoked directly:
 
 ```bash
-npx wuchale {cmd}
+npx wuchale [command] {options}
 ```
 
 You can get help by running
@@ -28,12 +28,19 @@ You can optionally add some commands to your `package.json` for convenience.
 
 The following commands are accepted (in place of `{cmd}`).
 
-## default
+## (No command)
+
+You just run
+
+```bash
+npx wuchale
+```
 
 This scans all of the files that match the [configured
 pattern](/reference/adapter-common#files) for the adapters and extracts the
-messages. This can be used when Vite is not used/needed (for example, for server
-only projects).
+messages. And if `writeFiles` is enabled, it writes the generated files. This
+can be used when Vite is not used/needed (for example, for server only
+projects).
 
 ## `init`
 
