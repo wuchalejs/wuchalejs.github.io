@@ -27,11 +27,4 @@ For the main configuration, look in the [configuration reference](/reference/con
 
 For the common adapter configuration, look in the [common adapter options](/reference/adapter-common/).
 
-### `initInsideFunc`
-**type**: `boolean`
-**default**: `false`
-
-By default, the runtime instance variable is initialized on the top
-level. But this may make the new content not available on reload unless the
-server is restarted. Use this to avoid that problem by initializing the
-runtime variable inside each function definition.
+This adapter doesn't have additional configuration options.

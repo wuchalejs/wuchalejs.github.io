@@ -15,11 +15,8 @@ import { defineConfig } from "wuchale"
 import { adapter as svelte } from "@wuchale/svelte"
 
 export default defineConfig({
-    locales: {
-        // English included by default
-        es: { name: 'Spanish' },
-        fr: { name: 'French' }
-    },
+    sourceLocale: 'en', // default
+    otherLocales: ['es', 'fr'],
     adapters: {
         main: svelte({
             catalog: './src/locales/{locale}',
@@ -33,46 +30,6 @@ adapter. The adapter accepts a configuration object as an argument. The
 configuration for each adapter is discussed in the adapter's documentation. The
 main configuration is discussed here.
 
-### `locales`
-
-**type**: `{[locale: string]:`[`LocaleConf`](#localeconf)`}`
-
-This must be a mapping from a locale key to a configuration object (see below).
-The key must be a valid keyword. Therefore it can only contain alphanumeric
-characters and `_`. For example, `en`, `en_US`, `eng` are valid, but `en-US` is
-invalid.
-
-#### `LocaleConf`
-
-Properties:
-
-- **`name`** (`string`, required): The name of the language. It can be written
-    in the language itself, like `Español`. This is useful if you don't want to
-    repeat yourself and would like to display the name in the UI by importing it,
-    for language selectors for example.
-
-- **`nPlurals`** (`number`): The number of plurals in the language. Most
-    languages have only two (one and many) but some have more.
-
-- **`plural`** (`string`): The plural rule of the language, represented as an
-    expression with the variable `n` that selects the suitable message from the
-    available candidates in an array by returning its zero-based index. The
-    candidates will come from the translation catalogs as an array. For most
-    languages, the default rule: `n == 1 ? 0 : 1` is used. But for languages that
-    need it, a different more complex expression can be defined. **Note** that this
-    has to be a string expression with `n` as the variable. It will later be the
-    body of an arrow function.
-
-Example:
-
-```javascript
-{
-    name: 'English',
-    nPlurals: 2,
-    plural: 'n == 1 ? 0 : 1',
-}
-```
-
 ### `sourceLocale`
 
 **type**: `string`
@@ -81,6 +38,16 @@ Example:
 The key of the source languages from the `locales` config. This is the language
 you use in the source code and will not need to be translated. In most cases
 this will be English.
+
+### `otherLocales`
+
+**type**: `string[]`
+
+The locales to translate to. They must be valid [BCP 47
+tags](https://en.wikipedia.org/wiki/IETF_language_tag). For example, `en`,
+`en-US`, `eng`, `zh-Hans` are valid, but `en_US`, `cn-simplified` are invalid.
+The validation is done using
+[`Intl.DisplayNames`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames#language_display_names).
 
 ### `adapters`
 

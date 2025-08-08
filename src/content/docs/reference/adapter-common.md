@@ -131,6 +131,27 @@ number of requests.
 The default generator converts the file paths into compatible IDs by replacing
 every special character by `_`.
 
+## `bundleLoad`
+**type**: `boolean`
+**default**: `false`
+
+In some cases, avoiding async loading and directly importing the catalogs by
+the code that uses them may be desired. This is how Paraglide works. However,
+it is not recommended as all catalogs then get bundled with the code that uses
+them even though only one is required by the user. This can inflate the bundle
+size. But if this is desired anyway, it can be enabled here.
+
+## `initInsideFunc`
+**type**: `boolean`
+**default**: `false`
+
+By default, the runtime instance variable is initialized on the top level. But
+this may make the new content unavailable on reload unless the server is
+restarted in the absence of Vite. Use this to avoid that problem by
+initializing the runtime variable inside each function definition.
+
+**Note**: This only applies in the `script` scope.
+
 ## `writeFiles.compiled`
 **type**: `boolean`
 **default**: `false`

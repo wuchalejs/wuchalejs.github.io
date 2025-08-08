@@ -175,6 +175,10 @@ What they provide is the same (only different in being asynchronous).
     ```ts
     export const loadIDs: string[]
     ```
+- The adapter's key from the config:
+    ```ts
+    export const key: string
+    ```
 
 **Note**: What the proxies provide is dependent on which loader is importing
 them. They export different arrays and functions to different loaders.
@@ -222,10 +226,10 @@ loader. Continuing with the above example loader, it now becomes very simple.
 
 ```js
 // src/locales/loader.js
-import { loadCatalog, loadIDs } from 'virtual:wuchale/proxy/sync'
+import { loadCatalog, loadIDs, key } from 'virtual:wuchale/proxy/sync'
 import { registerLoaders } from 'wuchale/run-client'
 
-export default registerLoaders('main', loadCatalog, loadIDs)
+export default registerLoaders(key, loadCatalog, loadIDs)
 ```
 
 `registerLoaders` returns a function already prepared for use by the importing
@@ -262,10 +266,10 @@ catalogs to be loaded and be ready.
 ```js
 // src/locales/loader.js
 
-import { loadCatalog, loadIDs } from './proxy.js' // or loader/sync
+import { loadCatalog, loadIDs, key } from './proxy.js'
 import { loadLocales } from 'wuchale/run-server'
 
-export default await loadLocales('main', loadIDs, loadCatalog, ['en', 'es'])
+export default await loadLocales(key, loadIDs, loadCatalog, ['en', 'es'])
 ```
 
 Then when we want to process a request, we wrap the request processing with a
@@ -314,10 +318,8 @@ there are multiple methods to manage it:
 ```js
 // wuchale.config.js
 export default defineConfig({
-    locales: {
-        // English included by default
-        es: { name: 'Spanish' },
-    },
+    // sourceLocale is en by default
+    otherLocales: ['es'],
     adapters: {
         product: svelte({
             files: ['src/product/**/*.svelte'],
@@ -344,10 +346,8 @@ adapter configuration.
 ```js
 // wuchale.config.js
 export default defineConfig({
-    locales: {
-        // English included by default
-        es: { name: 'Spanish' },
-    },
+    // sourceLocale is en by default
+    otherLocales: ['es'],
     adapters: {
         main: svelte({
             granularLoad: true,
