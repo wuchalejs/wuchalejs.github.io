@@ -51,7 +51,7 @@ The validation is done using
 
 ### `adapters`
 
-**type**: `{[key: string]: Adapter}`
+**type**: `Record<string, Adapter>`
 **default**: `{}`
 
 Adapters are what handle the project specific operations like extracting the

@@ -6,6 +6,7 @@ Import | `import { adapter } from "@wuchale/svelte"`
 -|-
 Loader extensions | `.svelte.js`, `.svelte.ts`
 Default `files` | `src/**/*.svelte`, `src/**/*.svelte.{js,ts}`
+Compatibility | Svelte >= 5
 
 ## Setup in Your App
 
