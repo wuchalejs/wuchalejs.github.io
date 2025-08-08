@@ -2,6 +2,11 @@
 title: Svelte
 ---
 
+Import | `import { adapter } from "@wuchale/svelte"`
+-|-
+Loader extensions | `.svelte.js`, `.svelte.ts`
+Default `files` | `src/**/*.svelte`, `src/**/*.svelte.{js,ts}`
+
 ## Setup in Your App
 
 Svelte applications may or may not use SvelteKit and that makes the loading of

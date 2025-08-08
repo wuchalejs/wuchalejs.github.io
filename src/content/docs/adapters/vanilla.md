@@ -2,6 +2,11 @@
 title: Vanilla
 ---
 
+Import | `import { adapter } from "wuchale/adapter-vanilla"`
+-|-
+Loader extensions | `.js`, `.ts`
+Default `files` | `src/**/*.{js,ts}`
+
 ## Default extraction rules
 
 In addition to the [default rules](/guides/rules), this adapter implements
