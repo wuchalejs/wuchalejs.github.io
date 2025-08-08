@@ -40,7 +40,7 @@ This scans all of the files that match the [configured
 pattern](/reference/adapter-common#files) for the adapters and extracts the
 messages. And if `writeFiles` is enabled, it writes the generated files. This
 can be used when Vite is not used/needed (for example, for server only
-projects).
+projects). Watch mode is also supported.
 
 ## `init`
 
@@ -58,5 +58,5 @@ This initializes a new project. What exactly it does is the following, for each 
 
 ## `status`
 
-This shows the status information of the setup, and if the loader files exist
-and are not empty.
+This shows the status information of the setup like if the loader files exist
+and are not empty, the number of total messages, untranslated, obsolete.
