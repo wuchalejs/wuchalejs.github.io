@@ -1,9 +1,9 @@
 ---
-title: Protobuf-like i18n from normal code
-description: A non-invasive, normal code based compile-time internationalization (i18n) toolkit.
+title: Protobuf-like i18n from plain code
+description: A non-invasive, plain code based compile-time internationalization (i18n) toolkit.
 template: splash
 hero:
-  tagline: Write normal code, get compact, performant i18n!
+  tagline: Write plain code; get compact, performant i18n!
   image:
     file: ../../../public/favicon.svg
     alt: Logo
@@ -22,7 +22,7 @@ hero:
 import { Card, CardGrid, Tabs, TabItem, LinkButton } from '@astrojs/starlight/components';
 
 <CardGrid stagger>
-	<Card title="Write normal code" icon="pencil">
+	<Card title="Write plain code" icon="pencil">
         Without any need to do anything different:
         ```svelte
         <p>Hello world!</p>
@@ -50,12 +50,12 @@ import { Card, CardGrid, Tabs, TabItem, LinkButton } from '@astrojs/starlight/co
         <Tabs>
             <TabItem label="es.compiled.js">
                 ```javascript
-                export const c = ["¡Hola Mundo!"]
+                export let c = ["¡Hola Mundo!"]
                 ```
             </TabItem>
             <TabItem label="en.compiled.js">
                 ```javascript
-                export const c = ["Hello world!"]
+                export let c = ["Hello world!"]
                 ```
             </TabItem>
         </Tabs>
@@ -73,6 +73,24 @@ import { Card, CardGrid, Tabs, TabItem, LinkButton } from '@astrojs/starlight/co
         ```
 	</Card>
 </CardGrid>
+
+## Supports your favorite languages and frameworks!
+
+<div style="display: flex; flex-wrap: wrap">
+    {[
+        ['JavaScript (Vanilla)', 'js'],
+        ['TypeScript (Vanilla)', 'ts'],
+        ['React (JSX)', 'react'],
+        ['Preact (JSX)', 'preact'],
+        ['Svelte (Svelte)', 'svelte'],
+        ['SolidJS (JSX)', 'solid'],
+    ].map(([alt, name]) => <img
+        style="width:5em; margin:2em"
+        alt={alt}
+        title={alt}
+        src={`/images/${name}.svg`}
+    />)}
+</div>
 
 <LinkButton href="/intro/start">Get started</LinkButton>
 <LinkButton href="/intro/why" variant="secondary">Learn why</LinkButton>
