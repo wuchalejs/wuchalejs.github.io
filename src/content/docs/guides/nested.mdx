@@ -1,0 +1,126 @@
+---
+title: Mixed and nested structures
+---
+
+While simple messages are easy to extract, mixed and nested messages are
+not. But `wuchale` handles them seamlessly. When writing them in the [`.po`
+files](/concepts/catalogs/#po-files), it uses a simple convention that is easy
+to work with for translators.
+
+## Text mixed with expressions
+
+These are created when extracting template literals and markup message with expressions in the middle. For example,
+
+```js
+const msg = `Hello ${userName}, welcome to ${appName}!`
+```
+
+And
+
+```svelte
+<p>Hello {userName}, welcome to ${appName}!</p>
+```
+
+Are both extracted into the catalogs:
+
+```po
+msgid "Hello {0}, welcome to {1}!"
+msgstr ""
+```
+
+Then it gets compiled into the optimized form to require as few operations as possible to render:
+
+```js
+export let c = [["Hello ", 0, ", welcome to ", 1, "!"]]
+```
+
+And the code is turned into a version that gets it by index (in this case `0`)
+and give it the dynamic values in the same order:
+
+```js
+const msg = _w_runtime_.t(0, [userName, appName])
+```
+And
+```svelte
+<p>{_w_runtime_.t(0, [userName, appName])}</p>
+```
+
+This makes the job of the `.t` method very simple during runtime. No replace,
+no weird regex. Just concatenate in the order getting the references by index
+and return.
+
+And this enables it to accomodate any change in the translation. If the
+translator changes the order of things, it will just follow and use the that
+order.
+
+## Nested content (advanced)
+
+When text is mixed with markup that contains other text or expressions, it is
+also handled gracefully.
+
+```svelte
+<p>Welcome to <i>the app {appName}</i>, <b>{userName}</b>!</p>
+```
+
+This is extracted as:
+
+```po
+msgid "Welcome to <0>the app {0}</0>, <1/>!"
+msgstr ""
+```
+
+This example shows two behaviours `wuchale` has when handling nesting content.
+
+- When the nested content contains only text or text mixed with something else,
+    it is extracted in HTML tags with both opening and closing tags `<0>...</0>`.
+- When it doesn't contain any text, the whole thing is extracted as a
+    self-closing tag `<1/>`. Because the translator doesn't need to know what is inside
+    the tag because it is not translatable. They can translated without being
+    overwhelmed with unnecessary details.
+
+**Note**: The numeric indices of the placeholders is within their immediate parent.
+
+Then it gets compiled into the optimized form:
+
+```js
+export let c = [["Welcome to ", [0, "the app ", 0], ", ", [1], "!"]]
+```
+
+And depending on the adapter, the code is transformed into:
+
+import { Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs>
+    <TabItem label="JSX">
+    Uses a simple [`WuchaleTrans` implementation](https://github.com/wuchalejs/wuchale/blob/main/packages/jsx/src/runtime.tsx) (JSX)
+    ```jsx
+    <p>
+        <WuchaleTrans
+            tags={[
+                _w_ctx_ => <i key="_0">{_w_runtime_.tx(_w_ctx_, [appName])}</i>,
+                () => <b key="_0">{userName}</b>,
+            ]}
+            ctx={_w_runtime_.cx(2)}
+        />
+    </p>
+    ```
+    </TabItem>
+    <TabItem label="Svelte">
+    Uses a simple [`WuchaleTrans` implementation](https://github.com/wuchalejs/wuchale/blob/main/packages/svelte/src/runtime.svelte) (Svelte)
+    ```svelte
+    <p>
+        {#snippet wuchaleSnippet0(_w_ctx_)}
+            <i>{_w_runtime_.tx(_w_ctx_, [appName])}</i>
+        {/snippet}
+        {#snippet wuchaleSnippet1()}
+            <b>{userName}</b>
+        {/snippet}
+        <WuchaleTrans tags={[wuchaleSnippet0, wuchaleSnippet1]} ctx={_w_runtime_.cx(0)} />
+    </p>
+    ```
+    </TabItem>
+</Tabs>
+
+Basically, the `WuchaleTrans` does the same simple job: looping through the
+elements of the array and rendering them. This makes it very performant by
+avoiding string manipulations during runtime.
