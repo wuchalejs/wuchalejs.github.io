@@ -47,8 +47,8 @@ And
 <p>{_w_runtime_.t(0, [userName, appName])}</p>
 ```
 
-This makes the job of the ([`Runtime.t`
-method](https://github.com/wuchalejs/wuchale/blob/main/packages/wuchale/src/runtime.ts))
+This makes the job of the [`Runtime.t`
+method](https://github.com/wuchalejs/wuchale/blob/main/packages/wuchale/src/runtime.ts)
 very simple during runtime. No replace, no weird regex. Just concatenate in the
 order getting the references by index and return.
 
@@ -58,8 +58,7 @@ order.
 
 ## Nested content (advanced)
 
-When text is mixed with markup that contains other text or expressions, it is
-also handled gracefully.
+Text mixed with markup that contains other text or expressions:
 
 ```svelte
 <p>Welcome to <i>the app {appName}</i>, <b>{userName}</b>!</p>
@@ -75,11 +74,12 @@ msgstr ""
 This example shows two behaviours `wuchale` has when handling nesting content.
 
 - When the nested content contains only text or text mixed with something else,
-    it is extracted in HTML tags with both opening and closing tags `<0>...</0>`.
+    it is extracted in numeric HTML-like tags with both opening and closing tags
+    `<0>...</0>`.
 - When it doesn't contain any text, the whole thing is extracted as a
-    self-closing tag `<1/>`. Because the translator doesn't need to know what is inside
-    the tag because it is not translatable. They can translated without being
-    overwhelmed with unnecessary details.
+    self-closing numeric tag `<1/>`. Because the translator doesn't need to know
+    what is inside the tag because it is not translatable. They can translated
+    without being overwhelmed with unnecessary details.
 
 **Note**: The numeric indices of the placeholders is within their immediate parent.
 
