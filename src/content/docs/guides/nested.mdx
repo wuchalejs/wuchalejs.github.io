@@ -127,6 +127,11 @@ Basically, the `WuchaleTrans` does the same simple job: looping through the
 elements of the array and rendering them. This makes it very performant by
 avoiding string manipulations during runtime.
 
+**Note**: Nesting is not restricted to just two levels, you can nest as deep as
+you want, and it will nest `WuchaleTrans` components within `WuchaleTrans`
+components to work with your code. The result will be the same behaviour as
+your code but internationalized.
+
 ## Escaping
 
 When compiling the translations, you may think, how do I escape special
