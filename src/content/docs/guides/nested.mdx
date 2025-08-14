@@ -47,9 +47,10 @@ And
 <p>{_w_runtime_.t(0, [userName, appName])}</p>
 ```
 
-This makes the job of the `.t` method very simple during runtime. No replace,
-no weird regex. Just concatenate in the order getting the references by index
-and return.
+This makes the job of the ([`Runtime.t`
+method](https://github.com/wuchalejs/wuchale/blob/main/packages/wuchale/src/runtime.ts))
+very simple during runtime. No replace, no weird regex. Just concatenate in the
+order getting the references by index and return.
 
 And this enables it to accomodate any change in the translation. If the
 translator changes the order of things, it will just follow and use the that
