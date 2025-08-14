@@ -19,9 +19,19 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 1. **Install**
 
     <Tabs syncKey="adapter">
+        <TabItem label="React">
+            ```bash
+            npm install wuchale @wuchale/jsx @wuchale/vite-plugin
+            ```
+        </TabItem>
         <TabItem label="Svelte">
             ```bash
             npm install wuchale @wuchale/svelte @wuchale/vite-plugin
+            ```
+        </TabItem>
+        <TabItem label="SolidJS">
+            ```bash
+            npm install wuchale @wuchale/jsx @wuchale/vite-plugin
             ```
         </TabItem>
         <TabItem label="Vanilla">
@@ -43,6 +53,18 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 2. **Configure Vite**
 
     <Tabs syncKey="adapter">
+        <TabItem label="React">
+            ```javascript
+            // vite.config.js
+            import { defineConfig } from 'vite'
+            import react from '@vitejs/plugin-react'
+            import { wuchale } from '@wuchale/vite-plugin'
+
+            export default defineConfig({
+                plugins: [wuchale(), react()],
+            })
+            ```
+        </TabItem>
         <TabItem label="Svelte">
             ```javascript
             // vite.config.js
@@ -55,6 +77,18 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                     svelte(),
                 ]
             }
+            ```
+        </TabItem>
+        <TabItem label="SolidJS">
+            ```javascript
+            // vite.config.js
+            import { defineConfig } from 'vite';
+            import solidPlugin from 'vite-plugin-solid';
+            import { wuchale } from '@wuchale/vite-plugin';
+
+            export default defineConfig({
+                plugins: [wuchale(), solidPlugin()],
+            });
             ```
         </TabItem>
         <TabItem label="Vanilla">
@@ -79,6 +113,22 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 3. **Create Configuration**
 
     <Tabs syncKey="adapter">
+        <TabItem label="React">
+            ```javascript
+            // wuchale.config.js
+            // @ts-check
+            import { adapter as jsx } from "@wuchale/jsx"
+            import { defineConfig } from "wuchale"
+
+            export default defineConfig({
+                // sourceLocale is en by default
+                otherLocales: ['es'],
+                adapters: {
+                    main: jsx(),
+                }
+            })
+            ```
+        </TabItem>
         <TabItem label="Svelte">
             ```javascript
             // wuchale.config.js
@@ -91,6 +141,24 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                 otherLocales: ['es'],
                 adapters: {
                     main: svelte(),
+                }
+            })
+            ```
+        </TabItem>
+        <TabItem label="SolidJS">
+            ```javascript
+            // wuchale.config.js
+            // @ts-check
+            import { adapter as jsx } from "@wuchale/jsx"
+            import { defineConfig } from "wuchale"
+
+            export default defineConfig({
+                // sourceLocale is en by default
+                otherLocales: ['es'],
+                adapters: {
+                    main: jsx({
+                        variant: "solidjs"
+                    }),
                 }
             })
             ```
@@ -131,53 +199,21 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
     need from there, and setup how the translations are loaded.
 
     <Tabs syncKey="adapter">
+        <TabItem label="React">
+            Look in the [React setup guide](/adapters/jsx/#react)
+        </TabItem>
         <TabItem label="Svelte">
-            <Tabs>
-                <TabItem label="Svelte">
-                    ```svelte
-                    <!-- src/App.svelte -->
-                    <script>
-                        import { loadLocale } from 'wuchale/run-client'
-                        
-                        let locale = $state('en')
-                    </script>
-
-                    {#await loadLocale(locale)}
-                        <!-- @wc-ignore -->
-                        Loading translations...
-                    {:then}
-                        <!-- Your app content -->
-                    {/await}
-                    ```
-                </TabItem>
-                <TabItem label="SvelteKit">
-                    Assuming the use of a search parameter for the locale state: `?locale=en`. But you can use anything else.
-                    ```javascript
-                    // src/routes/+layout.js
-                    import { locales } from 'virtual:wuchale/locales'
-                    import { loadCatalogs } from 'wuchale/run-client'
-                    import { loadIDs, loadCatalog } from '../locales/loader.svelte.js'
-
-                    /** @type import('./$types').LayoutLoad */
-                    export async function load({url}) {
-                        const locale = url.searchParams.get('locale') ?? 'en'
-                        if (!(locale in locales)) {
-                            return
-                        }
-                        return {
-                            locale,
-                            catalogs: await loadCatalogs(locale, loadIDs, loadCatalog)
-                        }
-                    }
-                    ```
-                </TabItem>
-            </Tabs>
+            - Svelte: Look in the [Svelte setup guide](/adapters/svelte/#svelte-spa)
+            - SvelteKit: Look in the [SvelteKit setup guide](/adapters/svelte/#sveltekit-ssrssg)
+        </TabItem>
+        <TabItem label="SolidJS">
+            Look in the [SolidJS setup guide](/adapters/jsx/#solidjs)
         </TabItem>
         <TabItem label="Vanilla">
             <Tabs syncKey="vanillaVite">
                 <TabItem label="With Vite">
                     ```javascript
-                    import { loadLocale } from 'wuchale/run-client'
+                    import { loadLocale } from 'wuchale/load-utils'
                     await loadLocale(locale)
                     ```
                 </TabItem>
@@ -190,44 +226,45 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 6. Start Coding!
 
-    Write your Svelte components naturally. `wuchale` will extract and compile
+    Write your code components naturally. `wuchale` will extract and compile
     translations automatically:
 
     <Tabs syncKey="adapter">
+        <TabItem label="React">
+            ```jsx
+            function Hello() {
+                return <p>Hello world</p>
+            }
+            ```
+        </TabItem>
         <TabItem label="Svelte">
             ```svelte
             <p>Hello world</p>
             ```
         </TabItem>
+        <TabItem label="SolidJS">
+            ```jsx
+            function Hello() {
+                return <p>Hello world</p>
+            }
+            ```
+        </TabItem>
         <TabItem label="Vanilla">
-            <Tabs syncKey="vanillaVite">
-                <TabItem label="With Vite">
-                    E.g. DOM
-                    ```javascript
-                    const showMsg = (element) => {
-                        element.innerHTML = 'Hello world'
-                    }
-                    ```
-                </TabItem>
-                <TabItem label="Without Vite">
-                    E.g. Server
-                    ```js
-                    import { runWithLocale } from 'wuchale/run-server'
-                    //...
-                    app.get('/:locale', (req, res) => {
-                        runWithLocale(req.params.locale, () => res.send('Hello world'))
-                    })
-                    ```
-                </TabItem>
-            </Tabs>
+            E.g. DOM
+            ```javascript
+            const showMsg = (element) => {
+                element.innerHTML = 'Hello world'
+            }
+            ```
         </TabItem>
     </Tabs>
 
 </Steps>
 
 For full usage examples, look inside the **<a
-    href="https://github.com/wuchalejs/examples" target="_blank">examples
-    repository</a>**. It contains examples for different usage patterns.
+href="https://github.com/wuchalejs/examples" target="_blank">examples
+repository</a>**. It contains examples for different frameworks and usage
+patterns.
 
 ## Workflow
 

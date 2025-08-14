@@ -4,7 +4,7 @@ title: Svelte
 
 Import | `import { adapter } from "@wuchale/svelte"`
 -|-
-Loader extensions | `.svelte.js`, `.svelte.ts`
+Loader extensions | `.js`, `.ts`, `.svelte.js`, `.svelte.ts`
 Default `files` | `src/**/*.svelte`, `src/**/*.svelte.{js,ts}`
 Compatibility | Svelte >= 5
 
@@ -16,12 +16,12 @@ whether SvelteKit is in use and write the suitable default loader. Assuming it
 was correct, follow the following steps. If it was wrong, edit the loader file
 first.
 
-### For SvelteKit (SSR/SSG)
+### SvelteKit (SSR/SSG)
 
 ```javascript
 // src/routes/+layout.js
 import { locales } from 'virtual:wuchale/locales'
-import { loadCatalogs } from 'wuchale/run-client'
+import { loadCatalogs } from 'wuchale/load-utils/pure'
 import { loadIDs, loadCatalog } from '../locales/loader.svelte.js'
 
 export const prerender = true
@@ -39,12 +39,12 @@ export async function load({url}) {
 }
 ```
 
-### For Svelte (SPA)
+### Svelte (SPA)
 
 ```svelte
 <!-- src/App.svelte -->
 <script>
-  import { loadLocale } from 'wuchale/run-client'
+  import { loadLocale } from 'wuchale/load-utils'
   import Counter from './lib/Counter.svelte'
 
   let locale = $state('en')

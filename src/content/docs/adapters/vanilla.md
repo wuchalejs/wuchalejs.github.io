@@ -7,6 +7,47 @@ Import | `import { adapter } from "wuchale/adapter-vanilla"`
 Loader extensions | `.js`, `.ts`
 Default `files` | `src/**/*.{js,ts}`
 
+The Vanilla adapter adds support for plain JavaScript/TypeScript projects. And
+how you use it is different based on whether you use Vite or not. If you are
+not using Vite, then it is impossible to use virtual modules. Therefore you
+have to write every file that your application needs, including compiled
+catalogs and proxies.
+
+To support with that, `wuchale` provides the options to [write those
+files](/reference/adapter-common/#writefilescompiled) to disk and will adjust
+the importing to use relative paths when it writes the output files.
+
+## Setup in Your App
+
+This is assuming that you did not modify the default loader.
+
+### With Vite
+
+```js
+import { loadLocale } from 'wuchale/load-utils'
+await loadLocale(locale)
+```
+
+And you use it like normal, putting strings inside function definitions.
+
+```javascript
+const showMsg = (element) => {
+    element.innerHTML = 'Hello world'
+}
+```
+
+### Without Vite
+
+For example, for use with a server,
+
+```js
+import { runWithLocale } from 'wuchale/load-utils/server'
+//...
+app.get('/:locale', (req, res) => {
+    runWithLocale(req.params.locale, () => res.send('Hello world'))
+})
+```
+
 ## Default extraction rules
 
 In addition to the [default rules](/guides/rules), this adapter implements

@@ -141,16 +141,34 @@ it is not recommended as all catalogs then get bundled with the code that uses
 them even though only one is required by the user. This can inflate the bundle
 size. But if this is desired anyway, it can be enabled here.
 
-## `initInsideFunc`
-**type**: `boolean`
-**default**: `false`
+## `importName`
+**type**: `string`
+**default**: `_w_load_`
 
-By default, the runtime instance variable is initialized on the top level. But
-this may make the new content unavailable on reload unless the server is
-restarted in the absence of Vite. Use this to avoid that problem by
-initializing the runtime variable inside each function definition.
+The name that will be used to import the function from the loader file.
+
+## `runtime.initInScope`
+**type**: `(details: { funcName?: string; parentFunc?: string; file: string }) => boolean`
+**default**: depends on adapter
+
+Whether to initialize the runtime instance inside function definitions or in
+the top level (`null`). Makes a difference in frameworks that don't support top
+level reactivity.
 
 **Note**: This only applies in the `script` scope.
+
+## `runtime.wrapInit`
+**type**: `(expr: string) => string`
+**default**: `expr => expr`
+
+A function to wrap the initialization expression of the runtime instance.
+
+## `runtime.wrapExpr`
+**type**: `(expr: string) => string`
+**default**: `expr => expr`
+
+A function to wrap the runtime instance before it is used, like turning it into
+a call if it was wrapped in an arrow expression.
 
 ## `writeFiles.compiled`
 **type**: `boolean`

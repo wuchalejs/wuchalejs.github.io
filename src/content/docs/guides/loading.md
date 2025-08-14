@@ -218,7 +218,7 @@ the server.
 ### On the client
 
 Here there is only one user, so using a single global state to load the
-catalogs to is appropriate. The module used for this is `wuchale/run-client`.
+catalogs to is appropriate. The module used for this is `wuchale/load-utils`.
 
 The setup is done in two steps. The first step is registering the load
 functions with the `loadID`s at the central registry. This is done in the
@@ -227,7 +227,7 @@ loader. Continuing with the above example loader, it now becomes very simple.
 ```js
 // src/locales/loader.js
 import { loadCatalog, loadIDs, key } from 'virtual:wuchale/proxy/sync'
-import { registerLoaders } from 'wuchale/run-client'
+import { registerLoaders } from 'wuchale/load-utils'
 
 export default registerLoaders(key, loadCatalog, loadIDs)
 ```
@@ -240,7 +240,7 @@ transformed modules so it can be directly exported as `default`.
 The next step is to set the locale. It can be done anywhere you want.
 
 ```js
-import { loadLocale } from 'wuchale/run-client'
+import { loadLocale } from 'wuchale/load-utils'
 
 // ...
 await loadLocale(locale)
@@ -257,7 +257,7 @@ this necessitates the use of a per-request isolation mechanism for the loaded
 catalogs because we don't want one user to see a language they didn't choose
 because of another user.
 
-For this we use the exports from `wuchale/run-server`. And the isolation is
+For this we use the exports from `wuchale/load-utils/server`. And the isolation is
 done using the
 [`AsyncLocalStorage`](https://nodejs.org/api/async_context.html). Again, the
 setup is done in two steps. First, inside the loader file, we instruct the
@@ -267,7 +267,7 @@ catalogs to be loaded and be ready.
 // src/locales/loader.js
 
 import { loadCatalog, loadIDs, key } from './proxy.js'
-import { loadLocales } from 'wuchale/run-server'
+import { loadLocales } from 'wuchale/load-utils/server'
 
 export default await loadLocales(key, loadIDs, loadCatalog, ['en', 'es'])
 ```
@@ -276,7 +276,7 @@ Then when we want to process a request, we wrap the request processing with a
 locale setup:
 
 ```js
-import { runWithLocale } from 'wuchale/run-server'
+import { runWithLocale } from 'wuchale/load-utils/server'
 
 app.get('/:locale', (req, res) => {
     runWithLocale(req.params.locale, () => respond(res))
@@ -288,10 +288,10 @@ app.get('/:locale', (req, res) => {
 One last loading convenience provided is this. You already know the locale, you
 have the `loadID`s and the load function from the proxy, you just want a
 direct, no side effect way to load the catalogs. For that, the
-`wuchale/run-client` provides another function, which can be used like this:
+`wuchale/load-utils/pure` provides another function, which can be used like this:
 
 ```js
-import { loadCatalogs } from 'wuchale/run-client'
+import { loadCatalogs } from 'wuchale/load-utils/pure'
 import { loadIDs, loadCatalog } from '../locales/loader.js'
 
 let locale = 'en'
