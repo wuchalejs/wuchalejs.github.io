@@ -81,7 +81,9 @@ This example shows two behaviours `wuchale` has when handling nesting content.
     what is inside the tag because it is not translatable. They can translated
     without being overwhelmed with unnecessary details.
 
-**Note**: The numeric indices of the placeholders is within their immediate parent.
+:::note
+The numeric indices of the placeholders is within their immediate parent.
+:::
 
 Then it gets compiled into the optimized form:
 
@@ -128,10 +130,12 @@ Basically, the `WuchaleTrans` does the same simple job: looping through the
 elements of the array and rendering them. This makes it very performant by
 avoiding string manipulations during runtime.
 
-**Note**: Nesting is not restricted to just two levels, you can nest as deep as
+:::tip
+Nesting is not restricted to just two levels, you can nest as deep as
 you want, and it will nest `WuchaleTrans` components within `WuchaleTrans`
 components to work with your code. The result will be the same behaviour as
 your code but internationalized.
+:::
 
 ## Escaping
 

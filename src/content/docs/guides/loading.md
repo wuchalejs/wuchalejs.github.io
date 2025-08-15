@@ -180,10 +180,12 @@ What they provide is the same (only different in being asynchronous).
     export const key: string
     ```
 
-**Note**: What the proxies provide is dependent on which loader is importing
+:::note
+What the proxies provide is dependent on which loader is importing
 them. They export different arrays and functions to different loaders.
 Therefore, you can only import from them inside the loaders only. If you need
 to something from them elsewhere, re-export them from the loaders.
+:::
 
 Now, the above loader can be simplified, and generalized, to:
 
@@ -235,7 +237,9 @@ export default registerLoaders(key, loadCatalog, loadIDs)
 `registerLoaders` returns a function already prepared for use by the importing
 transformed modules so it can be directly exported as `default`.
 
-**Note**: This is actually the default loader content for the vanilla adapter.
+:::tip
+This is actually the default loader content for the vanilla adapter.
+:::
 
 The next step is to set the locale. It can be done anywhere you want.
 

@@ -155,7 +155,9 @@ Whether to initialize the runtime instance inside function definitions or in
 the top level (`null`). Makes a difference in frameworks that don't support top
 level reactivity.
 
-**Note**: This only applies in the `script` scope.
+:::note
+This only applies in the `script` scope.
+:::
 
 ## `runtime.wrapInit`
 **type**: `(expr: string) => string`
