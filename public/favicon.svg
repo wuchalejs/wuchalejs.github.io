@@ -1,67 +1,29 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!-- Created with Inkscape (http://www.inkscape.org/) -->
-
-<svg
-   width="128"
-   height="128"
-   viewBox="0 0 128 128"
-   version="1.1"
-   id="svg1"
-   xmlns:xlink="http://www.w3.org/1999/xlink"
-   xmlns="http://www.w3.org/2000/svg"
-   xmlns:svg="http://www.w3.org/2000/svg">
-  <defs
-     id="defs1">
-    <linearGradient
-       id="linearGradient2613">
-      <stop
-         style="stop-color:#ffffff;stop-opacity:1;"
-         offset="0.35774058"
-         id="stop2613" />
-      <stop
-         style="stop-color:#268a96;stop-opacity:1;"
-         offset="1"
-         id="stop2614" />
-    </linearGradient>
-    <radialGradient
-       xlink:href="#linearGradient2613"
-       id="radialGradient2614"
-       cx="54.22858"
-       cy="64.001541"
-       fx="54.22858"
-       fy="64.001541"
-       r="49.283096"
-       gradientTransform="matrix(1,0,0,1.2088461,0,-13.366474)"
-       gradientUnits="userSpaceOnUse" />
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" version="1.1" xmlns="http://www.w3.org/2000/svg" >
+  <defs>
+    <radialGradient id="gradient">
+      <stop stop-color="white" offset="30%" />
+      <stop stop-color="#159fab" offset="100%" />
+    </radialGradient>
   </defs>
-  <g
-     id="layer1"
-     transform="matrix(0.89588603,0,0,1.0031305,0.45596471,-0.20035967)">
-    <g
-       id="g2613"
-       transform="matrix(0.96944302,-0.19360106,0.27379908,0.89142466,-13.153881,17.380314)">
-      <path
-         style="fill:url(#radialGradient2614);stroke:#268a96;stroke-width:8.70951;stroke-linecap:round;stroke-dasharray:none;stroke-dashoffset:42.3307;stroke-opacity:1"
-         d="M 17.472609,29.263966 C 5.6004143,43.295656 10.159508,50.347599 10.159508,50.347599 L 34.283082,44.88908 17.441954,61.123591 c 0,0 4.26627,4.919248 7.515807,8.926884 8.153547,10.055729 23.436544,20.381744 8.280677,46.052065 L 90.426464,98.482079 C 101.7167,87.016062 98.852239,75.85347 98.852239,75.85347 L 76.889376,81.624023 93.349003,65.391876 c 0,0 -7.328859,-5.753374 -15.847752,-13.869535 -9.01924,-8.592855 -17.584452,-19.799258 -4.263083,-39.304129 z"
-         id="path1" />
-      <path
-         style="font-weight:bold;font-size:42.7287px;line-height:0;font-family:Nyala;-inkscape-font-specification:Nyala;fill:#159fab;stroke:#268a96;stroke-width:1.88976;stroke-linecap:square;stroke-dashoffset:42.3307"
-         d="m 25.271867,70.04521 0.688499,1.418726 -12.413855,5.153315 12.372128,5.048997 -0.521591,1.50218 -14.395899,-5.966996 0.271227,-1.272681 z m 3.087815,18.464306 7.573495,-28.750072 1.815135,0.354682 -7.552631,28.750071 z m 11.391538,-5.341088 -0.688499,-1.418726 12.413855,-5.153315 -12.372128,-5.048996 0.521591,-1.502181 14.395899,5.966996 -0.271227,1.272681 z"
-         id="text2612"
-         transform="matrix(0.85918866,-0.39881698,0.3407028,1.0057418,0,0)"
-         aria-label="&lt;/&gt;" />
-    </g>
-    <g
-       id="g2612"
-       transform="matrix(1.092311,0,0,1.2946744,2.3125686,-19.126912)">
-      <path
-         style="fill:#226abe;fill-opacity:1;stroke:#000000;stroke-width:0;stroke-linecap:round;stroke-dashoffset:42.3307"
-         d="m 65.506784,71.04011 c 0,0 4.344575,-29.054817 13.621426,-39.411751 C 99.60469,8.7678486 120.8314,22.034357 123.08779,27.810132 125.6605,34.39562 98.687117,29.482928 94.293112,38.050699 82.215587,61.60038 79.723417,34.780756 65.506784,71.04011 Z"
-         id="path2" />
-      <path
-         style="fill:#ffffff;fill-opacity:1;stroke:#268a96;stroke-width:0;stroke-linecap:square;stroke-dasharray:none;stroke-dashoffset:42.3307;stroke-opacity:1"
-         d="M 73.888803,50.951362 C 83.41574,27.358537 95.309269,24.993305 110.42718,23.831757 90.381855,26.724991 85.817148,32.223964 73.888803,50.951362 Z"
-         id="path2612" />
-    </g>
-  </g>
+  <path
+     fill="url(#gradient)"
+     stroke="#226abe"
+     stroke-width="8"
+     d="M 11,40 C 5,55 10,61 10,61 L 31,50 20,69 c 0,0 5,3 8,6 9,7 26,13 18,40 L 94,89 c 6,-12 2,-20 1,-22 l -18,9 11,-19 c 0,0 -7,-3 -18,-9 C 60,42 50,34 58,13 Z"
+     />
+  <path
+     fill="#159fab"
+     stroke="#159fab"
+     stroke-width="2"
+     d="m 45,64 1,-0 -3,12 11,-4 0,1 -13,4 -0,-1 z m 15,13 -15,-29 1,-1 16,29 z m 3,-12 -1,0 3,-12 -11,4 -0,-1 13,-4 0,1 z"
+     />
+  <path
+     fill="#159fab"
+     d="m 69,72 c 0,0 5,-37 12,-50 19,-31 39,-13 42,-6 2,9 -23,3 -27,14 C 85,59 82,24 69,72 Z"
+     />
+  <path
+     fill="white"
+     d="M 77,45 C 86,15 97,11 111,10 92,14 88,22 77,45 Z"
+     />
 </svg>
