@@ -50,8 +50,8 @@ This initializes a new project. What exactly it does is the following, for each 
     by the adapter), or if it does exist but is an empty file, it creates it from
     the default one. You can choose between the available loaders to fill the
     content of the default loader. Preliminary checks are done to suggest the best
-    one as the first option (for example, the existence of `svelte.config.js` to
-    decide between SvelteKit and Svelte).
+    one as the first option (for example, the existence of `@sveltejs/kit` as a
+    dependency to decide between SvelteKit and Svelte).
 - [Extract](#extract) from the source for the first time. This makes sure that
     the codebase is scanned as it is at the moment. Next, if Vite is used, the
     files are scanned incrementally as they are edited.

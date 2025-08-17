@@ -15,7 +15,7 @@ function calls or components.
 <p>{t('home.welcome.greeting')}</p>
 ```
 
-`wuchale` takes a different approach and tries to work with your normal code.
+`wuchale` takes a different approach and tries to work with your plain code.
 
 ```svelte
 <p>Hello</p>
