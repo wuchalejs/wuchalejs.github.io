@@ -1,0 +1,16 @@
+{
+    "name": "wuchale",
+    "short_name": "wuchale",
+    "description": "Protobuf-like i18n from plain code",
+    "icons": [
+        {
+            "src": "/favicon.svg",
+            "sizes": "any"
+        }
+    ],
+    "theme_color": "#159fab",
+    "start_url": ".",
+    "display": "standalone",
+    "background_color": "#121212",
+    "id": "/"
+}
