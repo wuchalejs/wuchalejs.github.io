@@ -18,6 +18,17 @@ export default defineConfig({
             },
             head: [
                 { tag: 'link', attrs: { rel: 'manifest', href: '/manifest.webmanifest' } },
+                {
+                    tag: 'script',
+                    attrs: { type: 'application/ld+json' },
+                    content: JSON.stringify({
+                        "@context": "https://schema.org",
+                        "@type": "WebSite",
+                        "name": "wuchale",
+                        "description": "Protobuf-like i18n from plain code",
+                        "author": "Kidus Adugna",
+                    })
+                }
             ],
             social: [
                 { icon: 'github', label: 'GitHub', href: 'https://github.com/wuchalejs/wuchale' },
