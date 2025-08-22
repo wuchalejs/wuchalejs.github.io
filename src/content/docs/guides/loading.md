@@ -20,55 +20,52 @@ transformed modules.
 The loader file has to export a function as `default`. The function signature has to be this:
 
 ```ts
-(loadID: string) => import('wuchale/runtime').Runtime
+(loadID: string) => import('wuchale/runtime').CatalogModule | null | undefined
 ```
 
 The transformed modules then import that, call it with their
-[`loadID`](/concepts/catalogs/#loadid) and expect a `Runtime` object. To be
-specific, the top of the transformed modules will be like this:
+[`loadID`](/concepts/catalogs/#loadid) and expect a `CatalogModule` object. To
+be specific, the top of the transformed modules will be like this:
 
 ```js
+import _w_to_rt_ from 'wuchale/runtime'
 import _w_load_ from "../path/to/loader.js"
-const _w_runtime_ = _w_load_('load_id')
+const _w_runtime_ = _w_to_rt_(_w_load_('key'))
 ```
 
 This is done synchronously. That means, the loader has to have the catalogs
 loaded beforehand or have a reactive mechanism to update them after they are
-returned (for example, the svelte loader does this). Also, the loader has to
-know beforehand the `loadID`s that will be requested to prepare the catalogs.
+returned. Also, the loader has to know beforehand the `loadID`s that will be
+requested to prepare the catalogs.
 
-The `Runtime` is a tiny wrapper class (whole implementation in just [57
-lines](https://github.com/wuchalejs/wuchale/blob/main/packages/wuchale/src/runtime.ts))
-for the compiled catalogs that makes it ready to access by the transformed
-modules. It accepts a [compiled catalog](/concepts/catalogs#compiled-catalogs)
-or `undefined` if none is available.
+If the loader returns `null` | `undefined` then the catalog is assumed not
+ready and [placeholders](/guides/placeholders) are shown instead of the
+messages.
+
+To give you an idea, this is what the loader file has to do.
 
 ```js
-import { Runtime } from 'wuchale/runtime'
+// prepare/load the catalog
+const catalogModule = {c: ['Hello'], p: n => n == 1 ? 0 : 1}
 
-const rt = new Runtime({c: ['Hello'], p: n => n == 1 ? 0 : 1})
-// get the one at index 0
-rt.t(0) // -> returns 'Hello'
-
-// or when there is no compiled catalog
-const rt = new Runtime()
+export default loadID => {
+    return catalogModule
+}
 ```
-
-When it has no data, it returns something like `[i18n-404:0]` to indicate that
-there is nothing at that index.
 
 Now the loaders are in control of what to provide to the transformed modules.
 This makes the loader files in charge of what the transformed modules receive.
 Moreover, the transformed modules only need the data, nothing else.
 
-How the loaders load the actual compiled catalogs is then completely in your
-control.
+How the loaders load the actual catalog modules is then completely in your
+control. But infrastructure is provided to help you with that.
 
 ## What loaders have access to
 
 ### Compiled catalogs
 
-Of course, the main thing the loaders need is the compiled catalogs. The compiled catalogs are provided in two forms:
+Of course, the main thing the loaders need is the catalog modules. They are
+provided in two forms:
 
 - **When using Vite**:
 
@@ -109,12 +106,11 @@ Now you can import (load) them in two ways:
     }
     ```
 
-And now using these, you can return suitable `Runtime` objects. Assuming two
+And now using these, you can return suitable catalog modules. Assuming two
 `loadID`s (`main` and `other`):
 
 ```js
 // src/locales/loader.js
-import { Runtime } from 'wuchale/runtime'
 import * as enMain from 'virtual:wuchale/catalog/main/main/en'
 import * as esMain from 'virtual:wuchale/catalog/main/main/es'
 import * as enOther from 'virtual:wuchale/catalog/main/other/en'
@@ -133,7 +129,7 @@ const catalogs = {
     },
 }
 
-export default loadID => new Runtime(catalogs[loadID]?.[locale])
+export default loadID => catalogs[loadID]?.[locale]
 ```
 
 ### Proxies
@@ -162,7 +158,7 @@ provide the `loadID`s and a function to load the catalogs. For each loader,
 
 What they provide is the same (only different in being asynchronous).
 
-- A function to load a compiled catalog already in `Runtime`, given the `loadID` and the locale:
+- A function to load a catalog module, given the `loadID` and the locale:
     - Synchronous
         ```ts
         export function loadCatalog(loadID: string, locale: string): import('wuchale/runtime').CatalogModule
@@ -191,7 +187,6 @@ Now, the above loader can be simplified, and generalized, to:
 
 ```js
 // src/locales/loader.js
-import { Runtime } from 'wuchale/runtime'
 import { loadCatalog, loadIDs } from 'virtual:wuchale/proxy/sync'
 
 let locale = 'en' // maybe controlled by state
@@ -201,11 +196,11 @@ const catalogs = {}
 for (const loadID of loadIDs) {
     catalogs[loadID] = catalogs[loadID] ?? {}
     for (const locale of locales) {
-        catalogs[loadID][locale] = loadCatalog(loadID, locale) // already in Runtime
+        catalogs[loadID][locale] = loadCatalog(loadID, locale)
     }
 }
 
-export default loadID => catalogs[loadID]?.[locale] ?? new Runtime()
+export default loadID => catalogs[loadID]?.[locale]
 ```
 
 Now this can work for any number of `loadID`s and you don't have to keep track
@@ -241,18 +236,21 @@ transformed modules so it can be directly exported as `default`.
 This is actually the default loader content for the vanilla adapter.
 :::
 
-The next step is to set the locale. It can be done anywhere you want.
+The next step is to set the locale. It can be done anywhere you want. But you
+have to import the loader so that the loader function is registered.
 
 ```js
 import { loadLocale } from 'wuchale/load-utils'
+import '../path/to/loader.js' // make sure it's registered
 
 // ...
 await loadLocale(locale)
 // ...
 ```
 
-It uses `await` although it is synchronous. This is to make it usable in both
-cases.
+:::tip
+There is also `loadLocaleSync` from `wuchale/load-utils` if you use synchronous loaders.
+:::
 
 ### On the server
 
@@ -276,8 +274,8 @@ import { loadLocales } from 'wuchale/load-utils/server'
 export default await loadLocales(key, loadIDs, loadCatalog, ['en', 'es'])
 ```
 
-Then when we want to process a request, we wrap the request processing with a
-locale setup:
+Then when processing a request, wrap the request processing with a locale
+setup:
 
 ```js
 import { runWithLocale } from 'wuchale/load-utils/server'
@@ -304,7 +302,7 @@ const catalogs = await loadCatalogs(locale, loadIDs, loadCatalog)
 ```
 
 Then `catalogs` becomes an object with the `loadID`s as the keys and loaded
-`Runtime` objects as values. This is how the `sveltekit` example works.
+`CatalogModule` objects as values. This is how the `sveltekit` example works.
 
 ## Recommendations
 
@@ -313,9 +311,9 @@ use when. That depends on some factors.
 
 ### Client
 
-For an application that contains a relatively small number of messages as a whole,
-a single adapter without `granularLoad` is sufficient. For a large application,
-there are multiple methods to manage it:
+For an application that contains a relatively small number of messages as a
+whole, a single adapter without `granularLoad` (i.e. the default config) is
+sufficient. For a large application, there are multiple methods to manage it:
 
 #### Multiple adapter configurations
 
@@ -361,9 +359,10 @@ export default defineConfig({
 })
 ```
 
-This uses a single adapter but the compiled catalogs are broken into small
-parts on a per-file basis by default (unless a custom `generateLoadID` is
-given).
+This uses a single adapter but the catalog modules are broken into small
+parts on a per-file basis by default (unless a custom
+[`generateLoadID`](/reference/adapter-common#generateloadid) is given which may
+selectively decide to make multiple files share the same catalog).
 
 This is useful when there are large numbers of messages in individual files. It
 would not make sense making them share the same catalogs because the resulting
