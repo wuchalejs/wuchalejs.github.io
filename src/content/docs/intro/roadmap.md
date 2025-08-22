@@ -5,6 +5,12 @@ title: Roadmap
 These are not concrete goals set in stone. They are subject to change based on
 circumstances and feedback. And feedback is welcome.
 
+## [`Intl.MessageFormat`](https://formatjs.github.io/docs/intl-messageformat/)
+
+`wuchale` already supports Gettext style pluralization. But this will bring
+full localization (l10n) support for genders, currencies, dates, etc along
+with ICU style pluralization. It will be an optional feature.
+
 ## Additional support
 
 `wuchale` already has three adapters: the Vanilla, JSX and Svelte adapters,
