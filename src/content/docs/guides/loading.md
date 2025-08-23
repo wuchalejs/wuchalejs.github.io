@@ -60,6 +60,29 @@ Moreover, the transformed modules only need the data, nothing else.
 How the loaders load the actual catalog modules is then completely in your
 control. But infrastructure is provided to help you with that.
 
+## `bundleLoad` config
+
+It is important to mention that if you use
+[`bundleLoad`](/reference/adapter-common/#bundleload), then you don't have to
+deal with anything below.
+
+Instead of the `loadID`, the loader function will receive an object with the
+locales as keys and catalog modules as objects, and you just have to do the
+simple selection and return in your loader file.
+
+```js
+// any state store for the locale
+let locale = 'en'
+
+export default (catalogs) => catalogs[locale]
+```
+
+That's all. Because the importing files will just directly import the catalog
+modules and prepare the object before calling the loader function. They just
+need to know which one to use. While this makes the whole setup simple, it
+inflates the bundle size as it imports the catalogs for *all locales* even
+though only one is needed by the user.
+
 ## What loaders have access to
 
 ### Compiled catalogs
