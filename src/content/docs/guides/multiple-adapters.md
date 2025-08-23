@@ -68,9 +68,10 @@ Let's say you have a complicated SvelteKit application and want to have four ada
 1. `single`: for the home route *and* a sub route where there will be a form
 1. `granularLoad`: for a sub route where you have lots of text per file and you want to avoid having to download the whole catalog for the sub route and instead only for the page, dividing the compiled catalogs, and loading them in an async way you set up, but also have some of the files share a compiled catalog
 1. `granularLoadBundle`: For a sub route where you want to divide the compiled catalogs per file but just bundle all catalogs for each file with the file to avoid separate network calls
-1. `server`: For the backend code which will run outside of Vite and so will have to output the transformed code into another mirror directory (Like `dist` in TypeScript) and run from there.
+1. `server`: For the backend code which will run outside of Vite and so will not have access to virtual modules, and has to import from the file system, so the compiled catalogs and proxy should be written to disk.
 
-And as a requirement, you want to make the `single` and `server` adapters share the same catalogs.
+And as an additional requirement, you want to make the `single` and `server`
+adapters share the same catalogs.
 
 Then the configuration will look like this:
 
