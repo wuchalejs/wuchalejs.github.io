@@ -25,6 +25,15 @@ The catalog is a place where the locales are created. This option value is
 taken as a template to decide the file names. `{locale}` will be substituted
 for each specific locale (and by `proxy` for the proxy file).
 
+## `loaderPath`
+
+**type**: `string`
+**default**: `[catalog option]loader[loader extension]`
+
+This option controls the location of the loader file. As each adapter specified
+in the configuration should have a different loader file, you should specify
+this if you share the `catalog` option among different adapters.
+
 ## `files`
 **type**: [`GlobConf`](#globconf)
 **default**: (depends on adapter)
@@ -138,8 +147,8 @@ every special character by `_`.
 In some cases, avoiding async loading and directly importing the catalogs by
 the code that uses them may be desired. This is how Paraglide works. However,
 it is not recommended as all catalogs then get bundled with the code that uses
-them even though only one is required by the user. This can inflate the bundle
-size. But if this is desired anyway, it can be enabled here.
+them even though only one for a single locale is required by the user. This can
+inflate the bundle size. But if this is desired anyway, it can be enabled here.
 
 ## `writeFiles.compiled`
 **type**: `boolean`
