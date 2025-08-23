@@ -1,5 +1,6 @@
 ---
 title: Roadmap
+description: Explore wuchale's development roadmap - upcoming ICU/Intl.MessageFormat support, backend language extraction for Go & Python, Next.js adapter, and LSP tooling.
 ---
 
 These are not concrete goals set in stone. They are subject to change based on

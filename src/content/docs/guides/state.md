@@ -1,5 +1,6 @@
 ---
 title: Locale state store
+description: Manage active locales in wuchale using URL path parameters, search parameters, or global state. Learn best practices for SSR and client-side reactivity.
 ---
 
 You can track the state of which locale is currently active anyway you prefer.

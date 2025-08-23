@@ -1,5 +1,6 @@
 ---
 title: Multiple adapters
+description: Learn how to configure multiple adapters in wuchale to manage large applications, partition catalogs, and handle different parts of your codebase with specific adapters.
 ---
 
 Sometimes one adapter is not enough for either or both of the following

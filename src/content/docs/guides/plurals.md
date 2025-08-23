@@ -1,5 +1,6 @@
 ---
 title: Pluralization
+description: Implement pluralization in wuchale - define a reusable function to select the correct message based on number, integrate locale-specific rules, and handle translations seamlessly.
 ---
 
 Plurals are also elegantly handled when using `wuchale`. You still don't write

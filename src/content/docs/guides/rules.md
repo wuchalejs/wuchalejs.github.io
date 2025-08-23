@@ -1,5 +1,6 @@
 ---
 title: Extraction rules
+description: Configure wuchale's extraction rules - customize heuristics for markup, attributes, and scripts, and use comment directives like @wc-ignore or @wc-include for precise control.
 ---
 
 `wuchale` doesn't force you to only use the predefined extraction rules. Those

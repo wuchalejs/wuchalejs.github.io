@@ -1,5 +1,6 @@
 ---
 title: Gemini live translation
+description: Integrate Gemini with wuchale for live on-the-fly translations during development or CLI usage. Optimize API usage with request queuing and prevent redundant translations.
 ---
 
 `wuchale` can use Gemini to translate messages on-the-fly, during development or

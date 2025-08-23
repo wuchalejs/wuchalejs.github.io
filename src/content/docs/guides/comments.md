@@ -1,5 +1,6 @@
 ---
 title: Comment directives
+description: Learn to control wuchale's translation extraction with comment directives - @wc-ignore, @wc-include, and @wc-context for precise message handling.
 ---
 
 To control some aspects of the extraction process, you can use comments and

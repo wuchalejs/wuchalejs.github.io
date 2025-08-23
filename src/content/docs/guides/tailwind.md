@@ -1,5 +1,6 @@
 ---
 title: Tailwind CSS
+description: Optimize wuchale with Tailwind CSS - prevent full page reloads during translation updates by excluding the locales directory from Tailwind's purging process.
 ---
 
 During development, `wuchale` writes the changes to the translation catalog

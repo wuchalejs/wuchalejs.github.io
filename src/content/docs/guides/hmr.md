@@ -1,5 +1,6 @@
 ---
 title: HMR
+description: Leverage wuchale's Vite HMR integration for efficient translation updates - minimize reloads, preserve state, and enable live translations during development.
 ---
 
 With how wuchale works, a single catalog is often shared between multiple

@@ -1,5 +1,6 @@
 ---
 title: Why wuchale?
+description: No extra syntax, tiny catalogs, HMR with AI-assist — why choose wuchale for i18n - integrates naturally into your existing code, keeps dependencies minimal, and delivers blazing performance.
 ---
 
 ## No extra syntax

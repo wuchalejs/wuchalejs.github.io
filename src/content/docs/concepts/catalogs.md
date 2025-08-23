@@ -1,5 +1,6 @@
 ---
 title: Catalogs
+description: Explore wuchale's catalog system - from .po files containing extracted messages to compiled JavaScript modules for efficient runtime use, with support for granular loading and custom loadIDs.
 ---
 
 A catalog is a structured collection of the extracted messages. First, as soon as

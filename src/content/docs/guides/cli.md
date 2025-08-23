@@ -1,5 +1,6 @@
 ---
 title: CLI
+description: wuchale CLI guide - use npx wuchale, initialize your project, extract and manage translation catalogs, check status—perfect for Vite-free or server-only workflows.
 ---
 
 `wuchale` provides a CLI from the package `wuchale`. The CLI can be invoked directly:

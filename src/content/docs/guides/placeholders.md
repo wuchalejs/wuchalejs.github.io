@@ -1,5 +1,6 @@
 ---
 title: Placeholders
+description: Implement placeholders in wuchale for client-side rendering - display fallback messages until translation catalogs load, enhancing user experience during async operations.
 ---
 
 If you are developing for client side rendering, and are using async loading

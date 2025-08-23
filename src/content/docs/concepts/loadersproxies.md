@@ -1,5 +1,6 @@
 ---
 title: Loaders and proxies
+description: Learn how wuchale's loaders and proxies manage translation catalogs - from virtual modules and compiled files to custom loading strategies, ensuring efficient internationalization.
 ---
 
 When you run `npx wuchale init`, a loader file is created along with the

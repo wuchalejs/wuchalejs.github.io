@@ -1,6 +1,6 @@
 ---
 title: Loading catalogs
-description: Tutorial about loading catalogs
+description: Master catalog loading in wuchale - configure loaders, utilize proxies, and implement client/server utilities for efficient internationalization in your app.
 ---
 
 When it comes to loading catalogs, `wuchale` doesn't restrict you to only use

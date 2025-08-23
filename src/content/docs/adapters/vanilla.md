@@ -1,5 +1,6 @@
 ---
 title: Vanilla
+description: Integrate wuchale with plain JavaScript/TypeScript - extract translations from function-based messages, manage locale catalogs, and implement efficient loading strategies without Vite.
 ---
 
 Import | `import { adapter } from "wuchale/adapter-vanilla"`

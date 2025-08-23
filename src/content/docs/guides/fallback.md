@@ -1,5 +1,6 @@
 ---
 title: Fallback
+description: Ensure users see fallback translations in wuchale - default to source messages when translations are missing, avoiding empty or placeholder text.
 ---
 
 Often, translations lag behind the source code. And it is necessary to make sure

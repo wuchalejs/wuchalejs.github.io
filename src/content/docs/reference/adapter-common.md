@@ -1,5 +1,6 @@
 ---
 title: Common adapter options
+description: Explore wuchale's common adapter options - configure catalog paths, file extraction patterns, pluralization functions, heuristics, and granular loading strategies for efficient internationalization.
 ---
 
 These are the configuration options that are common across adapters. The

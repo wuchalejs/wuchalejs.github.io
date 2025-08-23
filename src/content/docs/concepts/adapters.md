@@ -1,5 +1,6 @@
 ---
 title: Adapters
+description: Understand wuchale adapters - partition translation catalogs, apply custom extraction rules, and support multiple frameworks like JSX, Svelte, and Vanilla JS in your project.
 ---
 
 `wuchale` is designed to work in different codebases which may use different

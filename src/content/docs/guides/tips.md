@@ -1,5 +1,6 @@
 ---
 title: Useful tips
+description: Enhance your wuchale setup - use Intl.DisplayNames for localized language names and define constants for event keys to prevent accidental extraction.
 ---
 
 ## Language names

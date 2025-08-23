@@ -1,5 +1,6 @@
 ---
 title: Configuration Reference
+description: Configure wuchale with wuchale.config.js - set source and target locales, choose adapters, enable HMR, and integrate Gemini live translation for efficient i18n workflows.
 ---
 
 ## Main configuration
