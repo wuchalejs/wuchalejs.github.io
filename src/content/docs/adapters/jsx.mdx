@@ -1,0 +1,145 @@
+---
+title: JSX
+description: Docs for the JSX adapter
+---
+
+Import | `import { adapter } from "@wuchale/jsx"`
+-|-
+Loader extensions | `.js`, `.ts`
+Default `files` | `src/**/*.{jsx,tsx}`
+Compatibility | Tested with React >= 19 and SolidJS >= 1.9. Can work with any JSX.
+
+The JSX adapter implements support for any JSX based framework.
+Framework-specific differences are just on the default loader and the nested
+messages handler component (implementation detail). For those, there is already
+support for React (and by extension Preact) and SolidJS.
+
+## Setup in Your App
+
+This is assuming that you didn't modify the default loader files.
+
+And there are two approaches for client side apps:
+
+- Showing a loader until the catalog is loaded and then rendering the components. This avoids flickering of messages from placeholders to actual messages when the catalog loads but has the disadvantage
+
+### React
+
+You can use one of the two approaches mentioned in [placeholders](/guides/placeholders).
+
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+<Tabs>
+    <TabItem label="Loading message">
+        ```jsx
+        // src/App.jsx
+        import { useEffect, useState } from 'react'
+        import './App.css'
+        import { loadLocale } from 'wuchale/load-utils'
+
+        function App() {
+            const [locale, setLocale] = useState('en')
+            const [loaded, setLoaded] = useState(false)
+            useEffect(() => {
+                setLoaded(false)
+                loadLocale(locale).then(() => setLoaded(true))
+            }, [locale])
+            if (!loaded) {
+                // @wc-ignore
+                return 'Loading translations...'
+            }
+            return (
+                {/* Your JSX */}
+            )
+        }
+        ```
+    </TabItem>
+    <TabItem label="Placeholder messages">
+        ```jsx
+        // src/App.jsx
+        import { useEffect, useState } from 'react'
+        import './App.css'
+        import { loadLocale } from 'wuchale/load-utils'
+
+        function App() {
+            const [locale, setLocale] = useState('en')
+
+            useEffect(() => {
+                loadLocale(locale)
+            }, [locale])
+
+            return (
+                {/* Your JSX */}
+            )
+        }
+        ```
+    </TabItem>
+</Tabs>
+
+
+### SolidJS
+
+<Tabs>
+    <TabItem label="Loader">
+        ```jsx
+        // src/App.jsx
+        import { createEffect, createSignal, Show } from 'solid-js';
+        import { loadLocale } from 'wuchale/load-utils'
+
+        import styles from './App.module.css';
+
+        const App = () => {
+            const [locale, setLocale] = createSignal('en')
+            const [loaded, setLoaded] = createSignal(false)
+            createEffect(() => {
+                setLoaded(false)
+                loadLocale(locale()).then(() => setLoaded(true))
+            })
+            return (
+                <Show when={loaded()} fallback={/* @wc-ignore */ 'Loading translations...'}>
+                    {/* Your JSX */}
+                </Show>
+            );
+        };
+        ```
+    </TabItem>
+    <TabItem label="Placeholder messages">
+        ```jsx
+        // src/App.jsx
+        import { createEffect, createSignal } from 'solid-js';
+        import { loadLocale } from 'wuchale/load-utils'
+
+        import styles from './App.module.css';
+
+        const App = () => {
+            const [locale, setLocale] = createSignal('en')
+            createEffect(() => {
+                loadLocale(locale())
+            })
+            return (
+                {/* Your JSX */}
+            );
+        };
+        ```
+    </TabItem>
+</Tabs>
+
+## Default extraction rules
+
+This adapter only uses the [default rules](/guides/rules) and has no additional restrictions.
+
+## Configuration Reference
+
+For the main configuration, look in the [configuration reference](/reference/config).
+
+For the common adapter configuration, look in the [common adapter options](/reference/adapter-common/).
+
+### `variant`
+
+**type**: `"default" | "solidjs"`
+**default**: `default`
+
+The library you intend to use it with. This affects small differences like the
+component used to handle nested messages. It was necessary as SolidJS has a
+different behaviour for handling loops in JSX. Buf if you don't use SolidJS,
+using `default` should do the job as it is not tied to a framework, it just
+uses an array map.

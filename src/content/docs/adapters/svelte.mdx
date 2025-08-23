@@ -18,62 +18,49 @@ first.
 
 ### Svelte (SPA)
 
-You can use two approaches.
+You can use one of the two approaches mentioned in [placeholders](/guides/placeholders).
 
-#### Showing a loader until the catalog is loaded
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
-This is when you would like to show nothing until all catalogs are loaded and
-then render after that.
+<Tabs>
+    <TabItem label="Loading message">
+        ```svelte
+        <!-- src/App.svelte -->
+        <script>
+          import { loadLocale } from 'wuchale/load-utils'
+          // so that the loaders are registered first
+          import './locales/loader.svelte.js'
+          // you can use any state from anywhere for the locale
+          let locale = $state('en')
+        </script>
 
-```svelte
-<!-- src/App.svelte -->
-<script>
-  import { loadLocale } from 'wuchale/load-utils'
-  // so that the loaders are registered first
-  import './locales/loader.svelte.js'
-  // you can use any state from anywhere for the locale
-  let locale = $state('en')
-</script>
+        {#await loadLocale(locale)}
+            <!-- Ignored because it is rendered before the catalog is loaded -->
+            <!-- @wc-ignore -->
+            Loading translations...
+        {:then}
+            <!-- Your app content -->
+        {/await}
+        ```
+    </TabItem>
+    <TabItem label="Placeholder messages">
+        ```svelte
+        <!-- src/App.svelte -->
+        <script>
+          import { loadLocale } from 'wuchale/load-utils'
+          // so that the loaders are registered first
+          import './locales/loader.svelte.js'
+          // you can use any state from anywhere for the locale
+          let locale = $state('en')
+          $effect(() => {
+              loadLocale(locale)
+          })
+        </script>
 
-{#await loadLocale(locale)}
-    <!-- Ignored because it is rendered before the catalog is loaded -->
-    <!-- @wc-ignore -->
-    Loading translations...
-{:then}
-    <!-- Your app content -->
-{/await}
-```
-
-It has the advantage that the interface has a clearly visible succession of
-states. The disadvantage is that if you have lazy loaded components, they only
-start loading after the catalog has finished loading, not in parallel. The
-catalogs are compact so this may not be a problem in most cases.
-
-#### Placeholder text until catalogs load
-
-This is when you just want to render some placeholder text (or nothing at all)
-in place of the messages, and once the catalog is loaded, update the texts.
-
-```svelte
-<!-- src/App.svelte -->
-<script>
-  import { loadLocale } from 'wuchale/load-utils'
-  // so that the loaders are registered first
-  import './locales/loader.svelte.js'
-  // you can use any state from anywhere for the locale
-  let locale = $state('en')
-  $effect(() => {
-      loadLocale(locale)
-  })
-</script>
-
-<!-- Your app content -->
-```
-
-The advantage is that your other network calls don't have to wait until the
-catalogs are loaded. And until the catalogs are loaded,
-[placeholders](/guides/placeholders) are shown instead, which are replaced once
-the catalog loads.
+        <!-- Your app content -->
+        ```
+    </TabItem>
+</Tabs>
 
 ### SvelteKit (SSR/SSG)
 

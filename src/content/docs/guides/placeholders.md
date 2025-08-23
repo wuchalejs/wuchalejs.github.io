@@ -2,10 +2,34 @@
 title: Placeholders
 ---
 
-If you are developing for client side rendering and would like to avoid waiting
-for the catalogs to load before you show the interface, and instead render the
-interface right away and update it once the catalogs are ready, you can show
-placeholders in place of the texts.
+If you are developing for client side rendering, and are using async loading
+insiead of [`bundleLoad`](/reference/adapter-common/#bundleload), there are two
+ways of showing the messages:
+
+1. **Loading message**: Showing a loading indicator message instead of the
+   components until the catalogs load, and then rendering the components. This
+makes sure that the interface has a clear succession of states and doesn't
+cause any flicker. The drawback is that if you use lazy-loaded components or
+requests inside components, since they will not be rendered until the catalogs
+load, their requests only start *after* the requests for the catalogs ends, not
+in parallel. Depending on your case, this may not be desirable.
+
+1. **Placeholder messages**: Rendering all components right away, in which case
+   `wuchale`'s runtime will show configurable placeholders instead of the
+messages until the catalogs are loaded and then updates them once they are.
+This allows parallel execution of other requests and can make the app feel
+faster. The disadvantage is that it may be undesirable to update the messages
+after they are rendered.
+
+If you choose the latter, you can customize the placeholders shown until
+the catalogs are loaded.
+
+:::note
+To use this, you have to use the framework's reactivity model for the
+catalogs inside the loader file. Basically, what the loaders return should be
+reactive to locale changes. If you don't modify them, the default loaders are
+designed to be that way.
+:::
 
 If you return `undefined` or `null` from the default export function in the
 loader file, `wuchale` treats it as the catalog not being ready and it will
