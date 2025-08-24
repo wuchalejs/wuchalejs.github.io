@@ -13,18 +13,18 @@ import Python from './python/index.astro'
 import Go from './go/index.astro'
 
 const supported = [
-    {icon: 'react', name: 'React'},
-    {icon: 'preact', name: 'Preact'},
-    {icon: 'solid', name: 'SolidJS'},
-    {icon: 'svelte', name: 'Svelte'},
-    {icon: 'js', name: 'JavaScript'},
-    {icon: 'ts', name: 'TypeScript'},
-    {icon: 'python', name: 'Python*', future: true},
-    {icon: 'go', name: 'Golang*', future: true},
+	{icon: 'react', name: 'React', color: '#00D8FF'},
+	{icon: 'preact', name: 'Preact', color: '#673ab8'},
+	{icon: 'solid', name: 'SolidJS', color: '#76B3E1'},
+	{icon: 'svelte', name: 'Svelte', color: '#FF3E00'},
+	{icon: 'js', name: 'JavaScript', color: '#F7DF1E'},
+	{icon: 'ts', name: 'TypeScript', color: '#3178C6'},
+	{icon: 'python', name: 'Python*', color: '#327EBD', future: true},
+	{icon: 'go', name: 'Golang*', color: '#00ACD7', future: true},
 ]
 const active = 'react'
-const inactiveSty = 'filter: grayscale(1)'
-const futureSty = 'filter: grayscale(0.8)'
+const inactiveSty = 'filter: grayscale(.7)'
+const futureSty = 'filter: grayscale(1)'
 ---
 
 <div
@@ -34,16 +34,16 @@ const futureSty = 'filter: grayscale(0.8)'
     data-futuresty={futureSty}
     data-active={active}
 >
-    {supported.map(({name, icon, future}) => 
+	{supported.map(({name, icon, future, color}) => 
         <div class="item">
-            <div class="imgContainer">
+			<div class="imgContainer" style={icon === active && `border-color: ${color}`}>
                 <img
-                    style={icon === active ? (future ? futureSty: null) : inactiveSty}
+                    style={future ? futureSty : icon === active ? null : inactiveSty}
                     alt={`${name} Logo`}
                     src={`/images/${icon}.svg`}
                 />
             </div>
-            <span>{name}</span>
+			<span style={icon === active && `color: ${color}`}>{name}</span>
         </div>
     )}
 </div>
@@ -98,9 +98,15 @@ const translations = document.querySelector('.translations-container')
 for (const [i, item] of Array.from(entries).entries()) {
     item.addEventListener('click', () => {
         for (const [j, itm] of Array.from(entries).entries()) {
-            const img = itm.children[0].children[0]
+			const imgContainer = itm.children[0]
+            const img = imgContainer.children[0]
+			const name = itm.children[1]
             if (i !== j) {
-                img.style = data.inactivesty
+				imgContainer.style = null
+				name.style = null
+				if (!supported[j].future) {
+					img.style = data.inactivesty
+				}
                 codes[j].style.display = 'none'
                 continue
             }
@@ -112,6 +118,8 @@ for (const [i, item] of Array.from(entries).entries()) {
 				translations.style = null
             }
             codes[i].style = null
+			imgContainer.style.borderColor = supported[i].color
+			name.style.color = supported[i].color
         }
     })
 }
@@ -137,7 +145,7 @@ for (const [i, item] of Array.from(entries).entries()) {
         align-items: center;
         justify-content: center;
         border-radius: 50%;
-        border: 1px solid grey;
+        border: .1em solid grey;
     }
     img {
         width: 50%;
