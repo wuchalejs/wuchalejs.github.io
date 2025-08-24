@@ -259,8 +259,41 @@ transformed modules so it can be directly exported as `default`.
 This is actually the default loader content for the vanilla adapter.
 :::
 
-The next step is to set the locale. It can be done anywhere you want. But you
-have to import the loader so that the loader function is registered.
+`registerLoaders` takes an optional fourth argument, a `CatalogCollection` object:
+
+```ts
+type CatalogCollection = {
+    get: (loadID: string) => CatalogModule
+    set: (loadID: string, catalog: CatalogModule) => void
+}
+```
+
+Every time a new catalog is loaded, the `set` function will be called and it's
+up to the collection object how it is stored. And every time a catalog is
+requested, the `get` method will be used, so the collection can return the
+catalog from where it stored it. This is created to allow integrating the
+locale changes with the reactivity of the framework.
+
+Additionally, if the framework supports reactive objects like proxies (e.g.
+Svelte), there is a function provided from `load-utils` called
+`defaultCollection` that can produce a collection object from a state object.
+You can use it like this (example in Svelte):
+
+```js
+import { loadCatalog, loadIDs, key } from 'virtual:wuchale/proxy'
+import { registerLoaders, defaultCollection } from 'wuchale/load-utils'
+
+const catalogs = $state({})
+
+export default registerLoaders(key, loadCatalog, loadIDs, defaultCollection(catalogs))
+```
+
+:::tip
+And this is the content of the default Svelte loader.
+:::
+
+Now the final step is to set the locale. It can be done anywhere you want. But
+you have to import the loader so that the loader function is registered.
 
 ```js
 import { loadLocale } from 'wuchale/load-utils'
