@@ -20,6 +20,7 @@ hero:
 ---
 
 import { Card, CardGrid, Tabs, TabItem, LinkButton } from '@astrojs/starlight/components';
+import Supported from './landing-supported/index.astro'
 
 <CardGrid stagger>
 	<Card title="Write plain code" icon="pencil">
@@ -74,38 +75,23 @@ import { Card, CardGrid, Tabs, TabItem, LinkButton } from '@astrojs/starlight/co
 	</Card>
 </CardGrid>
 
-## Adapters for your favorite languages and frameworks!
+## Works with your stack!
 
-<CardGrid>
-    {[
-        {
-            name: 'Vanilla',
-            supports: [{icon: 'js', name: 'JavaScript'}, {icon: 'ts', name: 'TypeScript'}],
-        },
-        {
-            name: 'JSX',
-            supports: [{icon: 'react', name: 'React'}, {icon: 'preact', name: 'Preact'}, {icon: 'solid', name: 'SolidJS'}],
-        },
-        {
-            name: 'Svelte',
-            supports: [{icon: 'svelte', name: 'Svelte and SvelteKit'}],
-        },
-        {
-            name: 'Backend languages coming soon!',
-            future: true,
-            supports: [{icon: 'python', name: 'Python'}, {icon: 'go', name: 'Golang'}],
-        },
-    ].map(({name, supports, future}) => <Card title={name}>
-        {supports.map(({name, icon}) => <div style="display:inline-flex;flex-wrap:wrap; align-items: center">
-            <img
-                style={`width:5em; margin:1em; ${future ? 'filter: grayscale(0.9)' : ''}`}
-                alt={`${name} Logo`}
-                src={`/images/${icon}.svg`}
-            />
-            <span style="font-size:120%">{name}</span>
-        </div>)}
-    </Card>)}
-</CardGrid>
+<Supported />
 
-<LinkButton href="/intro/start">Get started</LinkButton>
-<LinkButton href="/intro/why" variant="secondary">Learn why</LinkButton>
+<LinkButton href="/intro/why" variant="secondary">Explore the benefits</LinkButton>
+
+## Already used in the real world
+
+<div style="display:flex; justify-content: center;">
+	<a href="https://github.com/AlchemillaHQ/Sylve" style="display:flex; flex-direction: column; align-items: center">
+		<img
+			style="width:6em"
+			src="https://raw.githubusercontent.com/AlchemillaHQ/Sylve/refs/heads/master/web/static/logo/black.svg"
+			alt="Sylve"
+		/>
+		<span>AlchemillaHQ/Sylve</span>
+	</a>
+</div>
+
+<p>Do you also use it in your project? Let us know!</p>

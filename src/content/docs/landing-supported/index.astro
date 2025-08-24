@@ -1,0 +1,155 @@
+---
+import { Code, CardGrid, Tabs, TabItem, LinkButton } from '@astrojs/starlight/components';
+import enPO from './en.po?raw'
+import esPO from './es.po?raw'
+import enCompiled from './en.compiled.js?raw'
+import esCompiled from './es.compiled.js?raw'
+import React from './react/index.astro'
+import Preact from './react/index.astro'
+import Js from './js/index.astro'
+import Ts from './ts/index.astro'
+import Svelte from './svelte/index.astro'
+import Python from './python/index.astro'
+import Go from './go/index.astro'
+
+const supported = [
+    {icon: 'react', name: 'React'},
+    {icon: 'preact', name: 'Preact'},
+    {icon: 'solid', name: 'SolidJS'},
+    {icon: 'svelte', name: 'Svelte'},
+    {icon: 'js', name: 'JavaScript'},
+    {icon: 'ts', name: 'TypeScript'},
+    {icon: 'python', name: 'Python*', future: true},
+    {icon: 'go', name: 'Golang*', future: true},
+]
+const active = 'react'
+const inactiveSty = 'filter: grayscale(1)'
+const futureSty = 'filter: grayscale(0.8)'
+---
+
+<div
+    class="container"
+    data-supported={JSON.stringify(supported)}
+    data-inactivesty={inactiveSty}
+    data-futuresty={futureSty}
+    data-active={active}
+>
+    {supported.map(({name, icon, future}) => 
+        <div class="item">
+            <div class="imgContainer">
+                <img
+                    style={icon === active ? (future ? futureSty: null) : inactiveSty}
+                    alt={`${name} Logo`}
+                    src={`/images/${icon}.svg`}
+                />
+            </div>
+            <span>{name}</span>
+        </div>
+    )}
+</div>
+
+{[
+    ['js', <Js />],
+    ['ts', <Ts />],
+    ['react', <React />],
+    ['preact', <React />],
+    ['solid', <React />],
+    ['svelte', <Svelte />],
+    ['python', <Python />],
+    ['go', <Go />],
+].map(([name, component]) => <div style={name !== active ? 'display: none' : ''} class={`code-${name}`}>{component}</div>)}
+
+<div class="translations-container">
+	<Tabs>
+		<TabItem label="English">
+			<div class="translations">
+				<div>
+					<Code code={enPO} lang="po" title="en.po" />
+				</div>
+				<div>
+					<Code code={enCompiled} lang="js" title="en.compiled.js" />
+				</div>
+			</div>
+		</TabItem>
+		<TabItem label="Spanish">
+			<div class="translations">
+				<div>
+					<Code code={esPO} lang="po" title="es.po" />
+				</div>
+				<div>
+					<Code code={esCompiled} lang="js" title="es.compiled.js" />
+				</div>
+			</div>
+		</TabItem>
+	</Tabs>
+</div>
+
+<script>
+const container = document.querySelector('.container')
+const data = container.dataset
+const supported = JSON.parse(data.supported)
+const entries = container.children
+const codes = supported.map(s => document.querySelector(`.code-${s.icon}`))
+const translations = document.querySelector('.translations-container')
+
+for (const [i, item] of Array.from(entries).entries()) {
+    item.addEventListener('click', () => {
+        for (const [j, itm] of Array.from(entries).entries()) {
+            const img = itm.children[0].children[0]
+            if (i !== j) {
+                img.style = data.inactivesty
+                codes[j].style.display = 'none'
+                continue
+            }
+            if (supported[i].future) {
+                img.style = data.futuresty
+				translations.style = data.futuresty
+            } else {
+                img.style = null
+				translations.style = null
+            }
+            codes[i].style = null
+        }
+    })
+}
+</script>
+
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+    }
+    .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 1em;
+        cursor: pointer;
+    }
+    .imgContainer {
+        width: 6em;
+        height: 6em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: 1px solid grey;
+    }
+    img {
+        width: 50%;
+        margin: 1em;
+    }
+
+    .translations {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .translations div {
+        margin: 0;
+        flex-grow: 1;
+    }
+</style>
