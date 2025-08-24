@@ -1,8 +1,8 @@
 msgid "Hello!"
 msgstr "¡Hola!"
 
-msgid "Welcome to {0}, {1}!!"
-msgstr "¡Bienvenido a {0}, {1}!"
+msgid "Welcome {0}!!"
+msgstr "¡Bienvenido {0}!"
 
-msgid "Welcome message"
-msgstr "Mensaje de bienvenida"
+msgid "Welcome"
+msgstr "Bienvenido"

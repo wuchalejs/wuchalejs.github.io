@@ -1,9 +1,12 @@
-const appName = "The app"
+// comment
+
+
 
 export function Greeting(props) {
+
 	return {
 		greeting: `Hello`,
-		title: 'Welcome message',
-		message: `Welcome to ${appName}, ${props.username}!`,
+		title: 'Welcome',
+		message: `Welcome ${props.username}!`,
 	}
 }

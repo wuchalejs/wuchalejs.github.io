@@ -49,15 +49,18 @@ const futureSty = 'filter: grayscale(0.8)'
 </div>
 
 {[
-    ['js', <Js />],
-    ['ts', <Ts />],
-    ['react', <React />],
-    ['preact', <React />],
-    ['solid', <React />],
-    ['svelte', <Svelte />],
-    ['python', <Python />],
-    ['go', <Go />],
-].map(([name, component]) => <div style={name !== active ? 'display: none' : ''} class={`code-${name}`}>{component}</div>)}
+    <React />,
+    <React />,
+    <React />,
+    <Svelte />,
+    <Js />,
+    <Ts />,
+    <Python />,
+    <Go />,
+].map((component, i) => {
+	const name = supported[i].icon
+	return <div style={name !== active ? 'display: none' : ''} class={`code-${name}`}>{component}</div>
+})}
 
 <div class="translations-container">
 	<Tabs>

@@ -3,7 +3,7 @@ import { Code, CardGrid, Tabs, TabItem, LinkButton } from '@astrojs/starlight/co
 const {input, output, lang} = Astro.props
 ---
 
-<div class="code-versions">
+<div class="versions">
     <div>
         <Code code={input} lang={lang} title="INPUT" />
     </div>
@@ -13,13 +13,14 @@ const {input, output, lang} = Astro.props
 </div>
 
 <style>
-    .code-versions {
+    .versions {
         display: flex;
+		flex-wrap: wrap;
         align-items: flex-start;
         width: 100%;
     }
 
-    .code-versions div {
+    .versions div {
         margin: 0;
         flex-grow: 1;
         overflow: auto;
