@@ -5,9 +5,9 @@ const appName: string = "The app"
 
 export function Greeting(props: { username: string }) {
 	const _w_runtime_ = _w_to_rt_(_w_load_('basic'))
-    return {
-        greeting: _w_runtime_.t(0),
-        title: _w_runtime_.t(2),
-        message: _w_runtime_.t(3, [appName, props.username]),
-    }
+	return {
+		greeting: _w_runtime_.t(0),
+		title: _w_runtime_.t(2),
+		message: _w_runtime_.t(3, [appName, props.username]),
+	}
 }
