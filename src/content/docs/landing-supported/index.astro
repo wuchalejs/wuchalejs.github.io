@@ -63,24 +63,24 @@ const futureSty = 'filter: grayscale(0.8)'
 })}
 
 <div class="translations-container">
-	<Tabs>
+	<Tabs syncKey="locale">
 		<TabItem label="English">
 			<div class="translations">
 				<div>
 					<Code code={enPO} lang="po" title="PO file (for translators)" />
 				</div>
 				<div>
-					<Code code={enCompiled} lang="js" title="Compiled (for runtime)" />
+					<Code code={enCompiled} lang="js" title="Compiled JS (for runtime)" />
 				</div>
 			</div>
 		</TabItem>
-		<TabItem label="Spanish">
+		<TabItem label="Spanish (translated)">
 			<div class="translations">
 				<div>
 					<Code code={esPO} lang="po" title="PO file (for translators)" />
 				</div>
 				<div>
-					<Code code={esCompiled} lang="js" title="Compiled (for runtime)" />
+					<Code code={esCompiled} lang="js" title="Compiled JS (for runtime)" />
 				</div>
 			</div>
 		</TabItem>

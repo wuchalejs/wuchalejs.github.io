@@ -30,33 +30,33 @@ import Supported from './landing-supported/index.astro'
         ```
 	</Card>
 	<Card title="Extract and translate" icon="translate">
-        Optionally live translate using [Gemini](/guides/gemini)
-        <Tabs>
-            <TabItem label="es.po">
-                ```diff lang="po" ins="¡Hola Mundo!"
-                msgid "Hello world!"
-                msgstr "¡Hola Mundo!"
-                ```
-            </TabItem>
-            <TabItem label="en.po">
+        Into PO files and optionally live translate using [Gemini](/guides/gemini)
+        <Tabs syncKey="locale">
+            <TabItem label="English">
                 ```po
                 msgid "Hello world!"
                 msgstr "Hello world!"
+                ```
+            </TabItem>
+            <TabItem label="Spanish (translated)">
+                ```diff lang="po" ins="¡Hola Mundo!"
+                msgid "Hello world!"
+                msgstr "¡Hola Mundo!"
                 ```
             </TabItem>
         </Tabs>
 	</Card>
 	<Card title="Compile catalogs" icon="rocket">
         Into arrays. No need for keys.
-        <Tabs>
-            <TabItem label="es.compiled.js">
-                ```javascript
-                export let c = ["¡Hola Mundo!"]
-                ```
-            </TabItem>
-            <TabItem label="en.compiled.js">
+        <Tabs syncKey="locale">
+            <TabItem label="English">
                 ```javascript
                 export let c = ["Hello world!"]
+                ```
+            </TabItem>
+            <TabItem label="Spanish (translated)">
+                ```javascript
+                export let c = ["¡Hola Mundo!"]
                 ```
             </TabItem>
         </Tabs>
