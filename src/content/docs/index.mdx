@@ -81,17 +81,27 @@ import Supported from './landing-supported/index.astro'
 
 <LinkButton href="/intro/why" variant="secondary">Explore more benefits</LinkButton>
 
-**Used by projects**
+<Card title="Used by projects">
+    <div style="display:flex; justify-content: center;">
+        <a href="https://github.com/AlchemillaHQ/Sylve" style="display:flex; flex-direction: column; align-items: center">
+            <img
+                style="width:6em"
+                src="https://raw.githubusercontent.com/AlchemillaHQ/Sylve/refs/heads/master/web/static/logo/black.svg"
+                alt="Sylve"
+            />
+            <span>AlchemillaHQ/Sylve</span>
+        </a>
+    </div>
+</Card>
 
-<div style="display:flex; justify-content: center;">
-	<a href="https://github.com/AlchemillaHQ/Sylve" style="display:flex; flex-direction: column; align-items: center">
-		<img
-			style="width:6em"
-			src="https://raw.githubusercontent.com/AlchemillaHQ/Sylve/refs/heads/master/web/static/logo/black.svg"
-			alt="Sylve"
-		/>
-		<span>AlchemillaHQ/Sylve</span>
-	</a>
-</div>
+<Card title="Inspiration">
+    This project was inspired by [Lingui](https://lingui.dev/) especially some of
+    its workflow. If you've used Lingui before, you'll find familiar concepts like
+    extraction and compilation.
+
+    `wuchale` takes a different approach: you don't need to change your code,
+    catalogs compile smaller than any other tool (including Lingui's), and it
+    integrates with a wider range of frameworks.
+</Card>
 
 <p>Do you also use it in your project? [Let us know](https://github.com/wuchalejs/wuchale/issues/78)!</p>
