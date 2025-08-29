@@ -5,7 +5,8 @@ import esPO from './es.po?raw'
 import enCompiled from './en.compiled.js?raw'
 import esCompiled from './es.compiled.js?raw'
 import React from './react/index.astro'
-import Preact from './react/index.astro'
+import Preact from './preact/index.astro'
+import SolidJS from './solid/index.astro'
 import Js from './js/index.astro'
 import Ts from './ts/index.astro'
 import Svelte from './svelte/index.astro'
@@ -50,8 +51,8 @@ const futureSty = 'filter: grayscale(1)'
 
 {[
     <React />,
-    <React />,
-    <React />,
+    <Preact />,
+    <SolidJS />,
     <Svelte />,
     <Js />,
     <Ts />,

@@ -1,6 +1,6 @@
-'use client'
 import _w_to_rt_ from 'wuchale/runtime'
 import _w_load_rx_, { get as _w_load_ } from "./loader.js"
+// comment
 
 export function Greeting({ username }) {
 	const _w_runtime_ = _w_to_rt_(_w_load_rx_('jsx'))
