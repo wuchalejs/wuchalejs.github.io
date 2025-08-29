@@ -78,6 +78,8 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
 ### SolidJS
 
+You can use one of the two approaches mentioned in [placeholders](/guides/placeholders).
+
 <Tabs>
     <TabItem label="Loader">
         ```jsx
@@ -143,3 +145,7 @@ component used to handle nested messages. It was necessary as SolidJS has a
 different behaviour for handling loops in JSX. Buf if you don't use SolidJS,
 using `default` should do the job as it is not tied to a framework, it just
 uses an array map.
+
+This also affects the default config for the
+[`runtime.*`](/reference/adapter-common/#runtimeusereactive) config options to
+adapt to the library's rules.
