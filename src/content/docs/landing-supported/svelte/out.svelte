@@ -1,7 +1,7 @@
 <script>
 	import _w_to_rt_ from 'wuchale/runtime'
-	import _w_load_ from "./loader.svelte.js"
-	const _w_runtime_ = $derived(_w_to_rt_(_w_load_('svelte')))
+	import _w_load_rx_, { get as _w_load_ } from "./loader.svelte.js"
+	const _w_runtime_ = $derived(_w_to_rt_(_w_load_rx_('svelte')))
 	const { username } = $props()
 </script>
 
