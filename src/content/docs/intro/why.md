@@ -61,7 +61,7 @@ export const key2 = () => "World"
 `wuchale` avoids using keys altogether and uses an array instead.
 
 ```js
-export const c = ["Hello", "World"]
+export let c = ["Hello", "World"]
 ```
 
 This drastically reduces the bundle size as there are no keys in the catalogs

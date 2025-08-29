@@ -13,24 +13,48 @@ tools, it is explained here.
 
 You can specify one or more adapter configurations in your `wuchale.config.js`.
 Each adapter is responsible for the files specified for it. And each adapter
-has a loader file. The loader file has one job: loading the [compiled
+has two loader files:
+
+- `client`: Used for when the code is in the browser
+- `ssr`: Used when server side rendering
+
+:::tip
+You can see where exactly these files are using the command `npx wuchale status`.
+:::
+
+Each loader file has one job: loading the [compiled
 catalogs](/concepts/catalogs#compiled-catalogs) and providing it to the
 transformed modules.
 
-The loader file has to export a function as `default`. The function signature has to be this:
+The loader file has to export two functions whose signatures should be like this:
 
 ```ts
 (loadID: string) => import('wuchale/runtime').CatalogModule | null | undefined
 ```
 
-The transformed modules then import that, call it with their
-[`loadID`](/concepts/catalogs/#loadid) and expect a `CatalogModule` object. To
-be specific, the top of the transformed modules will be like this:
+They should be two because some libraries (specifically React) restrict using
+reactive functions to only some places. Because of that, one function should be
+reactive and the other one should be a non reactive function. Apart from this,
+their job is the same. Where they are used is
+[configurable](/reference/adapter-common/#runtimeusereactive).
+
+How they are exported is also
+[configurable](/reference/adapter-common/#runtimereactiveimportname) but the
+default is:
+
+- The reactive: `default`
+- The non reactive: `get`
+
+The transformed modules then import them, call them with their
+[`loadID`](/concepts/catalogs/#loadid)s and expect a `CatalogModule` object. To
+be specific, the transformed modules will have something like this (depending
+on the adapter):
 
 ```js
 import _w_to_rt_ from 'wuchale/runtime'
-import _w_load_ from "../path/to/loader.js"
-const _w_runtime_ = _w_to_rt_(_w_load_('key'))
+import _w_load_rx_,{get as _w_load_} from "../path/to/loader.js"
+const _w_runtime_ = _w_to_rt_(_w_load_('key')) // plain
+const _w_runtime_rx_ = _w_to_rt_(_w_load_rx_('key')) // reactive
 ```
 
 This is done synchronously. That means, the loader has to have the catalogs
@@ -48,9 +72,10 @@ To give you an idea, this is what the loader file has to do.
 // prepare/load the catalog
 const catalogModule = {c: ['Hello'], p: n => n == 1 ? 0 : 1}
 
-export default loadID => {
+export const get = loadID => {
     return catalogModule
 }
+export default get
 ```
 
 Now the loaders are in control of what to provide to the transformed modules.
@@ -74,7 +99,8 @@ simple selection and return in your loader file.
 // any state store for the locale
 let locale = 'en'
 
-export default (catalogs) => catalogs[locale]
+export const get = (catalogs) => catalogs[locale]
+export default get
 ```
 
 That's all. Because the importing files will just directly import the catalog
@@ -152,7 +178,8 @@ const catalogs = {
     },
 }
 
-export default loadID => catalogs[loadID]?.[locale]
+export const get = loadID => catalogs[loadID]?.[locale]
+export default get
 ```
 
 ### Proxies
@@ -223,7 +250,8 @@ for (const loadID of loadIDs) {
     }
 }
 
-export default loadID => catalogs[loadID]?.[locale]
+export const get = loadID => catalogs[loadID]?.[locale]
+export default get
 ```
 
 Now this can work for any number of `loadID`s and you don't have to keep track
@@ -249,7 +277,8 @@ loader. Continuing with the above example loader, it now becomes very simple.
 import { loadCatalog, loadIDs, key } from 'virtual:wuchale/proxy/sync'
 import { registerLoaders } from 'wuchale/load-utils'
 
-export default registerLoaders(key, loadCatalog, loadIDs)
+export const get = registerLoaders(key, loadCatalog, loadIDs)
+export default get
 ```
 
 `registerLoaders` returns a function already prepared for use by the importing
@@ -285,7 +314,8 @@ import { registerLoaders, defaultCollection } from 'wuchale/load-utils'
 
 const catalogs = $state({})
 
-export default registerLoaders(key, loadCatalog, loadIDs, defaultCollection(catalogs))
+export const get = registerLoaders(key, loadCatalog, loadIDs, defaultCollection(catalogs))
+export default get
 ```
 
 :::tip
@@ -327,7 +357,8 @@ catalogs to be loaded and be ready.
 import { loadCatalog, loadIDs, key } from './proxy.js'
 import { loadLocales } from 'wuchale/load-utils/server'
 
-export default await loadLocales(key, loadIDs, loadCatalog, ['en', 'es'])
+export const get = await loadLocales(key, loadIDs, loadCatalog, ['en', 'es'])
+export default get
 ```
 
 Then when processing a request, wrap the request processing with a locale

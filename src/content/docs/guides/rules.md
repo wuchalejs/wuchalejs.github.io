@@ -39,6 +39,7 @@ Examples:
 
 ### In `script` (`<script>` and `.js/ts`)
 
+- If the value is not inside a function definition, it is ignored.
 - If the value is inside `console.*()` call, it is ignored.
 - If the first character is a lowercase English letter (`[a-z]`) or is any
     non-letter character, it is ignored.
@@ -48,7 +49,7 @@ Examples:
 
 ```javascript
 
-const message = 'This is extracted'
+const message = 'This is NOT extracted' // it's not inside a function
 
 function foo() {
     // extracted

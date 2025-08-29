@@ -178,3 +178,60 @@ The same intention as above but for the transformed code.
 
 Where to write the transformed code. A mirror structure is created in this
 directory and the transformed code is put there.
+
+## `runtime.useReactive`
+**type**:
+```ts
+type UseReactiveFunc = (details: {funcName?: string, nested: boolean, file: string, additional: object}) => {
+    /** null to disable initializing */
+    init: boolean | null
+    use: boolean
+}
+```
+**default**: Depends on adapter
+
+This function can decide which function from the loader should be used in a
+given context and if the runtime should be initialized there. For example, for
+React, inside hooks and components, we can initialize and use the runtime from
+the reactive loader function. But in other functions, we have to use the
+non-reactive loader function. And we cannot initialize the runtime inside the
+top level because it cannot be updated afterwards. But for SolidJS, we can
+initialize the runtime once in the top level and use it anywhere. This function
+makes those decisions.
+
+## `runtime.reactive.importName`
+**type**: `"default" | string`
+**default**: `default`
+
+The name of the reactive function to import from the loader file.
+
+## `runtime.reactive.wrapInit`
+**type**: `(expr: string) => string`
+**default**: Depends on adapter
+
+For the reactive runtime initialization, we can wrap the initialization
+expression of the runtime to customize it to the behaviour of the library. For
+example, for Svelte, the default is wrapping it inside `$derived` and for
+SolidJS, making it a function, pairing it with `wrapUse` below.
+
+## `runtime.reactive.wrapUse`
+**type**: `(expr: string) => string`
+**default**: Depends on adapter
+
+For the reactive runtime initialization, we can wrap the referencing expression
+of the runtime to customize it to the behaviour of the library. For example,
+for Svelte, no wrapping is needed while for SolidJS, since it's a function, it
+has to be called so it needs `()` before use.
+
+## `runtime.plain.importName`
+**default**: `get`
+
+Like [`runtime.reactive.importName`](#runtimereactiveimportname) but for the non-reactive function.
+
+## `runtime.plain.wrapInit`
+
+Like [`runtime.reactive.wrapInit`](#runtimereactivewrapinit) but for the non-reactive runtime.
+
+## `runtime.plain.wrapUse`
+
+Like [`runtime.reactive.wrapUse`](#runtimereactivewrapuse) but for the non-reactive runtime.

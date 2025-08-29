@@ -191,12 +191,12 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
     This command:
 
     - Creates the locales directory if it doesn't exist
-    - Creates the loader file if it doesn't exist, asking you which is correct
+    - Creates the loader files, asking you which is correct
     - Performs an initial extraction
 
 5. Setup in Your App
 
-    Now that the loader file is created, you can edit it, export the things you
+    Now that the loader files are created, you can edit them, export the things you
     need from there, and setup how the translations are loaded.
 
     <Tabs syncKey="adapter">
@@ -303,21 +303,9 @@ similar steps but it does most of the steps automatically.
     </TabItem>
 </Tabs>
 
-[Learn about how it works](/concepts/howitworks).
+:::tip
+What's next?
 
-## What gets extracted
-
-There are three possible places for a message to be in:
-
-- **Markup**: inside HTML tags like `<p>text</p>`
-- **Attribute**: insite element attributes like `<span title="Text"></span>`
-- **Script**: strings inside JavaScript code
-
-Inside of these, which messages exactly are extracted is decided by the adapter in
-use, because not all text should be extracted as a message. Some
-attributes and strings are not meant to be seen by the user.
-
-The adapter uses a [configurable heuristic
-function](/reference/adapter-common#heuristic) to make these decisions. This
-function receives the message along with other details and can decide whether
-to extract it or not.
+- Learn about the default **[Extraction rules](/guides/rules/)** and how to customize them
+- Learn about **[How it works](/concepts/howitworks)**
+:::
