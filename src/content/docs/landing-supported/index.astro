@@ -68,7 +68,7 @@ const futureSty = 'filter: grayscale(1)'
 		<TabItem label="English">
 			<div class="translations">
 				<div>
-					<Code code={enPO} lang="po" title="PO file (for translators)" />
+                    <Code code={enPO + '\u200B' /* to keep whitespace */} lang="po" title="PO file (for translators)" />
 				</div>
 				<div>
 					<Code code={enCompiled} lang="js" title="Compiled JS (for runtime)" />
@@ -78,7 +78,7 @@ const futureSty = 'filter: grayscale(1)'
 		<TabItem label="Spanish (translated)">
 			<div class="translations">
 				<div>
-					<Code code={esPO} lang="po" title="PO file (for translators)" />
+					<Code code={esPO + '\u200B'} lang="po" title="PO file (for translators)" />
 				</div>
 				<div>
 					<Code code={esCompiled} lang="js" title="Compiled JS (for runtime)" />

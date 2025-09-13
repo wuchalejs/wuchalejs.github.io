@@ -23,10 +23,14 @@ export default defineConfig({
                     attrs: { type: 'application/ld+json' },
                     content: JSON.stringify({
                         "@context": "https://schema.org",
-                        "@type": "WebSite",
+                        "@type": "SoftwareApplication",
                         "name": "wuchale",
-                        "description": "Protobuf-like i18n from plain code",
+                        "description": "Compile-time internationalization toolkit for JavaScript frameworks",
                         "author": "Kidus Adugna",
+                        "applicationCategory": "DeveloperTool",
+                        "programmingLanguage": ["JavaScript", "TypeScript"],
+                        "keywords": ["React", "Svelte", "SolidJS", "Preact", "i18n", "internationalization", "localization", "l10n"],
+                        "operatingSystem": "Cross-platform"
                     })
                 }
             ],

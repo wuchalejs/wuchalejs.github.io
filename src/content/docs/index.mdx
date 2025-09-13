@@ -1,9 +1,9 @@
 ---
 title: Protobuf-like i18n from plain code
-description: A non-invasive, plain code based compile-time internationalization (i18n) toolkit.
+description: "Compile-time i18n toolkit for React, Svelte, SolidJS, and JavaScript. Extract translations from plain code without wrappers or keys."
 template: splash
 hero:
-  tagline: From source code to translated strings, wuchale handles extraction, catalog management, and integration so you can focus on building.
+  tagline: Compile-time i18n for React, Svelte, SolidJS and more. Extract translations from plain code without changing your workflow.
   image:
     file: ../../../public/favicon.svg
     alt: Logo
@@ -78,6 +78,21 @@ import Supported from './landing-supported/index.astro'
 **Works with your stack!**
 
 <Supported />
+
+<CardGrid>
+    <Card title="Smallest Bundles" icon="rocket">
+        Protobuf-like compilation produces arrays instead of key-based objects.
+    </Card>
+    <Card title="Real-time Translation" icon="translate">
+        HMR + optional AI translation for real-time development feedback.
+    </Card>
+    <Card title="Flexible catalog loading" icon="cloud-download">
+        You decide how the catalog is loaded: Async, Bundled, or custom.
+    </Card>
+    <Card title="Standard format" icon="document">
+        The catalogs are in the Gettext PO format, widely supported and familiar to translators.
+    </Card>
+</CardGrid>
 
 <LinkButton href="/intro/why" variant="secondary">Explore more benefits</LinkButton>
 
