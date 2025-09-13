@@ -24,6 +24,11 @@ to ignore it:
 <button>Home</button>
 ```
 
+## `@wc-ignore-file`
+
+This is like `@wc-ignore` but for the whole file. You have to put it at or near
+the beginning of the file before any extractable text.
+
 ## `@wc-include`
 
 Likewise, to force include a message that would be ignored by the
