@@ -133,6 +133,30 @@ export const load: LayoutLoad = async ({url}) => {
 }
 ```
 
+#### `+page.js` and similar files
+
+The Svelte adapter only handles `.svelte` files and `.svelte.{js,ts}` files.
+However, you may have translatable strings in `+page.{js,ts}`,
+`+layout.{js,ts}`, etc. If so, you can use the Vanilla adapter for those files
+by adding it as another adapter and specifying which files to handle.
+
+```js
+// wuchale.config.js
+    // ...
+    adapters: {
+        main: svelte(),
+        js: js({
+            files: [
+                'src/**/+{page,layout}.{js,ts}',
+                'src/**/+{page,layout}.server.{js,ts}',
+            ],
+        })
+    }
+    // ...
+```
+
+[Learn more about using multiple adapters](/guides/multiple-adapters/).
+
 ## Default extraction rules
 
 In addition to the [default rules](/guides/rules), this adapter implements
