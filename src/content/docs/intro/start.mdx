@@ -55,37 +55,49 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
 
     <Tabs syncKey="adapter">
         <TabItem label="React">
-            ```javascript
+            ```diff lang="js" add="wuchale()"
             // vite.config.js
             import { defineConfig } from 'vite'
             import react from '@vitejs/plugin-react'
-            import { wuchale } from '@wuchale/vite-plugin'
+            +import { wuchale } from '@wuchale/vite-plugin'
 
             export default defineConfig({
-                plugins: [wuchale(), react()],
+                plugins: [ wuchale(), react() ],
             })
             ```
         </TabItem>
         <TabItem label="Svelte">
-            ```javascript
-            // vite.config.js
-            import { svelte } from '@sveltejs/vite-plugin-svelte'
-            import { wuchale } from '@wuchale/vite-plugin'
-            
-            export default {
-                plugins: [
-                    wuchale(),
-                    svelte(),
-                ]
-            }
-            ```
+            <Tabs syncKey="sveltekit">
+                <TabItem label="Svelte">
+                    ```diff lang="js" add="wuchale()"
+                    // vite.config.js
+                    import { svelte } from '@sveltejs/vite-plugin-svelte'
+                    +import { wuchale } from '@wuchale/vite-plugin'
+                    
+                    export default {
+                        plugins: [ wuchale(), svelte() ]
+                    }
+                    ```
+                </TabItem>
+                <TabItem label="SvelteKit">
+                    ```diff lang="js" add="wuchale()"
+                    // vite.config.js
+                    import { sveltekit } from '@sveltejs/kit/vite'
+                    +import { wuchale } from '@wuchale/vite-plugin'
+                    
+                    export default {
+                        plugins: [ wuchale(), sveltekit() ]
+                    }
+                    ```
+                </TabItem>
+            </Tabs>
         </TabItem>
         <TabItem label="SolidJS">
-            ```javascript
+            ```diff lang="js" add="wuchale()"
             // vite.config.js
             import { defineConfig } from 'vite';
             import solidPlugin from 'vite-plugin-solid';
-            import { wuchale } from '@wuchale/vite-plugin';
+            +import { wuchale } from '@wuchale/vite-plugin';
 
             export default defineConfig({
                 plugins: [wuchale(), solidPlugin()],
@@ -95,9 +107,9 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
         <TabItem label="Vanilla">
             <Tabs syncKey="vanillaVite">
                 <TabItem label="With Vite">
-                    ```javascript
+                    ```diff lang="js" add="wuchale()"
                     // vite.config.js
-                    import { wuchale } from '@wuchale/vite-plugin'
+                    +import { wuchale } from '@wuchale/vite-plugin'
 
                     export default {
                         plugins: [wuchale()]
@@ -131,20 +143,47 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             ```
         </TabItem>
         <TabItem label="Svelte">
-            ```javascript
-            // wuchale.config.js
-            // @ts-check
-            import { adapter as svelte } from "@wuchale/svelte"
-            import { defineConfig } from "wuchale"
+            <Tabs syncKey="sveltekit">
+                <TabItem label="Svelte">
+                    ```javascript
+                    // wuchale.config.js
+                    // @ts-check
+                    import { adapter as svelte } from "@wuchale/svelte"
+                    import { defineConfig } from "wuchale"
 
-            export default defineConfig({
-                // sourceLocale is en by default
-                otherLocales: ['es'],
-                adapters: {
-                    main: svelte(),
-                }
-            })
-            ```
+                    export default defineConfig({
+                        // sourceLocale is en by default
+                        otherLocales: ['es'],
+                        adapters: {
+                            main: svelte(),
+                        }
+                    })
+                    ```
+                </TabItem>
+                <TabItem label="SvelteKit">
+                    ```javascript
+                    // wuchale.config.js
+                    // @ts-check
+                    import { adapter as svelte } from "@wuchale/svelte"
+                    import { adapter as js } from 'wuchale/adapter-vanilla'
+                    import { defineConfig } from "wuchale"
+
+                    export default defineConfig({
+                        // sourceLocale is en by default
+                        otherLocales: ['es'],
+                        adapters: {
+                            main: svelte(),
+                            js: js({
+                                files: [
+                                    'src/**/+{page,layout}.{js,ts}',
+                                    'src/**/+{page,layout}.server.{js,ts}',
+                                ],
+                            })
+                        }
+                    })
+                    ```
+                </TabItem>
+            </Tabs>
         </TabItem>
         <TabItem label="SolidJS">
             ```javascript
