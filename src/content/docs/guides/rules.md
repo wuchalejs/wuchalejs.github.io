@@ -16,9 +16,18 @@ out of the box. They implement the following rules (where applicable).
 If the message contains no letters used in any natural language (e.g., just
 numbers or symbols), it is ignored.
 
+### Ignored elements
+
+These are elements where all `markup` or `attribute` is ignored. They are:
+
+- `style`
+- `path`
+- `code`
+- `pre`
+
 ### In `markup` (`<p>Text</p>`)
 
-All textual content is extracted.
+All textual content is extracted unless the element is ignored.
 
 Examples:
 
@@ -27,8 +36,10 @@ Examples:
 ```
 
 ### In `attribute` (`<div title="Info">`)
+
+- The element must not be ignored.
 - If the first character is a lowercase English letter (`[a-z]`), it is ignored.
-- If the element is a `<path>`, it is ignored (e.g., for SVG `d="M10 10..."` attributes).
+- The `method` attribute of a `form` is ignored.
 - Otherwise, it is extracted.
 
 Examples:
@@ -40,7 +51,7 @@ Examples:
 ### In `script` (`<script>` and `.js/ts`)
 
 - If the value is not inside a function definition, it is ignored.
-- If the value is inside `console.*()` call, it is ignored.
+- If the value is inside `console.*()` or `fetch` calls, it is ignored.
 - If the first character is a lowercase English letter (`[a-z]`) or is any
     non-letter character, it is ignored.
 - Otherwise, it is extracted.
