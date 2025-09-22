@@ -12,6 +12,11 @@ circumstances and feedback. And feedback is welcome.
 full localization (l10n) support for genders, currencies, dates, etc along
 with ICU style pluralization. It will be an optional feature.
 
+## LSP server
+
+During development, it would be nice if the string we are writing will be extracted
+or not, right from the editor. This will be implemented.
+
 ## Other backend languages (Go, Python)
 
 It is desirable that the messages from the server be internationalized too.
@@ -24,15 +29,9 @@ to add an extract-only adapter for them that outputs catalog modules with the
 source strings themselves as the keys, in their language that can just be
 imported, and then the dev decides how they use the translation catalogs.
 
-## Additional support
+## Next.js
 
 `wuchale` already has three adapters: the Vanilla, JSX and Svelte adapters,
 with two ways of using them: CLI and a Vite plugin. Additional support is
-planned for:
+planned for Next.js.
 
-- Next.js
-
-## LSP server
-
-During development, it would be nice if the string we are writing will be extracted
-or not, right from the editor. This will be implemented.
