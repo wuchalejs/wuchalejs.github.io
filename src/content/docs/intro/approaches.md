@@ -36,7 +36,6 @@ structure, and the translation process.
 
 **Pros**:
 - Complete developer control
-- Highly predictable behavior  
 - Easy to understand and debug
 
 **Cons**:
@@ -70,7 +69,6 @@ handle the extraction and catalog management.
 
 **Pros**:
 - Clear developer intent - obvious what gets translated
-- Predictable behavior
 - Automatic catalog generation and maintenance
 
 **Cons**:
