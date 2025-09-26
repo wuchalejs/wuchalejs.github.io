@@ -6,7 +6,7 @@ description: Integrate wuchale with JSX frameworks like React and SolidJS - extr
 Import | `import { adapter } from "@wuchale/jsx"`
 -|-
 Loader extensions | `.js`, `.ts`
-Default `files` | `src/**/*.{jsx,tsx}`
+Default `files` | `src/**/*.{js,ts,jsx,tsx}` except `**/*.d.ts`
 Compatibility | Tested with React >= 19 and SolidJS >= 1.9. Can work with any JSX.
 
 The JSX adapter implements support for any JSX based framework.
@@ -128,6 +128,13 @@ You can use one of the two approaches mentioned in [placeholders](/guides/placeh
 ## Default extraction rules
 
 This adapter only uses the [default rules](/guides/rules) and has no additional restrictions.
+
+## JSX and TypeScript
+
+Using JSX syntax together with TypeScript can be ambiguous for parsers (e.g.
+generic type parameters). Therefore, JSX support inside regular `.ts` files is
+disabled and causes a syntax error. If you want to use JSX with TypeScript, it
+should be inside a `.tsx` file.
 
 ## Configuration Reference
 
