@@ -122,7 +122,7 @@ import { loadLocale } from 'wuchale/load-utils'
 import '../locales/loader.svelte.js'
 
 /** @type {import('./$types').LayoutLoad} */
-export const load: LayoutLoad = async ({url}) => {
+export const load = async ({url}) => {
     const locale = url.searchParams.get('locale') ?? 'en'
     if (!locales.includes(locale)) {
         return
