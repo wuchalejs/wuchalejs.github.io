@@ -50,12 +50,33 @@ type GlobConf = string | string[] | {
 }
 ```
 
-## `pluralsFunc`
+## `patterns`
 
-**type**: `string`
-**default**: `plural`
+**type**: `CodePattern[]`
+**default**: `[{
+    name: 'plural',
+    args: ['other', 'message', 'pluralFunc'],
+}]`
 
-This specifies the name of the function that you define to handle [plurals](/guides/plurals).
+```ts
+type CodePattern = {
+    name: string
+    args: ('message' | 'pluralFunc' | 'other')[]
+}
+```
+
+This specifies the function call patterns that you define to handle [plurals and l10n](/guides/plurals-l10n).
+
+The `name` is the name of the function.
+
+The `args` array specifies the function argument sequences and each element can be one of the three:
+- `message`: Extractable message string. Can be:
+    - A string for use with l10n libraries like IntlMessageFormat.
+    - An array of strings when using it for PO plurals.
+- `pluralFunc`: The function derived from the PO header used to decide the index inside the candidate strings array.
+- `other`: Other arguments
+
+The default value is to support PO style pluralization.
 
 ## `heuristic`
 
