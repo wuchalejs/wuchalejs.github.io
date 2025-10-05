@@ -1,16 +1,10 @@
 ---
 title: Roadmap
-description: Explore wuchale's development roadmap - upcoming ICU/Intl.MessageFormat support, backend language extraction for Go & Python, Next.js adapter, and LSP tooling.
+description: Explore wuchale's development roadmap - backend language extraction for Go & Python, Next.js adapter, and LSP tooling.
 ---
 
 These are not concrete goals set in stone. They are subject to change based on
 circumstances and feedback. And feedback is welcome.
-
-## [`Intl.MessageFormat`](https://formatjs.github.io/docs/intl-messageformat/)
-
-`wuchale` already supports Gettext style pluralization. But this will bring
-full localization (l10n) support for genders, currencies, dates, etc along
-with ICU style pluralization. It will be an optional feature.
 
 ## LSP server
 
@@ -34,4 +28,3 @@ imported, and then the dev decides how they use the translation catalogs.
 `wuchale` already has three adapters: the Vanilla, JSX and Svelte adapters,
 with two ways of using them: CLI and a Vite plugin. Additional support is
 planned for Next.js.
-
