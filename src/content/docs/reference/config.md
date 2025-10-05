@@ -71,20 +71,53 @@ overhead of live translation updates and work solely with the source language.
 HMR is highly optimized: it updates only the affected components, preserving
 application state and avoiding full reloads.
 
-### `geminiAPIKey`
+### `ai`
+**type**: `AI`
+**default**: `gemini()`
 
-**type**: `string`
-**default**: `env`
+```ts
+type AI = {
+    name: string
+    batchSize: number
+    translate: (messages: string, instruction: string) => Promise<string>
+    parallel: number
+}
+```
 
-If you want to use Gemini live translation, you can provide your API key here
-directly, or use the special value `env` to use the GEMINI_API_KEY environment
-variable. If the environment variable is not set, Gemini will not be used, as
-if it was disabled. It can also be always disabled by setting this to `null`,
-in which case the environment variable will not be used even if it is set.
+Here you can give your own AI interface for live translation. The `batchSize`
+decides the maximum messages to translate in a single request, over which
+another request will be used. And `parallel` decides the number of requests to
+make in parallel.
 
-### `messages`
+The `translate` function receives the messages in a stringified PO format with
+empty places for the translated messages, along with the instruction that
+explains what to do like from which language to which language, the expected
+format, etc. And the expected format is the same PO format, but with filled
+translations, just like a human translator.
 
-**type**: `string`
-**default**: `true`
+The default is `gemini()` which you can import and provide options to customize
+like `ai: gemini({...})`. The options should conform to the following type:
 
-If you find `wuchale` to be too chatty, you can silence it by setting this to `false`.
+```ts
+type GeminiOpts = {
+    apiKey?: string
+    batchSize?: number
+    think?: boolean
+    parallel?: number
+}
+```
+
+You can provide your API key here in `apiKey` directly, or use the special
+value `env` (default) to use the `GEMINI_API_KEY` environment variable. If the
+environment variable is not set, Gemini will not be used, as if it was
+disabled. It can also be always disabled by setting this to `null`, in which
+case the environment variable will not be used even if it is set.
+
+### `logLevel`
+
+**type**: `'error' | 'warn' | 'info' | 'verbose'`
+**default**: `info`
+
+You can set the log level above which messages will be shown in the console. If
+you set it to `verbose`, all messages will be shown. `verbose` enables showing
+all extracted messages.
