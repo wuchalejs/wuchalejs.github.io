@@ -81,7 +81,7 @@ products faster.
 when you make changes in one file (be it the code or the catalogs), it is
 reflected in the browser instantly.
 
-It even goes a step further. It [integrates with Gemini](/guides/gemini) and
+It even goes a step further. It [integrates with AI](/guides/ai) and
 does the actual translation on-the-fly, allowing you to edit your source code
 in one language and have it updated in the browser in another language of your
 choosing.

@@ -30,7 +30,7 @@ msgid "Welcome"
 msgstr ""
 ```
 
-Then it is edited by the translator (or [Gemini](/guides/gemini)) to also have
+Then it is edited by the translator (or [AI](/guides/ai)) to also have
 the translation like this:
 
 ```po

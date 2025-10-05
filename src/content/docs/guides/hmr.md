@@ -26,7 +26,7 @@ source files update the catalog after getting it, just before using it.
 
 This makes it as if wuchale was never there, while it does its job of
 extracting and keeping the catalogs up to date. And also [live
-translating](/guides/gemini) using Gemini!
+translating](/guides/ai) using AI!
 
 This is only done during development though. No HMR related manipulation is
 done during production builds or extraction using the CLI.
