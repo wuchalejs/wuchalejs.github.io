@@ -140,7 +140,7 @@ additional restrictions.
 
 ### In `script` (`<script>` and `.svelte.js/ts`)
 
-- The string can be in a variable at the top level, but it should be wrapped inside `$derived` or `$derived.by`.
+- The string can be in a variable at the top level, and if it is, it is auto wrapped inside `$derived`.
 - It should pass the base heuristic from the Vanilla adapter.
 - If the value is inside `$inspect()` calls, it is ignored.
 - Otherwise, it is extracted.
@@ -149,7 +149,7 @@ Examples:
 
 ```javascript
 // In $derived or functions
-const message = $derived('This is extracted')
+const message = 'This is extracted'
 const lowercase = $derived('not extracted')
 
 // Force extraction with comment
@@ -173,16 +173,38 @@ function foo() {
 }
 ```
 
-Because with SSR, startup means server startup, and so if you just use
-`$derived` in these places, they will be stuck with the locale of the first
-request and subsequent requests with different locales may see a flicker until
-the client takes over. But if you put them inside function definitions, the
-function gets executed per request and will not have this problem.
+Because with SSR, startup means server startup, and so if you just have top
+level definitions or use `$derived` in these places, they will be stuck with
+the locale of the first request and subsequent requests with different locales
+may see a flicker until the client takes over. But if you put them inside
+function definitions, the function gets executed per request and will not have
+this problem.
 
 ## Configuration Reference
 
 For the main configuration, look in the [configuration reference](/reference/config).
 
 For the common adapter configuration, look in the [common adapter options](/reference/adapter-common/).
+
+:::tip
+If you want to avoid extracting top level strings being auto wrapped in `$derived` unless you explicitly wrap them, you can use the provided heuristic as:
+
+```js
+import { adapter as svelte, svelteDefaultHeuristicDerivedReq } from "@wuchale/svelte"
+import { defineConfig } from "wuchale"
+
+export default defineConfig({
+    // sourceLocale is en by default
+    otherLocales: ['es'],
+    adapters: {
+        main: svelte({
+            heuristic: svelteDefaultHeuristicDerivedReq,
+        }),
+        // ...
+    },
+    // ...
+}
+```
+:::
 
 This adapter doesn't have additional configuration options.
