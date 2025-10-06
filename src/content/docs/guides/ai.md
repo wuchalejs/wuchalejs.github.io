@@ -26,6 +26,8 @@ Gemini.
 To customize how Gemini is used, you can import it and customize it in the config:
 
 ```js
+// wuchale.config.js
+
 import { gemini } from "wuchale";
 
 export default {
@@ -44,6 +46,8 @@ export default {
 To use another LLM, you can create your own object that conforms to the [AI config type](/reference/config/#ai).
 
 ```js
+// wuchale.config.js
+
 export default {
   //...
   ai: {
