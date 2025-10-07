@@ -97,27 +97,38 @@ import Supported from './landing-supported/index.astro'
 <LinkButton href="/intro/why" variant="secondary">Explore more benefits</LinkButton>
 
 <Card title="Used by projects">
-    <div style="display:flex; justify-content: center; align-items: flex-end">
+    <div style="display:flex; justify-content: center; align-items: flex-start">
         {[
             {
                 href: 'https://github.com/AlchemillaHQ/Sylve',
                 src: 'https://raw.githubusercontent.com/AlchemillaHQ/Sylve/refs/heads/master/web/static/logo/black.svg',
                 name: 'AlchemillaHQ/Sylve',
+                description: 'Lightweight GUI for managing Bhyve, Jails, ZFS, networking, and more on FreeBSD'
             },
             {
-                href: 'https://enclave.page/',
-                src: 'https://enclave.page/favicon.png',
-                name: 'Enclave',
+                href: 'https://nook.software/',
+                src: 'https://nook.software/favicon.png',
+                name: 'Nook',
+                description: 'Run local AI models in your browser for chat, audio transcription, text to speech and background removal'
             },
-        ].map(({href, src, name}) => 
-            <a href={href} style="display:flex; flex-direction: column; align-items: center; margin: 1em;" target="_blank">
-                <img
-                    style="width:6em"
-                    src={src}
-                    alt={name}
-                />
-                <span>{name}</span>
-            </a>
+            {
+                href: 'https://cigaleapp.github.io/cigale/',
+                src: 'https://media.gwen.works/cigale/static/favicon.png',
+                name: 'CIGALE',
+                description: 'Intelligent Classification and Management of Arthropods and Entomofauna'
+            },
+        ].map(({href, src, name, description}) => 
+            <div style="width: 10em; display:flex; flex-direction: column; align-items: center; margin: 1em">
+                <a href={href} style="display:flex; flex-direction: column; align-items: center" target="_blank">
+                    <img
+                        style="height:5em"
+                        src={src}
+                        alt={name}
+                    />
+                    <span>{name}</span>
+                </a>
+                <small style="text-align: center">{description}</small>
+            </div>
         )}
     </div>
 
