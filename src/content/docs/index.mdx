@@ -97,7 +97,7 @@ import Supported from './landing-supported/index.astro'
 <LinkButton href="/intro/why" variant="secondary">Explore more benefits</LinkButton>
 
 <Card title="Used by projects">
-    <div style="display:flex; justify-content: center; align-items: flex-start">
+    <div style="display:flex; flex-wrap: wrap; justify-content: center; align-items: flex-start">
         {[
             {
                 href: 'https://github.com/AlchemillaHQ/Sylve',
@@ -118,7 +118,7 @@ import Supported from './landing-supported/index.astro'
                 description: 'Intelligent Classification and Management of Arthropods and Entomofauna'
             },
         ].map(({href, src, name, description}) => 
-            <div style="width: 10em; display:flex; flex-direction: column; align-items: center; margin: 1em">
+            <div style="width: 12em; display:flex; flex-direction: column; align-items: center; margin: 1em">
                 <a href={href} style="display:flex; flex-direction: column; align-items: center" target="_blank">
                     <img
                         style="height:5em"
