@@ -192,6 +192,8 @@ For the common adapter configuration, look in the [common adapter options](/refe
 If you want to avoid extracting top level strings being auto wrapped in `$derived` unless you explicitly wrap them, you can use the provided heuristic as:
 
 ```js
+// wuchale.config.js
+
 import { adapter as svelte, svelteDefaultHeuristicDerivedReq } from "@wuchale/svelte"
 import { defineConfig } from "wuchale"
 
