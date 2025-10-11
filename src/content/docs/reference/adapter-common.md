@@ -1,6 +1,6 @@
 ---
 title: Common adapter options
-description: Explore wuchale's common adapter options - configure catalog paths, file extraction patterns, pluralization functions, heuristics, and granular loading strategies for efficient internationalization.
+description: Explore wuchale's common adapter options - configure catalog paths, file extraction patterns, function call patterns, heuristics, and granular loading strategies for efficient internationalization.
 ---
 
 These are the configuration options that are common across adapters. The
@@ -36,12 +36,10 @@ in the configuration should have a different loader file, you should specify
 this if you share the `catalog` option among different adapters.
 
 ## `files`
-**type**: [`GlobConf`](#globconf)
+**type**: `GlobConf`
 **default**: (depends on adapter)
 
 The files to extract from. Only these files will be extracted from. Other files are ignored.
-
-### `GlobConf`
 
 ```typescript
 type GlobConf = string | string[] | {
@@ -80,32 +78,31 @@ The default value is to support PO style pluralization.
 
 ## `heuristic`
 
-**type**: `(txt: string, details:`[`HeuristicDetails`](#heuristicdetails)`) => boolean | null | undefined`
+**type**: `(msg: Message) => boolean | null | undefined`
 **default**: (depends on adapter)
 
 This is a function that decides whether a message is to be extracted or not. It
-can use the message and the details and return a boolean value.
+can use the message and its details and return a boolean value to indicate its
+decision.
 
 If it returns `null` or `undefined`, the default heuristic will be used.
 
-### `HeuristicDetails`
-
-**type**: `object` with the following properties
-
-#### `scope`
-**type**: `"markup" | "attribute" | "script"`
-
-What type of scope the message is in.
-
-#### `element`
-**type**: `string`
-
-The parent element's tag name, if any.
-
-#### `attribute`
-**type**: `string`
-
-The name of the attribute for which the message is the value.
+```ts
+type Message = {
+    msgStr: string[] // the text of the message, just one element for normal messages
+    context?: string // the context of the message, if given
+    details: {
+        scope: "script" | "markup" | "attribute" // what type of scope the message comes from
+        element?: string // the element where the message comes from
+        attribute?: string // the name of the attribute for which the message is a value
+        file: string // the relative path of the file from the root
+        declaring?: "variable" | "function" | "class" | "expression" // the type of the top level declaration
+        funcName?: string | null // the name of the function being defined, '' for arrow or null for global
+        topLevelCall?: string // the name of the call at the top level
+        call?: string // the name of the nearest call (for arguments)
+    }
+}
+```
 
 #### `file`
 **type**: `string`
