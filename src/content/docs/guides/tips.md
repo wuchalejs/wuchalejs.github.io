@@ -51,10 +51,11 @@ You may not want to modify the heuristic function that acts globally, too
 general. You may not want to use ignore comment directives either, too specific
 and will need too much typing if the event names are many.
 
-A cleaner approach is to extract constants to the top level, which are ignored
-by default:
+A cleaner approach is to extract constants to a top level object and ignore it once:
 
 ```js
+
+// @wc-ignore
 const keys = {
   Escape: 'Escape',
   ArrowUp: 'ArrowUp',
