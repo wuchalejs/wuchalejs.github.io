@@ -103,8 +103,18 @@ ready. Then, for each request, `runWithLocale` makes sure that the requests are
 isolated and able to access their own catalogs based on the `locale` from the
 URL.
 
-:::note
+:::tip
 You can use any [state store](/guides/state) for your locale.
+:::
+
+:::note
+If you just copy-pasted the above and have enabled SSG (using [`prerender`](https://svelte.dev/docs/kit/page-options#prerender)), you may encounter an error saying something like:
+
+```
+Cannot access url.searchParams on a page with prerendering enabled.
+```
+
+The error is self-explanatory, so you have to use another [locale state store](/guides/state).
 :::
 
 #### Client
