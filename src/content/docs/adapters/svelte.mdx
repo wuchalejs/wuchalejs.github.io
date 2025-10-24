@@ -82,12 +82,15 @@ per request. You can set it up inside `hooks.server.{js,ts}`.
 
 ```js
 // hooks.server.js
-import { loadCatalog, loadIDs, key } from './locales/loader.server.svelte.js'
-import { runWithLocale, loadLocales } from 'wuchale/load-utils/server'
+
+import * as main from './locales/loader.server.svelte.js'
+import * as js from './locales/loader.server.js'
+import { runWithLocale, loadLocales } from 'wuchale/load-utils/server';
 import { locales } from 'virtual:wuchale/locales'
 
 // load at server startup
-loadLocales(key, loadIDs, loadCatalog, locales)
+loadLocales(main.key, main.loadIDs, main.loadCatalog, locales)
+loadLocales(js.key, js.loadIDs, js.loadCatalog, locales)
 
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle = async ({ event, resolve }) => {
@@ -101,8 +104,18 @@ ready. Then, for each request, `runWithLocale` makes sure that the requests are
 isolated and able to access their own catalogs based on the `locale` from the
 URL.
 
-:::note
+:::tip
 You can use any [state store](/guides/state) for your locale.
+:::
+
+:::note
+If you just copy-pasted the above and have enabled SSG (using [`prerender`](https://svelte.dev/docs/kit/page-options#prerender)), you may encounter an error saying something like:
+
+```
+Cannot access url.searchParams on a page with prerendering enabled.
+```
+
+The error is self-explanatory, so you have to use another [locale state store](/guides/state).
 :::
 
 #### Client
@@ -190,6 +203,8 @@ For the common adapter configuration, look in the [common adapter options](/refe
 If you want to avoid extracting top level strings being auto wrapped in `$derived` unless you explicitly wrap them, you can use the provided heuristic as:
 
 ```js
+// wuchale.config.js
+
 import { adapter as svelte, svelteDefaultHeuristicDerivedReq } from "@wuchale/svelte"
 import { defineConfig } from "wuchale"
 

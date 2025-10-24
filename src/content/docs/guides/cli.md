@@ -9,10 +9,29 @@ description: wuchale CLI guide - use npx wuchale, initialize your project, extra
 npx wuchale [command] {options}
 ```
 
-You can get help by running
+You can get help by running it with `--help`
 
-```bash
-npx wuchale --help
+```console
+$ npx wuchale --help
+
+wuchale cli
+
+Usage:
+    wuchale [command] {options}
+
+Commands:
+    [none]  Extract/compile messages from the codebase into catalogs
+            deleting unused messages if --clean is specified
+    init    Initialize on a codebase
+    status  Show current status
+
+Options:
+    --config     use another config file instead of wuchale.config.js|wuchale.config.mjs
+    --clean, -c  (only when no commands) remove unused messages from catalogs
+    --watch, -w  (only when no commands) continuously watch for file changes
+    --sync       (only when no commands) extract sequentially instead of in parallel
+    --help, -h   Show this help
+
 ```
 
 You can optionally add some commands to your `package.json` for convenience.
