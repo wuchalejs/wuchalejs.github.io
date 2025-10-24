@@ -83,8 +83,8 @@ per request. You can set it up inside `hooks.server.{js,ts}`.
 ```js
 // hooks.server.js
 
-import * as main from './locales/loader.server.svelte.js'
-import * as js from './locales/loader.server.js'
+import * as main from './locales/loader.server.svelte.js';
+import * as js from './locales/loader.svelte.js';
 import { runWithLocale, loadLocales } from 'wuchale/load-utils/server';
 import { locales } from 'virtual:wuchale/locales'
 
