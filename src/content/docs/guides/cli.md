@@ -22,7 +22,6 @@ Usage:
 Commands:
     [none]  Extract/compile messages from the codebase into catalogs
             deleting unused messages if --clean is specified
-    init    Initialize on a codebase
     status  Show current status
 
 Options:
@@ -62,19 +61,11 @@ messages. And if `writeFiles` is enabled, it writes the generated files. This
 can be used when Vite is not used/needed (for example, for server only
 projects). Watch mode is also supported.
 
-## `init`
+Additionally, if it is running in the project for the first time, it ceates the
+necessay files, doing the following, for each adapter configuration:
 
-This initializes a new project. What exactly it does is the following, for each adapter configuration:
-
-- If the loader file doesn't exist (with any of the file extensions supported
-    by the adapter), or if it does exist but is an empty file, it creates it from
-    the default one. You can choose between the available loaders to fill the
-    content of the default loader. Preliminary checks are done to suggest the best
-    one as the first option (for example, the existence of `@sveltejs/kit` as a
-    dependency to decide between SvelteKit and Svelte).
-- [Extract](#extract) from the source for the first time. This makes sure that
-    the codebase is scanned as it is at the moment. Next, if Vite is used, the
-    files are scanned incrementally as they are edited.
+- If the loader specified is one of the provided ones, not `custom`, it is created/overwritten.
+- If the loader specified is `custom`, it doesn't touch the existing loader files.
 
 ## `status`
 

@@ -38,6 +38,15 @@ heuristic, we can use this comment.
 console.log(/* @wc-include */ 'Hello')
 ```
 
+## `@wc-url`
+
+To force include a string that would be ignored by the heuristic and to signify
+that it is a [URL value](/guides/urls), we can use this comment.
+
+```javascript
+console.log(/* @wc-url */ '/items')
+```
+
 ## `@wc-context: {context}`
 
 To disambiguate identical messages or to give more details, we can use the comment
