@@ -137,7 +137,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                 // sourceLocale is en by default
                 otherLocales: ['es'],
                 adapters: {
-                    main: jsx(),
+                    main: jsx({ loader: 'react' }),
                 }
             })
             ```
@@ -155,7 +155,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                         // sourceLocale is en by default
                         otherLocales: ['es'],
                         adapters: {
-                            main: svelte(),
+                            main: svelte({ loader: 'svelte' }),
                         }
                     })
                     ```
@@ -172,8 +172,9 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                         // sourceLocale is en by default
                         otherLocales: ['es'],
                         adapters: {
-                            main: svelte(),
+                            main: svelte({ loader: 'sveltekit' }),
                             js: js({
+                                loader: 'vite',
                                 files: [
                                     'src/**/+{page,layout}.{js,ts}',
                                     'src/**/+{page,layout}.server.{js,ts}',
@@ -197,40 +198,61 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                 otherLocales: ['es'],
                 adapters: {
                     main: jsx({
-                        variant: "solidjs"
+                        loader: 'solidjs',
+                        variant: 'solidjs',
                     }),
                 }
             })
             ```
         </TabItem>
         <TabItem label="Vanilla">
-            ```javascript
-            // wuchale.config.js
-            // @ts-check
-            import { adapter as basic } from 'wuchale/adapter-vanilla'
-            import { defineConfig } from 'wuchale'
+            <Tabs syncKey="vanillaVite">
+                <TabItem label="Vite">
+                    ```javascript
+                    // wuchale.config.js
+                    // @ts-check
+                    import { adapter as basic } from 'wuchale/adapter-vanilla'
+                    import { defineConfig } from 'wuchale'
 
-            export default defineConfig({
-                // sourceLocale is en by default
-                otherLocales: ['es'],
-                adapters: {
-                    main: basic()
-                }
-            })
-            ```
+                    export default defineConfig({
+                        // sourceLocale is en by default
+                        otherLocales: ['es'],
+                        adapters: {
+                            main: basic({ loader: 'vite' })
+                        }
+                    })
+                    ```
+                </TabItem>
+                <TabItem label="No Vite">
+                    ```javascript
+                    // wuchale.config.js
+                    // @ts-check
+                    import { adapter as basic } from 'wuchale/adapter-vanilla'
+                    import { defineConfig } from 'wuchale'
+
+                    export default defineConfig({
+                        // sourceLocale is en by default
+                        otherLocales: ['es'],
+                        adapters: {
+                            main: basic({ loader: 'default' })
+                        }
+                    })
+                    ```
+                </TabItem>
+            </Tabs>
         </TabItem>
     </Tabs>
 
-4. **Initialize locales**
+4. **Scaffold and initial extract**
 
     ```bash
-    npx wuchale init
+    npx wuchale
     ```
 
     This command:
 
     - Creates the locales directory if it doesn't exist
-    - Creates the loader files, asking you which is correct
+    - Creates the loader files
     - Performs an initial extraction
 
 5. Setup in Your App
