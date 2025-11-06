@@ -102,7 +102,7 @@ export default defineConfig({
         // Which one to download is decided at runtime
         granularLoad: svelte({
             files: './src/routes/[locale]/granular/**/*',
-            catalog: './src/locales/granular/{locale}',
+            localesDir: './src/locales/granular',
             granularLoad: true,
             generateLoadID: filename => {
                 if (filename.includes('grouped')) {
@@ -118,7 +118,7 @@ export default defineConfig({
         // This mimicks how ParaglideJS downloads catalogs but is not recommended.
         granularLoadBundle: svelte({
             files: './src/routes/[locale]/granular-bundle/**/*',
-            catalog: './src/locales/granular-bundle/{locale}',
+            localesDir: './src/locales/granular-bundle',
             granularLoad: true,
             bundleLoad: true,
         }),
@@ -129,10 +129,6 @@ export default defineConfig({
         // Also since node.js is not a reactive environment, we have to initialize the runtime inside functions.
         server: vanilla({
             files: './src/**/*.server.{js,ts}',
-            writeFiles: {
-                compiled: true,
-                proxy: true,
-            },
         }),
     },
 })

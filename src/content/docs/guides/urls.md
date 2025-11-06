@@ -19,6 +19,7 @@ uses [path-to-regexp](https://www.npmjs.com/package/path-to-regexp) for the actu
 of the patterns, you can use any syntax supported by it.
 
 ```js
+// wuchale.config.js
 export default {
     // sourceLocale is en by default
     otherLocales: ['fr', 'es', 'de'],
@@ -47,6 +48,7 @@ by the translator. This makes it consistent that all translation can be handled 
 But URLs patterns should be handled carefully. Therefore it puts them like this:
 
 ```po
+# es.po
 #: main
 #, url-pattern
 msgctxt "original: /items{/*rest}"

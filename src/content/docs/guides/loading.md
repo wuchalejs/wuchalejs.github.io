@@ -16,50 +16,43 @@ Each adapter is responsible for the files specified for it. And each adapter
 has two loader files:
 
 - `client`: Used for when the code is in the browser
-- `ssr`: Used when server side rendering
+- `server`: Used when server side rendering or for server messages
 
 :::tip
 You can see where exactly these files are using the command `npx wuchale status`.
 :::
 
 Each loader file has one job: loading the [compiled
-catalogs](/concepts/catalogs#compiled-catalogs) and providing it to the
-transformed modules.
+catalogs](/concepts/catalogs#compiled-catalogs), creating runtime objects from
+them, and providing them to the transformed modules.
 
-The loader file has to export two functions whose signatures should be like this:
+The loader file has to export two functions:
 
 ```ts
-(loadID: string) => import('wuchale/runtime').CatalogModule | null | undefined
+getRuntime(loadID: string): import('wuchale/runtime').Runtime | null | undefined
+getRuntimeRx(loadID: string): import('wuchale/runtime').Runtime | null | undefined
 ```
 
 They should be two because some libraries (specifically React) restrict using
 reactive functions to only some places. Because of that, one function should be
-reactive and the other one should be a non reactive function. Apart from this,
+reactive (`getRuntimeRx`) and the other one should be a non reactive (`getRuntime`) function. Apart from this,
 their job is the same. Where they are used is
 [configurable](/reference/adapter-common/#runtimeusereactive).
 
-How they are exported is also
-[configurable](/reference/adapter-common/#runtimereactiveimportname) but the
-default is:
-
-- The reactive: `default`
-- The non reactive: `get`
-
 The transformed modules then import them, call them with their
-[`loadID`](/concepts/catalogs/#loadid)s and expect a `CatalogModule` object. To
+[`loadID`](/concepts/catalogs/#loadid)s and expect a `Runtime` object. To
 be specific, the transformed modules will have something like this (depending
 on the adapter):
 
 ```js
-import _w_to_rt_ from 'wuchale/runtime'
-import _w_load_rx_,{get as _w_load_} from "../path/to/loader.js"
-const _w_runtime_ = _w_to_rt_(_w_load_('key')) // plain
-const _w_runtime_rx_ = _w_to_rt_(_w_load_rx_('key')) // reactive
+import {getRuntime as _w_load_, getRuntimeRx as _w_load_rx_} from "../path/to/loader.js"
+const _w_runtime_ = _w_load_('key') // plain
+const _w_runtime_rx_ = _w_load_rx_('key') // reactive
 ```
 
 This is done synchronously. That means, the loader has to have the catalogs
 loaded beforehand or have a reactive mechanism to update them after they are
-returned. Also, the loader has to know beforehand the `loadID`s that will be
+returned. And for that, the loader has to know beforehand the `loadID`s that will be
 requested to prepare the catalogs.
 
 If the loader returns `null` | `undefined` then the catalog is assumed not
@@ -69,13 +62,21 @@ messages.
 To give you an idea, this is what the loader file has to do.
 
 ```js
+
+import toRuntime from 'wuchale/runtime'
+
 // prepare/load the catalog
 const catalogModule = {c: ['Hello'], p: n => n == 1 ? 0 : 1}
+const rt = toRuntime(catalogModule, 'en')
 
-export const get = loadID => {
-    return catalogModule
+export const getRuntime = loadID => {
+    return rt
 }
-export default get
+
+export const getRuntimeRx = loadID => {
+    // do something different if needed for reactivity
+    return rt
+}
 ```
 
 Now the loaders are in control of what to provide to the transformed modules.
@@ -92,53 +93,44 @@ It is important to mention that if you use
 deal with anything below.
 
 Instead of the `loadID`, the loader function will receive an object with the
-locales as keys and catalog modules as objects, and you just have to do the
+locales as keys and runtime objects as values, and you just have to do the
 simple selection and return in your loader file.
 
 ```js
 // any state store for the locale
 let locale = 'en'
 
-export const get = (catalogs) => catalogs[locale]
-export default get
+export const getRuntime = (runtimes) => runtimes[locale]
+export const getRuntimeRx = getRuntime
 ```
 
-That's all. Because the importing files will just directly import the catalog
-modules and prepare the object before calling the loader function. They just
-need to know which one to use. While this makes the whole setup simple, it
-inflates the bundle size as it imports the catalogs for *all locales* even
-though only one is needed by the user.
+That's all. Because the importing files will just directly import the runtime
+before calling the loader function. They just need to know which one to use.
+While this makes the whole setup simple, it inflates the bundle size as it
+imports the catalogs for *all locales* even though only one is needed by the
+user.
 
 ## What loaders have access to
 
 ### Compiled catalogs
 
 Of course, the main thing the loaders need is the catalog modules. They are
-provided in two forms:
+provided as files, written under the directory of the configured
+[`localesDir`](/reference/adapter-common/#localesDir). The format is:
 
-- **When using Vite**:
+```
+{localesDir}/.wuchale/{adapterKey}.{loadID}.{locale}.compiled{ext}
+```
 
-    They are provided as virtual modules. The format is:
-    ```
-    virtual:wuchale/catalog/{adapterKey}/{loadID}/{locale}
-    ```
+Where `ext` is the extension of the loader file (e.g. `.js` or `.svelte.js`)
 
-- **When [`writeFiles.compiled`](/reference/adapter-common/#writefilescompiled) is enabled**:
-
-    They are provided as files, written in the directory of the configured
-    [`catalog`](/reference/adapter-common/#catalog). The format is:
-    ```
-    {catalogDir}/{locale}.compiled.{loadID}{ext}
-    ```
-    Where `ext` is the extension of the loader file (e.g. `.js` or `.svelte.js`)
-
-Now you can import (load) them in two ways:
+They can be imported (loaded) in one of two ways:
 
 - **Directly** (synchronously):
 
     ```js
-    import * as enCatalog from 'virtual:wuchale/catalog/main/main/en'
-    import * as esCatalog from 'virtual:wuchale/catalog/main/main/es'
+    import * as enCatalog from '../locales/.wuchale/main.main.en.compiled.js'
+    import * as esCatalog from '../locales/.wuchale/main.main.es.compiled.js'
 
     const catalogs = {
         en: enCatalog,
@@ -150,20 +142,20 @@ Now you can import (load) them in two ways:
 
     ```js
     const catalogs = {
-        en: () => import('virtual:wuchale/catalog/main/main/en'),
-        es: () => import('virtual:wuchale/catalog/main/main/es'),
+        en: () => import('../locales/.wuchale/main.main.en.compiled.js'),
+        es: () => import('../locales/.wuchale/main.main.es.compiled.js'),
     }
     ```
 
-And now using these, you can return suitable catalog modules. Assuming two
-`loadID`s (`main` and `other`):
+And now using these, you can return suitable catalog modules. Assuming one
+`loadID`, `main`:
 
 ```js
-// src/locales/loader.js
-import * as enMain from 'virtual:wuchale/catalog/main/main/en'
-import * as esMain from 'virtual:wuchale/catalog/main/main/es'
-import * as enOther from 'virtual:wuchale/catalog/main/other/en'
-import * as esOther from 'virtual:wuchale/catalog/main/other/es'
+// src/locales/main.loader.js
+
+import toRuntime from 'wuchale/runtime'
+import * as enMain from './.wuchale/main.main.en.compiled.js'
+import * as esMain from './.wuchale/main.main.es.compiled.js'
 
 let locale = 'en' // maybe controlled by state
 
@@ -172,14 +164,10 @@ const catalogs = {
         en: enMain,
         es: enMain,
     },
-    other: {
-        en: enOther,
-        es: esOther,
-    },
 }
 
-export const get = loadID => catalogs[loadID]?.[locale]
-export default get
+export const getRuntimeRx = loadID => toRuntime(catalogs[loadID]?.[locale], locale)
+export const getRuntime = getRuntimeRx
 ```
 
 ### Proxies
@@ -190,20 +178,16 @@ when using [`granularLoad`](/reference/adapter-common/#granularload). For that
 reason, proxies are provided.
 
 Proxies are convenience modules that import the catalogs, build the object, and
-provide the `loadID`s and a function to load the catalogs. For each loader,
+provide the `loadID`s and a function to load the catalogs.
+For each adapter, two proxies are provided:
 
-- **When using vite**: two proxies are provided.
-    - Asynchronous:
-        ```
-        virtual:wuchale/proxy
-        ```
-    - Synchronous
-        ```
-        virtual:wuchale/proxy/sync
-        ```
-- **When `writeFiles.compiled` is enabled**: only synchronous:
+- Asynchronous:
     ```
-    {catalogDir}/proxy.{ext}
+    {localesDir}/.wuchale/{adapterKey}.proxy.{ext}
+    ```
+- Synchronous
+    ```
+    {localesDir}/.wuchale/{adapterKey}.proxy.sync.{ext}
     ```
 
 What they provide is the same (only different in being asynchronous).
@@ -226,32 +210,27 @@ What they provide is the same (only different in being asynchronous).
     export const key: string
     ```
 
-:::note
-What the proxies provide is dependent on which loader is importing
-them. They export different arrays and functions to different loaders.
-Therefore, you can only import from them inside the loaders only. If you need
-to something from them elsewhere, re-export them from the loaders.
-:::
-
 Now, the above loader can be simplified, and generalized, to:
 
 ```js
-// src/locales/loader.js
-import { loadCatalog, loadIDs } from 'virtual:wuchale/proxy/sync'
+// src/locales/main.loader.js
+
+import toRuntime from 'wuchale/runtime'
+import { loadCatalog, loadIDs } from './.wuchale/main.proxy.sync.js'
 
 let locale = 'en' // maybe controlled by state
 const locales = ['en', 'es']
-const catalogs = {}
+const runtimes = {}
 
 for (const loadID of loadIDs) {
-    catalogs[loadID] = catalogs[loadID] ?? {}
+    runtimes[loadID] = runtimes[loadID] ?? {}
     for (const locale of locales) {
-        catalogs[loadID][locale] = loadCatalog(loadID, locale)
+        runtimes[loadID][locale] = toRuntime(loadCatalog(loadID, locale), locale)
     }
 }
 
-export const get = loadID => catalogs[loadID]?.[locale]
-export default get
+export const getRuntimeRx = loadID => runtimes[loadID]?.[locale]
+export const getRuntime = getRuntime
 ```
 
 Now this can work for any number of `loadID`s and you don't have to keep track
@@ -270,23 +249,21 @@ catalogs to is appropriate. The module used for this is `wuchale/load-utils`.
 
 The setup is done in two steps. The first step is registering the load
 functions with the `loadID`s at the central registry. This is done in the
-loader. Continuing with the above example loader, it now becomes very simple.
+loader. Continuing with the above example loader, and now intending to load the
+catalogs asynchronously, it now becomes very simple.
 
 ```js
-// src/locales/loader.js
-import { loadCatalog, loadIDs, key } from 'virtual:wuchale/proxy/sync'
+// src/locales/main.loader.js
+import { loadCatalog, loadIDs, key } from './.wuchale/main.proxy.js'
 import { registerLoaders } from 'wuchale/load-utils'
 
-export const get = registerLoaders(key, loadCatalog, loadIDs)
-export default get
+export const getRuntimeRx = registerLoaders(key, loadCatalog, loadIDs)
+export const getRuntime = getRuntimeRx
 ```
 
 `registerLoaders` returns a function already prepared for use by the importing
-transformed modules so it can be directly exported as `default`.
-
-:::tip
-This is actually the default loader content for the vanilla adapter.
-:::
+transformed modules so it can be directly exported. It also registers the
+loaders in a global store, and later we can call `loadLocale` (see below)
 
 `registerLoaders` takes an optional fourth argument, a `CatalogCollection` object:
 
@@ -309,13 +286,15 @@ Svelte), there is a function provided from `load-utils` called
 You can use it like this (example in Svelte):
 
 ```js
-import { loadCatalog, loadIDs, key } from 'virtual:wuchale/proxy'
+import { loadCatalog, loadIDs } from './.wuchale/main.proxy.js'
 import { registerLoaders, defaultCollection } from 'wuchale/load-utils'
+
+const key = 'main'
 
 const catalogs = $state({})
 
-export const get = registerLoaders(key, loadCatalog, loadIDs, defaultCollection(catalogs))
-export default get
+export const getRuntimeRx = registerLoaders(key, loadCatalog, loadIDs, defaultCollection(catalogs))
+export const getRuntime = getRuntimeRx
 ```
 
 :::tip
@@ -352,14 +331,21 @@ setup is done in two steps. First, inside the loader file, we instruct the
 catalogs to be loaded and be ready.
 
 ```js
-// src/locales/loader.js
+// src/locales/main.loader.js
 
-import { loadCatalog, loadIDs, key } from './proxy.js'
+import { loadCatalog, loadIDs } from './main.proxy.sync.js'
 import { loadLocales } from 'wuchale/load-utils/server'
+import { locales } from './data.js'
 
-export const get = await loadLocales(key, loadIDs, loadCatalog, ['en', 'es'])
-export default get
+const key = 'main'
+
+export const getRuntimeRx = await loadLocales(key, loadIDs, loadCatalog, locales)
+export const getRuntime = getRuntime
 ```
+
+:::tip
+This is the content of the Vanilla adapter's `server` loader.
+:::
 
 Then when processing a request, wrap the request processing with a locale
 setup:
@@ -412,11 +398,11 @@ export default defineConfig({
     adapters: {
         product: svelte({
             files: ['src/product/**/*.svelte'],
-            catalog: 'src/product/locales/{locale}',
+            localesDir: 'src/product/locales',
         }),
         services: svelte({
             files: ['src/services/**/*.svelte'],
-            catalog: 'src/services/locales/{locale}',
+            localesDir: 'src/services/locales',
         }),
         // ...
     }

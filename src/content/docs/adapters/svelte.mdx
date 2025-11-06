@@ -85,7 +85,7 @@ per request. You can set it up inside `hooks.server.{js,ts}`.
 import * as main from './locales/loader.ssr.svelte.js'
 import * as js from './locales/loader.ssr.js'
 import { runWithLocale, loadLocales } from 'wuchale/load-utils/server';
-import { locales } from 'virtual:wuchale/locales'
+import { locales } from './locales/data.js'
 
 // load at server startup
 loadLocales(main.key, main.loadIDs, main.loadCatalog, locales)
@@ -127,7 +127,7 @@ it's in the browser (the server is already handled).
 
 ```javascript
 // src/routes/+layout.js
-import { locales } from 'virtual:wuchale/locales'
+import { locales } from '../locales/data.js'
 import { browser } from '$app/environment'
 import { loadLocale } from 'wuchale/load-utils'
 // so that the loaders are registered

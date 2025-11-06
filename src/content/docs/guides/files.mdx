@@ -3,8 +3,7 @@ title: File Structure
 description: Understand wuchale's file structure - discover how .po catalogs, compiled .compiled.js files, and loader/proxy scripts work together for efficient internationalization.
 ---
 
-Unless configured to write other files to disk, `wuchale` only writes files
-that you should commit.
+`wuchale` writes files in the following way:
 
 import { FileTree } from '@astrojs/starlight/components';
 
@@ -14,24 +13,26 @@ import { FileTree } from '@astrojs/starlight/components';
     - locales
         - en.po Source catalog
         - es.po Translation catalog
-        - loader.js Loader file for the adapter
-        - App.svelte Your components
+        - data.js Data file to import e.g. locales from
+        - main.loader.server.svelte.js Loader file for client side
+        - main.loader.svelte.js Loader file for client side
+        - main.url.js Exports URL related functions
+        - .wuchale
+            - main.main.en.compiled.js Compiled catalog
+            - main.main.es.compiled.js
+            - main.proxy.js Proxy for async catalog loading
+            - main.proxy.sync.js Proxy for sync catalog loading
+            - main.urls.js [URL manifest](/guides/urls) file
+    - App.svelte Your components
 </FileTree>
 
-If you configure the loader to write the compiled catalogs and the proxy,
+The files under `.wuchale` are generated/overwritten as needed and should be `.gitignore`d.
 
-<FileTree>
-- vite.config.js
-- src
-    - locales
-        - en.po           Source catalog
-        - en.compiled.js  Source catalog compiled (if [writeFiles.compiled](/reference/adapter-common/#writefilescompiled))
-        - es.po           Translation catalog
-        - es.compiled.js  Translation catalog compiled
-        - proxy.js        Proxy file for catalogs (if [writeFiles.proxy](/reference/adapter-common/#writefilesproxy))
-        - loader.js       Loader file for the adapter
-    - App.svelte          Your components
-</FileTree>
+The files directly in `locales`
+
+- Obviously you need to commit the `.po` files, those are sources of truth for all translations.
+- If you want to control the [loader logic](/guides/loading) and have set `custom` as the loader value in the adapter config, you have to commit the loader files. Otherwise, you can ignore them, they are (re)written at startup.
+- The other files files are (re)written at startup and can be ignored.
 
 If you configure it to write the transformed code as well, it will write it to
 `src/locales/.output/` or the `outDir` you configure.

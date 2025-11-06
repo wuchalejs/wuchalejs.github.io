@@ -1,6 +1,6 @@
 ---
 title: Common adapter options
-description: Explore wuchale's common adapter options - configure catalog paths, file extraction patterns, function call patterns, heuristics, and granular loading strategies for efficient internationalization.
+description: Explore wuchale's common adapter options - configure locales directory, file extraction patterns, function call patterns, heuristics, and granular loading strategies for efficient internationalization.
 ---
 
 These are the configuration options that are common across adapters. The
@@ -12,28 +12,27 @@ Example:
 ```javascript
 // ...
 main: svelte({
-    catalog: './src/locales/{locale}',
+    localesDir: './src/locales',
 }),
 // ...
 ```
 
-## `catalog`
+## `localesDir`
 
 **type**: `string`
-**default**: `./src/locales/{locale}`
+**default**: `./src/locales`
 
-The catalog is a place where the locales are created. This option value is
-taken as a template to decide the file names. `{locale}` will be substituted
-for each specific locale (and by `proxy` for the proxy file).
+The `localesDir` is a place where the PO files and other runtime files like
+loaders and proxies are created.
 
 ## `loaderPath`
 
 **type**: `string`
-**default**: `[catalog option]loader[loader extension]`
+**default**: `{localesDir}/{adapterKey}.loader{loaderExtension}`
 
 This option controls the location of the loader file. As each adapter specified
 in the configuration should have a different loader file, you should specify
-this if you share the `catalog` option among different adapters.
+this if you share the `localesDir` option among different adapters.
 
 ## `files`
 **type**: `GlobConf`
@@ -169,30 +168,9 @@ it is not recommended as all catalogs then get bundled with the code that uses
 them even though only one for a single locale is required by the user. This can
 inflate the bundle size. But if this is desired anyway, it can be enabled here.
 
-## `writeFiles.compiled`
-**type**: `boolean`
-**default**: `false`
-
-Whether to write the compiled catalogs to disk. By default, they are virtual
-modules and not written to disk to reduce file clutter and improve performance.
-But enabling this is necessary in the absence of `Vite` as `Node.js` doesn't
-support virtual modules.
-
-## `writeFiles.proxy`
-**type**: `boolean`
-**default**: `false`
-
-The same intention as above but for the loader [proxy](/concepts/loadersproxies/).
-
-## `writeFiles.transformed`
-**type**: `boolean`
-**default**: `false`
-
-The same intention as above but for the transformed code.
-
-## `writeFiles.outDir`
+## `outDir`
 **type**: `string`
-**default**: `{catalog dir}/.output`
+**default**: `{localesDir}/.output`
 
 Where to write the transformed code. A mirror structure is created in this
 directory and the transformed code is put there.

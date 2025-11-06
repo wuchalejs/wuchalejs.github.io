@@ -32,7 +32,7 @@ adapters: js({
   patterns: [
     {
       name: "formatMsg",
-      args: ["message", "other"],
+      args: ["message", "other", "locale"],
     },
   ],
 });
@@ -42,10 +42,7 @@ adapters: js({
 Then you create your reusable utility function with that name:
 
 ```js
-// where you get the locale, can be a reactive store or anything
-let currentLocale = "en";
-
-export function formatMsg(msg, args) {
+export function formatMsg(msg, args, locale = 'en') {
   return new IntlMessageFormat(msg, currentLocale).format(args);
 }
 ```
@@ -66,7 +63,7 @@ const msg = formatMsg(
 Then `wuchale` will extract and transform it into:
 
 ```js
-const msg = formatMsg(_w_runtime_.t(0), { numPhotos: 1000 });
+const msg = formatMsg(_w_runtime_.t(0), { numPhotos: 1000 }, _w_runtime_.l);
 ```
 
 And you will find that big string in the PO file, and can translate it,
