@@ -17,6 +17,32 @@ main: svelte({
 // ...
 ```
 
+## `loader`
+
+**type**: `{adapterLoaders} | "custom"`
+**default**: (depends on the adapter)
+
+This option controls sets the loader to import the runtime from (by the
+transformed files).
+
+It can be one of the supported loader names by the adapter,
+in which case the corresponding loader will be generated at startup. For
+example, for the Svelte adapter, the `svelte` loader can be used which exports
+a reactive way to get the runtimes.
+
+Or it can be `custom` if taking control of the loader file is desired. When
+using this, you can use the loader file naming convention (client and server):
+
+```
+{localesDir}/{adapterKey}.loader.{ext}
+{localesDir}/{adapterKey}.loader.server.{ext}
+```
+
+Where
+- `localesDir` is... (see below)
+- `adapterKey` is the key you used for the adapter config in `wuchale.config.js`, e.g. `main`
+- `ext` is one of the supported loader extensions by the adapter (see in the beginning of its page).
+
 ## `localesDir`
 
 **type**: `string`
@@ -24,15 +50,6 @@ main: svelte({
 
 The `localesDir` is a place where the PO files and other runtime files like
 loaders and proxies are created.
-
-## `loaderPath`
-
-**type**: `string`
-**default**: `{localesDir}/{adapterKey}.loader{loaderExtension}`
-
-This option controls the location of the loader file. As each adapter specified
-in the configuration should have a different loader file, you should specify
-this if you share the `localesDir` option among different adapters.
 
 ## `files`
 **type**: `GlobConf`
