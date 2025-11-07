@@ -11,15 +11,15 @@ import { FileTree } from '@astrojs/starlight/components';
 - vite.config.js
 - src
     - locales
-        - en.po Source catalog
-        - es.po Translation catalog
-        - data.js Data file to import e.g. locales from
-        - main.loader.server.svelte.js Loader file for client side
-        - main.loader.svelte.js Loader file for client side
-        - main.url.js Exports URL related functions
-        - .wuchale
-            - main.main.en.compiled.js Compiled catalog
-            - main.main.es.compiled.js
+        - en.po Source catalog (commit)
+        - es.po Translation catalog (commit)
+        - data.js Data file to import e.g. locales from (see below)
+        - main.loader.server.svelte.js Loader file for client side (see below)
+        - main.loader.svelte.js Loader file for client side (see below)
+        - main.url.js URL related functions if configured (see below)
+        - .wuchale (ignore)
+            - main.main.en.compiled.js Compiled source catalog
+            - main.main.es.compiled.js Compiled translated catalog
             - main.proxy.js Proxy for async catalog loading
             - main.proxy.sync.js Proxy for sync catalog loading
             - main.urls.js [URL manifest](/guides/urls) file
@@ -31,7 +31,7 @@ The files under `.wuchale` are generated/overwritten as needed and should be `.g
 The files directly in `locales`
 
 - Obviously you need to commit the `.po` files, those are sources of truth for all translations.
-- If you want to control the [loader logic](/guides/loading) and have set `custom` as the loader value in the adapter config, you have to commit the loader files. Otherwise, you can ignore them, they are (re)written at startup.
+- If you want to control the [loader logic](/guides/loading) and have set `custom` as the [loader](/reference/adapter-common/#loader) in the adapter config, you have to commit the loader files. Otherwise, you can ignore them, they are (re)written at startup.
 - The other files files are (re)written at startup and can be ignored.
 
 If you configure it to write the transformed code as well, it will write it to

@@ -13,7 +13,8 @@ tools, it is explained here.
 
 You can specify one or more adapter configurations in your `wuchale.config.js`.
 Each adapter is responsible for the files specified for it. And each adapter
-has two loader files:
+can have one or two loader files ([generated or manually
+written](/reference/adapter-common/#loader)):
 
 - `client`: Used for when the code is in the browser
 - `server`: Used when server side rendering or for server messages
@@ -35,8 +36,8 @@ getRuntimeRx(loadID: string): import('wuchale/runtime').Runtime | null | undefin
 
 They should be two because some libraries (specifically React) restrict using
 reactive functions to only some places. Because of that, one function should be
-reactive (`getRuntimeRx`) and the other one should be a non reactive (`getRuntime`) function. Apart from this,
-their job is the same. Where they are used is
+reactive (`getRuntimeRx`) and the other one should a non-reactive (`getRuntime`).
+Apart from this, their job is the same. Where they are used is
 [configurable](/reference/adapter-common/#runtimeusereactive).
 
 The transformed modules then import them, call them with their
@@ -47,7 +48,7 @@ on the adapter):
 ```js
 import {getRuntime as _w_load_, getRuntimeRx as _w_load_rx_} from "../path/to/loader.js"
 const _w_runtime_ = _w_load_('key') // plain
-const _w_runtime_rx_ = _w_load_rx_('key') // reactive
+const _w_runtime_ = _w_load_rx_('key') // reactive
 ```
 
 This is done synchronously. That means, the loader has to have the catalogs

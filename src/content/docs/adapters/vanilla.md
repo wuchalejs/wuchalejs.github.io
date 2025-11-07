@@ -7,6 +7,7 @@ Import | `import { adapter } from "wuchale/adapter-vanilla"`
 -|-
 Loader extensions | `.js`, `.ts`
 Default `files` | `src/**/*.{js,ts}`
+Available loaders | `vite`, `server`
 
 The Vanilla adapter adds support for plain JavaScript/TypeScript projects. And
 how you use it is different based on whether you use Vite or not. If you are
