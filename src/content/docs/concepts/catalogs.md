@@ -53,9 +53,8 @@ exchange with translators. To be used in the application, it gets compiled into:
 ## Compiled catalogs
 
 Compiled catalogs are JavaScript modules that contain only the necessary
-information. And depending on the configuration, they can be virtual modules
-(default) or written to disk. The above example catalog, after compilation
-becomes:
+information, written to the `{localesDir}/.wuchale/` directory. The above
+example catalog, after compilation becomes:
 
 ```js
 // es.compiled.main.js

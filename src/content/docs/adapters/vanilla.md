@@ -11,13 +11,12 @@ Available loaders | `vite`, `server`
 
 The Vanilla adapter adds support for plain JavaScript/TypeScript projects. And
 how you use it is different based on whether you use Vite or not. If you are
-not using Vite, then it is impossible to use virtual modules. Therefore you
-have to write every file that your application needs, including compiled
-catalogs and proxies.
+not using Vite, then it is impossible to transform code on the fly. Therefore
+you have to write every file that your application needs.
 
-To support with that, `wuchale` provides the options to [write those
-files](/reference/adapter-common/#writefilescompiled) to disk and will adjust
-the importing to use relative paths when it writes the output files.
+To support with that, `wuchale` provides the
+[`outDir`](/reference/adapter-common/#outDir) option and will adjust the
+importing to use relative paths when it writes the output files.
 
 ## Setup in Your App
 

@@ -33,11 +33,11 @@ Then the setup for the test should be something like:
 import { expect, test } from 'vitest';
 import { greet } from './hello.svelte.js'; // to be tested
 
-import * as main from '../locales/loader.ssr.svelte.js'
-import * as js from '../locales/loader.ssr.js'
+import * as main from '../locales/main.loader.server.svelte.js'
+import * as js from '../locales/js.loader.server.js'
 
 import { loadLocales, runWithLocale } from 'wuchale/load-utils/server';
-import { locales } from 'virtual:wuchale/locales'
+import { locales } from '../locales/data.js'
 
 await loadLocales(main.key, main.loadIDs, main.loadCatalog, locales)
 await loadLocales(js.key, js.loadIDs, js.loadCatalog, locales)

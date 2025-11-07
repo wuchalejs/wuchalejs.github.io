@@ -55,13 +55,6 @@ Adapters can share the same catalog as long as they use different loaders.
 - If you want to keep their catalogs separate, specify different `catalog` options for them.
 - If you want them to share the same catalog, which means they will write to the same PO files, you can specify the same `catalog` option for them. They will be coordinated to prevent race conditions by using shared states.
 
-### `loaderPath`
-
-Each adapter, regardless of whether it shares the catalog or not, should have its own unique loader file. Therefore,
-
-- If you specify different `catalog` options for the adapters, since the default `loaderPath` is computed from that, the loaders will be separate, no need to provide `loaderPath`.
-- If you use the same `catalog` options, you have to specify different `loaderPath` options unless the computed default loader path is different (e.g. `loader.js` for Vanilla vs `loader.svelte.js` for Svelte).
-
 ## Example
 
 Let's say you have a complicated SvelteKit application and want to have four adapters:
@@ -69,7 +62,7 @@ Let's say you have a complicated SvelteKit application and want to have four ada
 1. `single`: for the home route *and* a sub route where there will be a form
 1. `granularLoad`: for a sub route where you have lots of text per file and you want to avoid having to download the whole catalog for the sub route and instead only for the page, dividing the compiled catalogs, and loading them in an async way you set up, but also have some of the files share a compiled catalog
 1. `granularLoadBundle`: For a sub route where you want to divide the compiled catalogs per file but just bundle all catalogs for each file with the file to avoid separate network calls
-1. `server`: For the backend code which will run outside of Vite and so will not have access to virtual modules, and has to import from the file system, so the compiled catalogs and proxy should be written to disk.
+1. `server`: For the backend code which will run outside of Vite.
 
 And as an additional requirement, you want to make the `single` and `server`
 adapters share the same catalogs.
@@ -124,9 +117,7 @@ export default defineConfig({
         }),
         // Used for messages that are sent from the server instead of being rendered client-side.
         // Uses one compiled catalog because bundle size optimizations are irrelevant on the server.
-        // It is necessary to write the loader proxy and the compiled catalogs to disk
-        //   because node.js doesn't support virtual modules.
-        // Also since node.js is not a reactive environment, we have to initialize the runtime inside functions.
+        // Since node.js is not a reactive environment, we have to initialize the runtime inside functions.
         server: vanilla({
             files: './src/**/*.server.{js,ts}',
         }),
