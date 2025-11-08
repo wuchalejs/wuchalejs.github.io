@@ -131,7 +131,7 @@ it's in the browser (the server is already handled).
 import { locales } from '../locales/data.js'
 import { browser } from '$app/environment'
 import { loadLocale } from 'wuchale/load-utils'
-// so that the loaders are registered, only once here
+// so that the loaders are registered, only here, not required in nested ones (below)
 import '../locales/main.loader.svelte.js'
 import '../locales/js.loader.svelte.js'
 
@@ -143,6 +143,17 @@ export const load = async ({url}) => {
     }
 }
 ```
+
+:::note
+If you have messages returned from layout `load` functions and you have nested
+layout load functions, you have to load the locale in each of them because
+SvelteKit [runs them in
+parallel](https://svelte.dev/docs/kit/load#Parallel-loading) and that means the
+order in which they are executed is not predictable and `wuchale` may not find
+the loaded catalogs if only one of them loads them and the other runs first.
+Besides, loading catalogs is just importing them and the JS runtime caches even
+async imports anyway so it shouldn't cause repeated network calls.
+:::
 
 ## Default extraction rules
 
