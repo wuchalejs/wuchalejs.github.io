@@ -164,7 +164,7 @@ Then during transformation, your code gets updated to use the current locale's d
 
 ```svelte
 <script>
-    import _w_rt_ from '../locales/loader.svelte.js'
+    import _w_rt_ from '../locales/main.loader.svelte.js'
     const _w_runtime_ = _w_rt_('main')
     import {plural} from '/src/utils.js'
     let itemCount = 5

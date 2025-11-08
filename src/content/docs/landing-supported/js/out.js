@@ -1,9 +1,8 @@
-import _w_to_rt_ from 'wuchale/runtime'
-import _w_load_ from "./loader.js"
+import { getRuntime as _w_load_ } from "./main.loader.js"
 // comment
 
 export function Greeting(props) {
-	const _w_runtime_ = _w_to_rt_(_w_load_('vanilla'))
+	const _w_runtime_ = _w_load_('main')
 	return {
 		greeting: _w_runtime_.t(0),
 		title: _w_runtime_.t(1),

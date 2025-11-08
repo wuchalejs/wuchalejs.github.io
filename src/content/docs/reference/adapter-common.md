@@ -30,8 +30,9 @@ in which case the corresponding loader will be generated at startup. For
 example, for the Svelte adapter, the `svelte` loader can be used which exports
 a reactive way to get the runtimes.
 
-Or it can be `custom` if taking control of the loader file is desired. When
-using this, you can use the loader file naming convention (client and server):
+Or it can be `custom` if taking control of the loader file is desired. If using
+this, the loader files will not be overwritten. When using this, you can use
+the loader file naming convention (client and server):
 
 ```
 {localesDir}/{adapterKey}.loader.{ext}

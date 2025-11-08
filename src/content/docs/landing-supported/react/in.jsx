@@ -2,7 +2,6 @@
 
 
 
-
 export function Greeting({ username }) {
 
   return (

@@ -2,7 +2,6 @@
 
 
 
-
 	const { username } = $props()
 </script>
 

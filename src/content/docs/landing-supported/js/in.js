@@ -1,7 +1,6 @@
 // comment
 
 
-
 export function Greeting(props) {
 
 	return {

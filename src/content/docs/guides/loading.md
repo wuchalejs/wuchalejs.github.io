@@ -46,7 +46,7 @@ be specific, the transformed modules will have something like this (depending
 on the adapter):
 
 ```js
-import {getRuntime as _w_load_, getRuntimeRx as _w_load_rx_} from "../path/to/loader.js"
+import {getRuntime as _w_load_, getRuntimeRx as _w_load_rx_} from "../locales/main.loader.js"
 const _w_runtime_ = _w_load_('key') // plain
 const _w_runtime_ = _w_load_rx_('key') // reactive
 ```
@@ -307,7 +307,7 @@ you have to import the loader so that the loader function is registered.
 
 ```js
 import { loadLocale } from 'wuchale/load-utils'
-import '../path/to/loader.js' // make sure it's registered
+import '../path/to/main.loader.js' // make sure it's registered
 
 // ...
 await loadLocale(locale)
@@ -368,7 +368,7 @@ direct, no side effect way to load the catalogs. For that, the
 
 ```js
 import { loadCatalogs } from 'wuchale/load-utils/pure'
-import { loadIDs, loadCatalog } from '../locales/loader.js'
+import { loadIDs, loadCatalog } from '../locales/main.loader.js'
 
 let locale = 'en'
 

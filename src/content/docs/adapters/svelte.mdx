@@ -31,7 +31,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
         <script>
           import { loadLocale } from 'wuchale/load-utils'
           // so that the loaders are registered first
-          import './locales/loader.svelte.js'
+          import './locales/main.loader.svelte.js'
           // you can use any state from anywhere for the locale
           let locale = $state('en')
         </script>
@@ -51,7 +51,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
         <script>
           import { loadLocale } from 'wuchale/load-utils'
           // so that the loaders are registered first
-          import './locales/loader.svelte.js'
+          import './locales/main.loader.svelte.js'
           // you can use any state from anywhere for the locale
           let locale = $state('en')
           $effect(() => {
@@ -83,8 +83,8 @@ per request. You can set it up inside `hooks.server.{js,ts}`.
 
 ```js
 // hooks.server.js
-import * as main from './locales/loader.ssr.svelte.js'
-import * as js from './locales/loader.ssr.js'
+import * as main from './locales/main.loader.server.svelte.js'
+import * as js from './locales/js.loader.server.js'
 import { runWithLocale, loadLocales } from 'wuchale/load-utils/server';
 import { locales } from './locales/data.js'
 
@@ -131,16 +131,14 @@ it's in the browser (the server is already handled).
 import { locales } from '../locales/data.js'
 import { browser } from '$app/environment'
 import { loadLocale } from 'wuchale/load-utils'
-// so that the loaders are registered
-import '../locales/loader.svelte.js'
+// so that the loaders are registered, only once here
+import '../locales/main.loader.svelte.js'
+import '../locales/js.loader.svelte.js'
 
 /** @type {import('./$types').LayoutLoad} */
 export const load = async ({url}) => {
     const locale = url.searchParams.get('locale') ?? 'en'
-    if (!locales.includes(locale)) {
-        return
-    }
-    if (browser) {
+    if (browser && locales.includes(locale)) {
         await loadLocale(locale)
     }
 }
@@ -213,6 +211,7 @@ export default defineConfig({
     otherLocales: ['es'],
     adapters: {
         main: svelte({
+            loader: 'sveltekit', // e.g.
             heuristic: svelteDefaultHeuristicDerivedReq,
         }),
         // ...
