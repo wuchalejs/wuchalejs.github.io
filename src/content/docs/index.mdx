@@ -123,6 +123,12 @@ import Supported from './landing-supported/index.astro'
                 name: 'esim.info',
                 description: 'Travel eSIM comparison'
             },
+            {
+                href: 'https://svelte-apps.me/',
+                src: 'https://svelte-apps.me/favicon/favicon-96x96.png',
+                name: 'Svelte-MiniApps',
+                description: 'A SvelteKit Progressive Web App containing multiple single-purpose productivity mini-apps'
+            }
         ].map(({href, src, name, description}) => 
             <div style="width: 12em; display:flex; flex-direction: column; align-items: center; margin: 1em">
                 <a href={href} style="display:flex; flex-direction: column; align-items: center" target="_blank">
@@ -140,6 +146,10 @@ import Supported from './landing-supported/index.astro'
 
     Do you also use it in your project? [Let us know](https://github.com/wuchalejs/wuchale/issues/78)!
 
+</Card>
+
+<Card title="Companion tooling">
+    - [vite-plugin-lingo](https://github.com/Michael-Obele/vite-plugin-lingo): A Vite plugin that provides a visual editor for .po (Gettext) translation files
 </Card>
 
 <Card title="Inspiration">
