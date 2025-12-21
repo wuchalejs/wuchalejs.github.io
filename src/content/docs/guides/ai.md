@@ -63,6 +63,48 @@ export default {
 };
 ```
 
+Which model you use, whether it's local or remote, or how you connect to it is
+completely up to you. You can implement your own logic, or use a pre-made
+package.
+
+For example, you can choose to use [Vercel's AI
+SDK](https://www.npmjs.com/package/ai) package to get a uniform API you can work
+with accross different providers. Taking Gemini again as an example, you can
+configure wuchale to use it like so:
+
+```js
+import { defineConfig } from "wuchale"
+
+import { generateText } from 'ai';
+import { google } from '@ai-sdk/google';
+
+export default defineConfig({
+    otherLocales: ['es'],
+    adapters: {
+        // ...
+    },
+    ai: {
+        name: 'Gemini Vercel',
+        batchSize: 50,
+        parallel: 1,
+        translate: async (messages, instruction) => {
+            const { text } = await generateText({
+                model: google('gemini-2.5-flash'),
+                system: instruction,
+                prompt: messages,
+            })
+            return text
+        }
+    }
+})
+```
+
+You can then set the environment variable `GOOGLE_GENERATIVE_AI_API_KEY` to the API key and start the dev server.
+
+Now since the SDK provides a uniform API, we can use [any model from any
+provider that it
+supports](https://ai-sdk.dev/docs/introduction#model-providers).
+
 ## Mistake handling
 
 If the LLM makes mistakes (which it often does) and doesn't translate some of
