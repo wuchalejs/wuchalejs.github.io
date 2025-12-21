@@ -69,14 +69,15 @@ package.
 
 For example, you can choose to use [Vercel's AI
 SDK](https://www.npmjs.com/package/ai) package to get a uniform API you can work
-with accross different providers. Taking Gemini again as an example, you can
+with accross different providers. Taking GPT 5 as an example, you can
 configure wuchale to use it like so:
 
 ```js
+// wuchale.config.js
 import { defineConfig } from "wuchale"
 
 import { generateText } from 'ai';
-import { google } from '@ai-sdk/google';
+import { openai } from '@ai-sdk/openai';
 
 export default defineConfig({
     otherLocales: ['es'],
@@ -84,12 +85,12 @@ export default defineConfig({
         // ...
     },
     ai: {
-        name: 'Gemini Vercel',
+        name: 'GPT-5',
         batchSize: 50,
         parallel: 1,
         translate: async (messages, instruction) => {
             const { text } = await generateText({
-                model: google('gemini-2.5-flash'),
+                model: openai('gpt-5.1'),
                 system: instruction,
                 prompt: messages,
             })
@@ -99,9 +100,9 @@ export default defineConfig({
 })
 ```
 
-You can then set the environment variable `GOOGLE_GENERATIVE_AI_API_KEY` to the API key and start the dev server.
+You can then set the environment variable `OPENAI_API_KEY` to the API key and start the dev server.
 
-Now since the SDK provides a uniform API, we can use [any model from any
+Now since the SDK provides a uniform API, you can use [any model from any
 provider that it
 supports](https://ai-sdk.dev/docs/introduction#model-providers).
 
