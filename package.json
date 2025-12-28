@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
-    "getchangelogs": "node get-changelogs.ts",
+    "prebuild": "node get-changelogs.ts",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"
