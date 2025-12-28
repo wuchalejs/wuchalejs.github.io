@@ -71,6 +71,10 @@ export default defineConfig({
                         { label: 'Examples', link: 'https://github.com/wuchalejs/examples', attrs: { target: '_blank' } },
                     ],
                 },
+                {
+                    label: 'Changelogs',
+                    autogenerate: { directory: 'changelogs' },
+                },
             ],
         }),
     ],
