@@ -16,8 +16,7 @@ import { defineConfig } from "wuchale"
 import { adapter as svelte } from "@wuchale/svelte"
 
 export default defineConfig({
-    sourceLocale: 'en', // default
-    otherLocales: ['es', 'fr'],
+    locales: ['en', 'es'],
     adapters: {
         main: svelte({
             catalog: './src/locales/{locale}',
@@ -31,20 +30,18 @@ adapter. The adapter accepts a configuration object as an argument. The
 configuration for each adapter is discussed in the adapter's documentation. The
 main configuration is discussed here.
 
-### `sourceLocale`
-
-**type**: `string`
-**default**: `en`
-
-The key of the source languages from the `locales` config. This is the language
-you use in the source code and will not need to be translated. In most cases
-this will be English.
-
-### `otherLocales`
+### `locales`
 
 **type**: `string[]`
 
-The locales to translate to. They must be valid [BCP 47
+The locales the app should be available in. If the source language needs to be
+presented to the user (in almost all cases it is), then it should also be
+included here. If the app includes some files written in another spoken
+language, those files should be handled by a separate adapter config and the
+[`sourceLocale`](/reference/adapter-common/#sourcelocale) can be specified
+there, which only applies to that adapter config.
+
+The locales here must be valid [BCP 47
 tags](https://en.wikipedia.org/wiki/IETF_language_tag). For example, `en`,
 `en-US`, `eng`, `zh-Hans` are valid, but `en_US`, `cn-simplified` are invalid.
 The validation is done using

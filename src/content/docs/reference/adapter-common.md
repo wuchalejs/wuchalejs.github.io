@@ -17,6 +17,14 @@ main: svelte({
 // ...
 ```
 
+### `sourceLocale`
+
+**type**: `string`
+**default**: (first locale in `locales` in top-level)
+
+This is the language you use in the source code and will not need to be
+translated. In most cases this will be English.
+
 ## `loader`
 
 **type**: `{adapterLoaders} | "custom"`

@@ -21,8 +21,7 @@ import { adapter as vanilla } from "wuchale/adapter-vanilla"
 import { defineConfig } from "wuchale"
 
 export default defineConfig({
-    // sourceLocale is en by default
-    otherLocales: ['es'],
+    locales: ['en', 'es'],
     adapters: {
         server: vanilla(),
         client: jsx(),
@@ -77,7 +76,7 @@ import { adapter as svelte } from '@wuchale/svelte'
 import { adapter as vanilla } from "wuchale/adapter-vanilla"
 
 export default defineConfig({
-    otherLocales: ['es'],
+    locales: ['en', 'es'],
     adapters: {
         // Applies over the components inside the single route as well as the top level route.
         // Uses a single compiled catalog per locale, downloaded once.

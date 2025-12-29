@@ -225,8 +225,7 @@ import { adapter as svelte, svelteDefaultHeuristicDerivedReq } from "@wuchale/sv
 import { defineConfig } from "wuchale"
 
 export default defineConfig({
-    // sourceLocale is en by default
-    otherLocales: ['es'],
+    locales: ['en', 'es'],
     adapters: {
         main: svelte({
             loader: 'sveltekit', // e.g.

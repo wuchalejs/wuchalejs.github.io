@@ -1,0 +1,46 @@
+---
+title: Astro
+description: Integrate wuchale with Astro, extract translations, manage locale loading, and handle nested messages with astro-specific implementation
+---
+
+Import | `import { adapter } from "@wuchale/astro"`
+-|-
+Loader extensions | `.js`, `.ts`
+Default `files` | `src/**/*.{astro}` except `**/*.d.ts`
+Available loaders | `default`
+Compatibility | Tested with Astro >= 5
+
+The Astro adapter implements support for Astro files.
+
+## Setup in Your App
+
+This is assuming that you didn't modify the default loader file.
+
+Since Astro is an SSR/SSG framework, there is only one simple way to load the locales.
+
+import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
+
+```js
+// src/middleware.js
+import * as main from './locales/main.loader.js'
+import { runWithLocale, loadLocales } from 'wuchale/load-utils/server';
+import { locales } from './locales/data.js'
+
+// load at server startup
+loadLocales(main.key, main.loadIDs, main.loadCatalog, locales)
+
+export function onRequest (context, next) {
+    const locale = context.params.locale ?? 'en'
+    return runWithLocale(locale, next);
+};
+```
+
+## Default extraction rules
+
+This adapter only uses the [default rules](/guides/rules) and has no additional restrictions.
+
+## Configuration Reference
+
+For the main configuration, look in the [configuration reference](/reference/config).
+
+For the common adapter configuration, look in the [common adapter options](/reference/adapter-common/).

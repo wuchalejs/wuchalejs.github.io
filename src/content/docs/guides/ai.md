@@ -80,7 +80,7 @@ import { generateText } from 'ai';
 import { openai } from '@ai-sdk/openai';
 
 export default defineConfig({
-    otherLocales: ['es'],
+    locales: ['en', 'es'],
     adapters: {
         // ...
     },

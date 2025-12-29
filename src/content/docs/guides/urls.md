@@ -21,8 +21,7 @@ of the patterns, you can use any syntax supported by it.
 ```js
 // wuchale.config.js
 export default {
-    // sourceLocale is en by default
-    otherLocales: ['fr', 'es', 'de'],
+    locales: ['en', 'es'],
     adapters: {
         main: svelte({
             loader: 'sveltekit',

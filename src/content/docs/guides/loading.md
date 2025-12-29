@@ -394,8 +394,7 @@ sufficient. For a large application, there are multiple methods to manage it:
 ```js
 // wuchale.config.js
 export default defineConfig({
-    // sourceLocale is en by default
-    otherLocales: ['es'],
+    locales: ['en', 'es'],
     adapters: {
         product: svelte({
             files: ['src/product/**/*.svelte'],
@@ -422,8 +421,7 @@ adapter configuration.
 ```js
 // wuchale.config.js
 export default defineConfig({
-    // sourceLocale is en by default
-    otherLocales: ['es'],
+    locales: ['en', 'es'],
     adapters: {
         main: svelte({
             granularLoad: true,

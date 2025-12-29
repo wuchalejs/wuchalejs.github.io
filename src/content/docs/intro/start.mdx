@@ -35,6 +35,11 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             npm install wuchale @wuchale/jsx @wuchale/vite-plugin
             ```
         </TabItem>
+        <TabItem label="Astro">
+            ```bash
+            npm install wuchale @wuchale/astro @wuchale/vite-plugin
+            ```
+        </TabItem>
         <TabItem label="Vanilla">
             <Tabs syncKey="vanillaVite">
                 <TabItem label="With Vite">
@@ -104,6 +109,27 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             });
             ```
         </TabItem>
+        <TabItem label="Astro">
+            ```diff lang="js"
+            // astro.config.js
+            import { wuchale } from '@wuchale/vite-plugin';
+            import { defineConfig } from 'astro/config';
+
+            // https://astro.build/config
+            export default defineConfig({
+            +    vite: {
+            +        plugins: [wuchale()],
+            +    },
+            +    i18n: {
+            +        locales: ['en', 'es'],
+            +        defaultLocale: 'en',
+            +            routing: {
+            +            prefixDefaultLocale: true,
+            +        }
+            +    },
+            });
+            ```
+        </TabItem>
         <TabItem label="Vanilla">
             <Tabs syncKey="vanillaVite">
                 <TabItem label="With Vite">
@@ -134,8 +160,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             import { defineConfig } from "wuchale"
 
             export default defineConfig({
-                // sourceLocale is en by default
-                otherLocales: ['es'],
+                locales: ['en', 'es'],
                 adapters: {
                     main: jsx({ loader: 'react' }),
                 }
@@ -152,8 +177,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                     import { defineConfig } from "wuchale"
 
                     export default defineConfig({
-                        // sourceLocale is en by default
-                        otherLocales: ['es'],
+                        locales: ['en', 'es'],
                         adapters: {
                             main: svelte({ loader: 'svelte' }),
                         }
@@ -169,8 +193,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                     import { defineConfig } from "wuchale"
 
                     export default defineConfig({
-                        // sourceLocale is en by default
-                        otherLocales: ['es'],
+                        locales: ['en', 'es'],
                         adapters: {
                             main: svelte({ loader: 'sveltekit' }),
                             js: js({
@@ -194,13 +217,27 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             import { defineConfig } from "wuchale"
 
             export default defineConfig({
-                // sourceLocale is en by default
-                otherLocales: ['es'],
+                locales: ['en', 'es'],
                 adapters: {
                     main: jsx({
                         loader: 'solidjs',
                         variant: 'solidjs',
                     }),
+                }
+            })
+            ```
+        </TabItem>
+        <TabItem label="Astro">
+            ```javascript
+            // wuchale.config.js
+            // @ts-check
+            import { adapter as astro } from "@wuchale/astro"
+            import { defineConfig } from "wuchale"
+
+            export default defineConfig({
+                locales: ['en', 'es'],
+                adapters: {
+                    main: astro(),
                 }
             })
             ```
@@ -215,8 +252,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                     import { defineConfig } from 'wuchale'
 
                     export default defineConfig({
-                        // sourceLocale is en by default
-                        otherLocales: ['es'],
+                        locales: ['en', 'es'],
                         adapters: {
                             main: basic({ loader: 'vite' })
                         }
@@ -231,8 +267,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                     import { defineConfig } from 'wuchale'
 
                     export default defineConfig({
-                        // sourceLocale is en by default
-                        otherLocales: ['es'],
+                        locales: ['en', 'es'],
                         adapters: {
                             main: basic({ loader: 'default' })
                         }
@@ -270,6 +305,9 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
         </TabItem>
         <TabItem label="SolidJS">
             Look in the [SolidJS setup guide](/adapters/jsx/#solidjs)
+        </TabItem>
+        <TabItem label="Astro">
+            Look in the [Astro setup guide](/adapters/astro/#setup-in-your-app)
         </TabItem>
         <TabItem label="Vanilla">
             <Tabs syncKey="vanillaVite">
