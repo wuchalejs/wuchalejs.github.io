@@ -63,7 +63,7 @@ const msg = formatMsg(
 Then `wuchale` will extract and transform it into:
 
 ```js
-const msg = formatMsg(_w_runtime_.t(0), { numPhotos: 1000 }, _w_runtime_.l);
+const msg = formatMsg(_w_runtime_(0), { numPhotos: 1000 }, _w_runtime_.l);
 ```
 
 And you will find that big string in the PO file, and can translate it,
@@ -170,7 +170,7 @@ Then during transformation, your code gets updated to use the current locale's d
     let itemCount = 5
 </script>
 
-<p>{plural(itemCount, _w_runtime_.tp(0), _w_runtime_._.p)}</p>
+<p>{plural(itemCount, _w_runtime_.p(0), _w_runtime_._.p)}</p>
 ```
 
 That way, the function that you define doesn't have to know about the number of

@@ -41,11 +41,11 @@ And the code is turned into a version that gets it by index (in this case `0`)
 and give it the dynamic values in the same order:
 
 ```js
-const msg = _w_runtime_.t(0, [userName, appName])
+const msg = _w_runtime_(0, [userName, appName])
 ```
 And
 ```svelte
-<p>{_w_runtime_.t(0, [userName, appName])}</p>
+<p>{_w_runtime_(0, [userName, appName])}</p>
 ```
 
 This makes the job of the [`Runtime.t`
@@ -102,11 +102,11 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     ```jsx
     <p>
         <W_tx_
-            tags={[
-                _w_ctx_ => <i key="_0">{_w_runtime_.tx(_w_ctx_, [appName])}</i>,
-                () => <b key="_0">{userName}</b>,
+            t={[
+                _w_ctx_ => <i key="_0"><W_tx_ x={_w_ctx_} n a={[appName]} /></i>,
+                () => <b key="_1">{userName}</b>,
             ]}
-            ctx={_w_runtime_.cx(0)}
+            x={_w_runtime_.c(0)}
         />
     </p>
     ```
@@ -115,13 +115,27 @@ import { Tabs, TabItem } from '@astrojs/starlight/components';
     Uses a simple [`W_tx_` implementation](https://github.com/wuchalejs/wuchale/blob/main/packages/svelte/src/runtime.svelte) (Svelte)
     ```svelte
     <p>
-        {#snippet wuchaleSnippet0(_w_ctx_)}
-            <i>{_w_runtime_.tx(_w_ctx_, [appName])}</i>
+        {#snippet _w_snippet_0(_w_ctx_)}
+            <i><W_tx_ x={_w_ctx_} n a={[appName]} /></i>
         {/snippet}
-        {#snippet wuchaleSnippet1()}
+        {#snippet _w_snippet_1()}
             <b>{userName}</b>
         {/snippet}
-        <W_tx_ tags={[wuchaleSnippet0, wuchaleSnippet1]} ctx={_w_runtime_.cx(0)} />
+        <W_tx_ t={[_w_snippet_0, _w_snippet_1]} x={_w_runtime_.c(22)} />
+    </p>
+    ```
+    </TabItem>
+    <TabItem label="Astro">
+    Uses a simple [`_w_Tx_` implementation](https://github.com/wuchalejs/wuchale/blob/main/packages/astro/src/runtime.ts) (Astro)
+    ```astro
+    <p>
+        {_w_Tx_({
+            x: _w_runtime_.c(0),
+            t: [
+                _w_ctx_ => <i>{_w_Tx_({ x: _w_ctx_, n: true, a: [appName] })}</i>,
+                () => <b>{userName}</b>,
+            ]
+        })}
     </p>
     ```
     </TabItem>

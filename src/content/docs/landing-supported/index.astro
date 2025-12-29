@@ -10,6 +10,7 @@ import SolidJS from './solid/index.astro'
 import Js from './js/index.astro'
 import Ts from './ts/index.astro'
 import Svelte from './svelte/index.astro'
+import AstroC from './astro/index.astro'
 import Python from './python/index.astro'
 import Go from './go/index.astro'
 
@@ -18,6 +19,7 @@ const supported = [
 	{icon: 'preact', name: 'Preact', color: '#673ab8'},
 	{icon: 'solid', name: 'SolidJS', color: '#76B3E1'},
 	{icon: 'svelte', name: 'Svelte', color: '#FF3E00'},
+	{icon: 'astro', name: 'Astro', color: '#DD365C'},
 	{icon: 'js', name: 'JavaScript', color: '#F7DF1E'},
 	{icon: 'ts', name: 'TypeScript', color: '#3178C6'},
 	{icon: 'python', name: 'Python*', color: '#327EBD', future: true},
@@ -54,6 +56,7 @@ const futureSty = 'filter: grayscale(1)'
     <Preact />,
     <SolidJS />,
     <Svelte />,
+    <AstroC />,
     <Js />,
     <Ts />,
     <Python />,
@@ -140,8 +143,8 @@ for (const [i, item] of Array.from(entries).entries()) {
         cursor: pointer;
     }
     .imgContainer {
-        width: 6em;
-        height: 6em;
+        width: 4em;
+        height: 4em;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -149,7 +152,7 @@ for (const [i, item] of Array.from(entries).entries()) {
         border: .1em solid grey;
     }
     img {
-        width: 50%;
+        width: 60%;
         margin: 1em;
     }
 

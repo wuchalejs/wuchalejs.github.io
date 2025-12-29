@@ -6,8 +6,8 @@
 </script>
 
 <div>
-	<p>{_w_runtime_.t(0)}</p>
-	<p title={_w_runtime_.t(1)} class="para">
-		<W_tx_ x={_w_runtime_.cx(2)} a={[username]} />
+	<p>{_w_runtime_(0)}</p>
+	<p title={_w_runtime_(1)} class="para">
+		<W_tx_ x={_w_runtime_.c(2)} a={[username]} />
 	</p>
 </div>
