@@ -25,11 +25,12 @@ Commands:
     status  Show current status
 
 Options:
-    --config     use another config file instead of wuchale.config.js|wuchale.config.mjs
-    --clean, -c  (only when no commands) remove unused messages from catalogs
-    --watch, -w  (only when no commands) continuously watch for file changes
-    --sync       (only when no commands) extract sequentially instead of in parallel
-    --help, -h   Show this help
+    --config         use another config file instead of wuchale.config.js|wuchale.config.mjs|wuchale.config.ts|wuchale.config.mts
+    --clean, -c      (only when no commands) remove unused messages from catalogs
+    --watch, -w      (only when no commands) continuously watch for file changes
+    --sync           (only when no commands) extract sequentially instead of in parallel
+    --log-level, -l  {error,warn,info,verbose} (only when no commands) set log level
+    --help, -h       Show this help
 
 ```
 
