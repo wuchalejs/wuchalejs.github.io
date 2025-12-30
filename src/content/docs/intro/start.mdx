@@ -123,12 +123,17 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             +    i18n: {
             +        locales: ['en', 'es'],
             +        defaultLocale: 'en',
-            +            routing: {
+            +        routing: {
             +            prefixDefaultLocale: true,
             +        }
             +    },
             });
             ```
+            :::note
+            **Additionally**, since we will use path prefixes using Astro's `i18n`
+            routing, everything inside `src/pages` has to be moved to
+            `src/[locale]/pages` and imports have to be adjusted accordingly.
+            :::
         </TabItem>
         <TabItem label="Vanilla">
             <Tabs syncKey="vanillaVite">
@@ -347,6 +352,11 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             function Hello() {
                 return <p>Hello world</p>
             }
+            ```
+        </TabItem>
+        <TabItem label="Astro">
+            ```astro
+            <p>Hello world</p>
             ```
         </TabItem>
         <TabItem label="Vanilla">
