@@ -1,5 +1,5 @@
 ---
-title: Comparing i18n Approaches
+title: I18n Approaches
 description: "Understanding different approaches to internationalization: full automation, explicit marking, and manual key management. Learn the trade-offs between developer control and convenience in i18n tooling."
 ---
 
