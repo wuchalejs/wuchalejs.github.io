@@ -47,7 +47,6 @@ export default defineConfig({
                         { slug: 'intro/start' },
                         { slug: 'intro/why' },
                         { slug: 'intro/approaches' },
-                        { slug: 'intro/roadmap' },
                     ],
                 },
                 {
