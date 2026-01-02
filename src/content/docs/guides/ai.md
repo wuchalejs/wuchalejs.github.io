@@ -33,6 +33,7 @@ import { gemini } from "wuchale";
 export default {
   //...
   ai: gemini({
+    model: 'gemini-3-flash-preview',
     batchSize: 40,
     parallel: 5,
     think: true, // default: false
