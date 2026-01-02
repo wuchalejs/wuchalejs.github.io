@@ -201,25 +201,45 @@ inflate the bundle size. But if this is desired anyway, it can be enabled here.
 Where to write the transformed code. A mirror structure is created in this
 directory and the transformed code is put there.
 
-## `runtime.useReactive`
+## `runtime.initReactive`
 **type**:
 ```ts
-type UseReactiveFunc = (details: {funcName?: string, nested: boolean, file: string, additional: object}) => {
-    /** null to disable initializing */
-    init: boolean | null
-    use: boolean
-}
+type UseReactiveFunc = (details: {
+    funcName?: string,
+    nested: boolean,
+    file: string,
+    additional: object,
+}) => boolean | null // null to disable initializing
 ```
 **default**: Depends on adapter
 
-This function can decide which function from the loader should be used in a
-given context and if the runtime should be initialized there. For example, for
-React, inside hooks and components, we can initialize and use the runtime from
-the reactive loader function. But in other functions, we have to use the
+This function can decide if the runtime should be initialized in a place
+described by `details`, and if so, with which function from the loader
+(`getLoader` for plain or `getLoaderRx` for reactive). For example, for React,
+inside hooks and components, we can initialize and use the runtime from the
+reactive loader function. But in other functions, we have to use the
 non-reactive loader function. And we cannot initialize the runtime inside the
-top level because it cannot be updated afterwards. But for SolidJS, we can
-initialize the runtime once in the top level and use it anywhere. This function
-makes those decisions.
+top level because it cannot be updated afterwards after `loadLocale`. But for
+SolidJS, we can initialize the runtime once in the top level and use it
+anywhere. This function makes those decisions.
+
+## `runtime.useReactive`
+**type**:
+```ts
+type UseReactiveFunc = boolean | ((details: {
+    funcName?: string,
+    nested: boolean,
+    file: string,
+    additional: object,
+}) => boolean)
+```
+**default**: Depends on adapter
+
+This function can decide which runtime to use between the reactive and plain.
+When the `details` have to be checked to decide, it can be given as a function.
+But if the answer is always the same (like always plain in JavaScript or always
+reactive in SolidJS), then it can be given as a boolean. If it is a boolean, it
+also overrides `initReactive` to do the same when there is a need to initialize.
 
 ## `runtime.reactive.importName`
 **type**: `"default" | string`
