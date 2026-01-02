@@ -35,3 +35,23 @@ done during production builds or extraction using the CLI.
 
 PO files are not edited as frequently and therefore editing them triggers a
 full reload instead of small localized updates.
+
+## Disabling
+
+You can disable this HMR behavior entirely using the
+[`hmr`](/reference/config/#hmr) config.
+
+You can also temporarily disable it without restarting the dev server by
+writing a file in the `localesDir` (experimental):
+
+```sh
+echo '{"hmr":false}' > src/locales/confUpdate.json
+```
+
+There is a known limitation with this that it only sees changes to the file,
+not creation, so you should write again if the file is new. You may also need
+to gitignore it as it's not a necessary file in the source. These will be fixed
+in the next version.
+
+You can use this to make it play nice with e.g. git while rebasing, by putting
+the command in a hook.
