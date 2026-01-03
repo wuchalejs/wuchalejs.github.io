@@ -4,6 +4,9 @@ import starlight from '@astrojs/starlight';
 
 // https://astro.build/config
 export default defineConfig({
+    redirects: {
+        '/chat': 'https://discord.gg/ypVSZTbzvG',
+    },
     integrations: [
         starlight({
             title: 'wuchale',
@@ -37,7 +40,7 @@ export default defineConfig({
             social: [
                 { icon: 'github', label: 'GitHub', href: 'https://github.com/wuchalejs/wuchale' },
                 { icon: 'npm', label: 'NPM', href: 'https://npmjs.com/package/wuchale' },
-                { icon: 'discord', label: 'Discord', href: 'https://discord.gg/ypVSZTbzvG' },
+                { icon: 'discord', label: 'Discord', href: '/chat' },
                 { icon: 'openCollective', label: 'Open Collective', href: 'https://opencollective.com/wuchale' },
             ],
             sidebar: [
