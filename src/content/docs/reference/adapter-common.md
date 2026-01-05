@@ -196,10 +196,10 @@ inflate the bundle size. But if this is desired anyway, it can be enabled here.
 
 ## `outDir`
 **type**: `string`
-**default**: `{localesDir}/.output`
+**default**: (undefined)
 
-Where to write the transformed code. A mirror structure is created in this
-directory and the transformed code is put there.
+You can specify this to enable writing the transformed code. A mirror structure
+is created in this directory and the transformed code is put there.
 
 ## `runtime.initReactive`
 **type**:
