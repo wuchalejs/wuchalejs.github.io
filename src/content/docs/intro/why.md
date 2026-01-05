@@ -44,7 +44,7 @@ locked into one library. `wuchale` is still removable easily because you didn't
 modify your code. If you remove `wuchale`, you will still have a perfectly
 functional codebase with just one locale.
 
-## Protobuf-like compilation
+## The smallest bundles possible
 
 Other i18n solutions add keys to the catalogs to access the specific message.
 
