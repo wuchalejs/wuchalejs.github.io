@@ -26,7 +26,7 @@ export default {
         main: svelte({
             loader: 'sveltekit',
             url: {
-                patterns: ['/about', 'items{/*rest}', '/', '/*rest'],
+                patterns: ['/about', '/items{/*rest}', '/', '/*rest'],
                 localize: true, // prepend locale like /en/. You can also pass a function
             },
             patterns,
