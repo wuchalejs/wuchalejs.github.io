@@ -71,7 +71,7 @@ Then the configuration will look like this:
 ```js
 // wuchale.config.js
 // @ts-check
-import { defineConfig, defaultGenerateLoadID } from "wuchale"
+import { defineConfig, defaultGenerateLoadID, pofile } from "wuchale"
 import { adapter as svelte } from '@wuchale/svelte'
 import { adapter as vanilla } from "wuchale/adapter-vanilla"
 
@@ -94,7 +94,7 @@ export default defineConfig({
         // Which one to download is decided at runtime
         granularLoad: svelte({
             files: './src/routes/[locale]/granular/**/*',
-            localesDir: './src/locales/granular',
+            storage: pofile({dir: './src/locales/granular'}),
             granularLoad: true,
             generateLoadID: filename => {
                 if (filename.includes('grouped')) {
@@ -110,7 +110,7 @@ export default defineConfig({
         // This mimicks how ParaglideJS downloads catalogs but is not recommended.
         granularLoadBundle: svelte({
             files: './src/routes/[locale]/granular-bundle/**/*',
-            localesDir: './src/locales/granular-bundle',
+            storage: pofile({dir: './src/locales/granular-bundle'}),
             granularLoad: true,
             bundleLoad: true,
         }),
