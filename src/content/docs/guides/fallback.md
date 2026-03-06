@@ -18,10 +18,28 @@ msgid "Hello"
 msgstr ""
 ```
 
-Then, unless not configured properly `wuchale` **never** shows some empty or
-weird text to the user. What it does is, during compile time, if the text has
-not yet been translated, it uses the compiled version of the source message
-(`Hello` in the example) instead. That way the worst that the user sees is the
-message as written in the source code.
+Then during compile time, if the text has not yet been translated, it looks for
+the first translation along a fallback chain. With no configuration, for
+locales that are regional variants like `fr-CH`, it falls back to the base one
+`fr`. And explicit chains can be configured by providing from-to pairs in the
+fallback key. Finally, the end of the chain is the source locale. For example,
+with a config like this:
 
-This doesn't need a separate configuration, it is the default behavior. 
+```js
+// wuchale.config.js
+export default {
+  // ...
+  fallback: {
+    "fr-CH": "fr-FR",
+    "fr-FR": "fr-ES",
+  },
+  // ...
+};
+```
+
+The fallback chain for `fr-CH` (with `en` as the source locale) would be:
+
+1. `fr-FR`
+1. `fr-ES`
+1. `fr`
+1. `en`
