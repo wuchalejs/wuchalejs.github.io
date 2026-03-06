@@ -31,7 +31,7 @@ import Supported from './landing-supported/index.astro'
         ```
 	</Card>
 	<Card title="Extract and translate" icon="translate">
-        Into PO files and optionally live translate using [AI](/guides/ai)
+        Into PO files (default) and optionally live translate using [AI](/guides/ai)
         <Tabs syncKey="locale">
             <TabItem label="English">
                 ```po
@@ -90,8 +90,8 @@ import Supported from './landing-supported/index.astro'
     <Card title="Flexible catalog loading" icon="cloud-download">
         You decide how the catalog is loaded: Async, Bundled, or custom.
     </Card>
-    <Card title="Standard format" icon="document">
-        The catalogs are in the Gettext PO format, widely supported and familiar to translators.
+    <Card title="Format agnostic" icon="document">
+        The default storage is Gettext PO files, widely supported and familiar to translators. But you can use anything else.
     </Card>
 </CardGrid>
 

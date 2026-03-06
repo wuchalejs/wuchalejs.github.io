@@ -107,12 +107,39 @@ Now since the SDK provides a uniform API, you can use [any model from any
 provider that it
 supports](https://ai-sdk.dev/docs/introduction#model-providers).
 
+## Grouping translations
+
+When some locales are very similar (such as `fr` and `fr-CH`), you may not want
+different wordings for the same things just because they were translated in
+isolation. You may want as much consistency as possible, and only have the
+messages that are actually different be translated differently. In that case,
+you can group these locales to be in the same prompt:
+
+```js
+export default defineConfig({
+    ai: {
+        // ...
+        group: [
+            ['fr', 'fr-CH'],
+            // other groups
+        ]
+    }
+})
+```
+
+Another use case for this is if you want to reduce the number of requests made,
+but may you have to weigh that against the translation quality as the models
+may perform less when they have to translate to different targets in the same
+prompt. YMMV.
+
 ## Mistake handling
 
-If the LLM makes mistakes (which it often does) and doesn't translate some of
-the messages, or makes mistakes on the message keys etc, `wuchale` collects the
-untranslated messages and the messages whose keys (untranslated) were not
-properly returned and gives it to the LLM again.
+The output of the LLM is validated to check if it didn't miss any placeholders
+or change any structure which would cause runtime problems. If the it makes
+mistakes and doesn't translate some of the messages, or makes mistakes on the
+message keys etc, `wuchale` collects the broken/untranslated messages and the
+messages whose keys (untranslated) were not properly returned and gives it to
+the LLM again.
 
 For example, let's say we have this:
 

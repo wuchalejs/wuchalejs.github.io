@@ -60,3 +60,19 @@ contexts which can help the translator later.
 <!-- @wc-context: building -->
 <span>Home</span>
 ```
+
+## `@wc-unit`
+
+For markup that is all content, it may not be desired to put different
+paragraphs in different places in the catalogs. In that case, a whole container
+can be marked with this comment to keep it as a single message (excluding
+attributes and strings inside interpolated code).
+
+```svelte
+<!-- @wc-unit -->
+<div>
+    <p>Parag 1</p>
+    <p>Parag 2</p>
+    <p>Parag 3</p>
+</div>
+```

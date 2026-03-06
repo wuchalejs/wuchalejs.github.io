@@ -1,6 +1,5 @@
 ---
 title: Internationalizing URLs
-order: 2
 ---
 
 Internationalizing URL paths is possible with the same conveniences of
@@ -27,9 +26,8 @@ export default {
             loader: 'sveltekit',
             url: {
                 patterns: ['/about', '/items{/*rest}', '/', '/*rest'],
-                localize: true, // prepend locale like /en/. You can also pass a function
+                localize: true, // you can also pass a filename that supports a localize function
             },
-            patterns,
         }),
     }
     // ...
