@@ -69,6 +69,7 @@ export default defineConfig({
                     items: [
                         { slug: 'reference/config' },
                         { slug: 'reference/adapter-common' },
+                        { slug: 'reference/storage' },
                         { slug: 'reference/adapter-api' },
                         { label: 'Examples', link: 'https://github.com/wuchalejs/examples', attrs: { target: '_blank' } },
                     ],

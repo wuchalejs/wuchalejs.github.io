@@ -47,6 +47,14 @@ tags](https://en.wikipedia.org/wiki/IETF_language_tag). For example, `en`,
 The validation is done using
 [`Intl.DisplayNames`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/DisplayNames#language_display_names).
 
+## `localesDir`
+
+**type**: `string`
+**default**: `./src/locales`
+
+The `localesDir` is a place where all files wuchale works on like
+loaders and proxies are created. See [File structure](/guides/files/).
+
 ### `adapters`
 
 **type**: `Record<string, Adapter>`

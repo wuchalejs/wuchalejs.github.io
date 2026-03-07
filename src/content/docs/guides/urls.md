@@ -1,5 +1,6 @@
 ---
 title: Internationalizing URLs
+description: Internationalize URL paths with minimal code changes. Translate patterns like /about to /acerca-de, localize with prefixes or custom logic, and let wuchale handle link rewriting and routing automatically at build time.
 ---
 
 Internationalizing URL paths is possible with the same conveniences of
@@ -8,10 +9,10 @@ carefully.
 
 There are two parts to this:
 
-- Translation: e.g. `/about` to `/uber-uns`
-- Localization: e.g. `/about` to `/en/about`
+- **Translation**: e.g. `/about` to `/acerca-de`
+- **Localization**: e.g. `/about` to `/en/about`
 
-And both are supported and you can combine them into: `/de/uber-uns`.
+And both are supported and you can combine them into: `/es/acerca-de`.
 
 You first specify the patterns that should be internationalized in the config. Since wuchale
 uses [path-to-regexp](https://www.npmjs.com/package/path-to-regexp) for the actual handling

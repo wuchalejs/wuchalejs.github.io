@@ -52,14 +52,6 @@ Where
 - `adapterKey` is the key you used for the adapter config in `wuchale.config.js`, e.g. `main`
 - `ext` is one of the supported loader extensions by the adapter (see in the beginning of its page).
 
-## `localesDir`
-
-**type**: `string`
-**default**: `./src/locales`
-
-The `localesDir` is a place where the PO files and other runtime files like
-loaders and proxies are created.
-
 ## `files`
 **type**: `GlobConf`
 **default**: (depends on adapter)
@@ -72,6 +64,15 @@ type GlobConf = string | string[] | {
     ignore: string | string[]
 }
 ```
+
+## `url`
+
+## `storage`
+**type**: `StorageFactory`
+**default**: `pofile()`
+
+Storage handler. See the [Custom storage](/guides/storage/) and the [Storage
+Interface reference](/reference/storage/) for more details.
 
 ## `patterns`
 
