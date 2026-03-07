@@ -140,14 +140,10 @@ Especially in the second case, for example let's say we have an `/about` page wi
 - `example.es/en/about`
 
 Cases like this cannot be fulfilled with simple prefixing. In that case, you
-can implement both the **localization** and **de-localization**. For the former, you
-can export your own `localize` function that conforms to this type:
-
-```ts
-type URLLocalizer = (path: string, locale: string) => string;
-```
-
-And provide the file to the config:
+can implement both the **localization** and **de-localization**. For the
+former, you can export your own [`localize`
+function](/reference/adapter-common/#url) from any file, provide the file to
+the config:
 
 ```js
 // wuchale.config.js

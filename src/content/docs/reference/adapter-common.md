@@ -66,6 +66,24 @@ type GlobConf = string | string[] | {
 ```
 
 ## `url`
+**type**: `{
+    patterns?: string[]
+    localize?: boolean | string
+} | undefined`
+**default**: `(empty)`
+
+The URL configuration. It should list the patterns and provide a localization method which can be:
+
+- `true`: the default localization of prefixing the path with the locale like in `/en/about` will be used
+- A string: a `localize` function from the module at the given path will be imported, whose implementation is up to the user.
+
+The `localize` function should match this type:
+
+```ts
+type URLLocalizer = (path: string, locale: string) => string;
+```
+
+See [Internationalizing URLs](/guides/urls) for more.
 
 ## `storage`
 **type**: `StorageFactory`

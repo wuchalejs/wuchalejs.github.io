@@ -55,6 +55,16 @@ The validation is done using
 The `localesDir` is a place where all files wuchale works on like
 loaders and proxies are created. See [File structure](/guides/files/).
 
+## `fallback`
+
+**type**: `Record<string, string>`
+**default**: `{}`
+
+If you want to explicitly set the fallback behavior you can provide from-to
+pairs and it will check them in that sequence before falling back to the source
+locale. Regional variants fall back to the base locale by default. See the
+[Fallback](/guides/fallback/) guide.
+
 ### `adapters`
 
 **type**: `Record<string, Adapter>`
@@ -84,6 +94,7 @@ application state and avoiding full reloads.
 type AI = {
     name: string
     batchSize: number
+    group: Record<string, string[][]>
     translate: (messages: string, instruction: string) => Promise<string>
     parallel: number
 }
@@ -93,6 +104,9 @@ Here you can give your own AI interface for live translation. The `batchSize`
 decides the maximum messages to translate in a single request, over which
 another request will be used. And `parallel` decides the number of requests to
 make in parallel.
+
+If you want multiple target locales to be translated in the same prompt, you
+can provide the list of the groups to `group`.
 
 The `translate` function receives the messages in a stringified PO format with
 empty places for the translated messages, along with the instruction that
