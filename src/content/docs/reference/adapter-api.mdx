@@ -3,6 +3,8 @@ title: Adapter API
 description: Adapter API reference
 ---
 
+import ShowType from '@/lib/ShowType.astro';
+
 An adapter handles a file dealing with the specific syntax. It has to:
 
 - Extract the strings (messages and URLs) from the file
@@ -27,21 +29,7 @@ adapter({
 This means some part of the config object should be "passed through". The exact
 type of this part is:
 
-```ts
-export type AdapterPassThruOpts = {
-    files: GlobConf
-    localesDir: string
-    outDir?: string
-    granularLoad: boolean
-    bundleLoad: boolean
-    url?: {
-        patterns?: string[]
-        localize?: boolean | URLLocalizer
-    }
-    generateLoadID: (filename: string) => string
-    runtime: Partial<RuntimeConf>
-}
-```
+<ShowType file="adapters.ts" name="AdapterPassThruOpts" nodeps />
 
 Now to write the adapter creator we have to define the available
 [loader](/reference/adapter-common/#loader) keys first:
@@ -78,17 +66,7 @@ export type JSXArgs = AdapterArgs<LoadersAvailable> & {
 
 And the full adapter object, returned from the creation function should be of this type:
 
-```ts
-export type Adapter = AdapterPassThruOpts & {
-    transform: TransformFunc | TransformFuncAsync
-    /** possible filename extensions for loader. E.g. `.js` */
-    loaderExts: string[]
-    /** default loaders to copy, `null` means custom */
-    defaultLoaderPath: LoaderPath | string | null
-    /** names to import from loaders, should avoid collision with code variables */
-    getRuntimeVars?: Partial<CatalogExpr>
-}
-```
+<ShowType file="adapters.ts" name="Adapter" nodeps />
 
 ## Writing the creator function
 

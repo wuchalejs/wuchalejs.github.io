@@ -1,0 +1,13 @@
+{"file":"adapters.ts","name":"AdapterPassThruOpts","opts":{"nodeps":true}}
+type AdapterPassThruOpts<RTCtxT extends {} = {}> = {
+    sourceLocale?: string
+    files: GlobConf
+    storage: StorageFactory
+    /** if writing transformed code to a directory is desired, specify this */
+    outDir?: string
+    granularLoad: boolean
+    bundleLoad: boolean
+    url?: URLConf
+    generateLoadID: (filename: string) => string
+    runtime: Partial<RuntimeConf<RTCtxT>>
+}

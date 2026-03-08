@@ -1,0 +1,10 @@
+---
+import {getTypeCache} from './get-type-cache.ts'
+import { Code } from '@astrojs/starlight/components';
+import type {Opts} from './get-type.ts'
+
+const {file, name, ...opts}: Opts & {file: string, name: string} = Astro.props
+const code = await getTypeCache(file, name, opts)
+---
+
+<Code code={code} lang="ts" />
