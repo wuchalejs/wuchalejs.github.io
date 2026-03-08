@@ -1,0 +1,39 @@
+---
+title: Storage Interface
+description: Complete type definitions for the storage interface — the contract between wuchale and custom storage implementations.
+---
+
+import ShowType from '@/lib/ShowType.astro';
+
+The storage interface provides a way to implement a custom storage handler for catalogs. The handler is provided to the adapter config as [`storage`](/reference/adapter-common/#storage).
+
+## Item
+
+An item is a unit (can be a message or a URL) extracted from the source code or the URL patterns you configured, with full translation and reference details.
+
+<ShowType file="storage.ts" name="Item" />
+
+And this is the unit that forms the basis for what exchanged with wuchale.
+
+:::note
+The placeholders are only for context during translation so they are not required by wuchale. If they are not important and you want to keep what you store lean, you can omit them and just use `null` for normal messages.
+:::
+
+## Plural rules
+
+An additional thing that has to be stored with the translations is the plural rules.
+
+<ShowType file="storage.ts" name="PluralRules" />
+
+## Exchanged data
+
+There are just two exchange interactions with wuchale: saving data and loading data. And what the storage has to exchange is this:
+
+<ShowType file="storage.ts" name="SaveData" nodeps />
+<ShowType file="storage.ts" name="LoadData" nodeps />
+
+## Whole interface
+
+Putting it all together, what wuchale expects as a storage is a `StorageFactory` function that accepts `StorageFactoryOpts` options from wuchale, and returns a `CatalogStorage` object.
+
+<ShowType file="storage.ts" name="StorageFactory" ignore={['LoadData', 'SaveData']} />

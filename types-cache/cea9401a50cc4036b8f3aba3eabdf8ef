@@ -1,0 +1,23 @@
+{"file":"storage.ts","name":"StorageFactory","opts":{"ignore":["LoadData","SaveData"]}}
+type StorageFactoryOpts = {
+    locales: string[]
+    root: string
+    /** whether the url is configured, can use to load separate url files */
+    haveUrl: boolean
+    sourceLocale: string
+}
+
+type CatalogStorage = {
+    /**
+     * the key to check if two storages share the same location
+     * e.g. this can be the dir for the pofile storage
+     * two storages with same keys means they are the same/shared
+     */
+    key: string
+    load(): Promise<LoadData>
+    save(items: SaveData): Promise<void>
+    /** the files controlled by this storage, for e.g. for Vite to watch */
+    files: string[]
+}
+
+type StorageFactory = (opts: StorageFactoryOpts) => CatalogStorage

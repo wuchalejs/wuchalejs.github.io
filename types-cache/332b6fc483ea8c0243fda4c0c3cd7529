@@ -1,0 +1,24 @@
+{"file":"storage.ts","name":"Item","opts":{}}
+type FileRefEntry = {
+    link?: string // for URLs
+    placeholders: [number, string][]
+}
+
+type FileRef = {
+    file: string
+    /**
+     * multiple references in the same file
+     * null when there is no link or placeholders just that it's referenced
+     */
+    refs: (FileRefEntry | null)[]
+}
+
+interface Item {
+    id: string[]
+    context?: string
+    translations: Map<string, string[]>
+    references: FileRef[]
+    urlAdapters: string[] // for URLs
+    // for things that should survive the round trip with the storage
+    [key: string]: unknown
+}

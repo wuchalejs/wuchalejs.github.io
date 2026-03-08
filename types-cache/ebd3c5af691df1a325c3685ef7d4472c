@@ -1,0 +1,7 @@
+{"file":"storage.ts","name":"PluralRules","opts":{}}
+type PluralRule = {
+    nplurals: number
+    plural: string
+}
+
+type PluralRules = Map<string, PluralRule>
