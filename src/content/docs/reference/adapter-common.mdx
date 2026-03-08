@@ -3,6 +3,8 @@ title: Common adapter options
 description: Explore wuchale's common adapter options - configure locales directory, file extraction patterns, function call patterns, heuristics, and granular loading strategies for efficient internationalization.
 ---
 
+import ShowType from '@/lib/ShowType.astro';
+
 These are the configuration options that are common across adapters. The
 adapter-specific options are discussed in the adapter's page.
 
@@ -17,7 +19,7 @@ main: svelte({
 // ...
 ```
 
-### `sourceLocale`
+## `sourceLocale`
 
 **type**: `string`
 **default**: (first locale in `locales` in top-level)
@@ -58,19 +60,13 @@ Where
 
 The files to extract from. Only these files will be extracted from. Other files are ignored.
 
-```typescript
-type GlobConf = string | string[] | {
-    include: string | string[]
-    ignore: string | string[]
-}
-```
+<ShowType file="adapters.ts" name="GlobConf" />
 
 ## `url`
-**type**: `{
-    patterns?: string[]
-    localize?: boolean | string
-} | undefined`
-**default**: `(empty)`
+**type**: `URLConf | undefined`
+**default**: `undefined`
+
+<ShowType file="adapters.ts" name="URLConf" />
 
 The URL configuration. It should list the patterns and provide a localization method which can be:
 
@@ -79,9 +75,7 @@ The URL configuration. It should list the patterns and provide a localization me
 
 The `localize` function should match this type:
 
-```ts
-type URLLocalizer = (path: string, locale: string) => string;
-```
+<ShowType file="url.ts" name="URLLocalizer" />
 
 See [Internationalizing URLs](/guides/urls) for more.
 
@@ -95,17 +89,9 @@ Interface reference](/reference/storage/) for more details.
 ## `patterns`
 
 **type**: `CodePattern[]`
-**default**: `[{
-    name: 'plural',
-    args: ['other', 'message', 'pluralFunc'],
-}]`
+**default**: `[pluralPattern]`
 
-```ts
-type CodePattern = {
-    name: string
-    args: ('message' | 'pluralFunc' | 'other')[]
-}
-```
+<ShowType file="adapters.ts" name="CodePattern" />
 
 This specifies the function call patterns that you define to handle [plurals and l10n](/guides/plurals-l10n).
 
@@ -129,42 +115,25 @@ This is a function that decides whether a message is to be extracted or not. It
 can use the message and its details and return a boolean value to indicate its
 decision.
 
-If it returns `null` or `undefined`, the default heuristic will be used.
+If it returns `null` or `undefined`, the default heuristic will be used. Here is the full definition of the `Message` type
 
-```ts
-type Message = {
-    msgStr: string[] // the text of the message, just one element for normal messages
-    context?: string // the context of the message, if given
-    details: {
-        scope: "script" | "markup" | "attribute" // what type of scope the message comes from
-        element?: string // the element where the message comes from
-        attribute?: string // the name of the attribute for which the message is a value
-        file: string // the relative path of the file from the root
-        declaring?: "variable" | "function" | "class" | "expression" // the type of the top level declaration
-        funcName?: string | null // the name of the function being defined, '' for arrow or null for global
-        topLevelCall?: string // the name of the call at the top level
-        call?: string // the name of the nearest call (for arguments)
-    }
-}
-```
+<ShowType file="adapters.ts" name="Message" />
+
+A few interesting properties of the details are:
 
 #### `file`
-**type**: `string`
 
 The file path where the message is located, relative to the root directory.
 
 #### `declaring`
-**type**: `"variable" | "function" | "expression"`
 
 The type of the top level declaration (if in `script`).
 
 #### `insideFuncDef`
-**type**: `boolean`
 
 Whether the message is inside a function definition. Can also be an arrow function.
 
 #### `topLevelCall`
-**type**: `string`
 
 The name of the call at the top level. For example,
 
@@ -176,7 +145,6 @@ const a = topLevel({
 The value of `topLevelCall` would be `topLevel`
 
 #### `call`
-**type**: `string`
 
 The name of the nearest call. In the above example, this would be `non.topLevel`.
 
@@ -220,16 +188,16 @@ inflate the bundle size. But if this is desired anyway, it can be enabled here.
 You can specify this to enable writing the transformed code. A mirror structure
 is created in this directory and the transformed code is put there.
 
-## `runtime.initReactive`
-**type**:
-```ts
-type UseReactiveFunc = (details: {
-    funcName?: string,
-    nested: boolean,
-    file: string,
-    additional: object,
-}) => boolean | null // null to disable initializing
-```
+## `runtime`
+
+This configures the specifics of the code transformation. Its type is this:
+
+<ShowType file="adapters.ts" name="RuntimeConf" />
+
+Read below for the details.
+
+### `runtime.initReactive`
+**type**: (see above)
 **default**: Depends on adapter
 
 This function can decide if the runtime should be initialized in a place
@@ -242,16 +210,8 @@ top level because it cannot be updated afterwards after `loadLocale`. But for
 SolidJS, we can initialize the runtime once in the top level and use it
 anywhere. This function makes those decisions.
 
-## `runtime.useReactive`
-**type**:
-```ts
-type UseReactiveFunc = boolean | ((details: {
-    funcName?: string,
-    nested: boolean,
-    file: string,
-    additional: object,
-}) => boolean)
-```
+### `runtime.useReactive`
+**type**: (see above)
 **default**: Depends on adapter
 
 This function can decide which runtime to use between the reactive and plain.
@@ -260,13 +220,7 @@ But if the answer is always the same (like always plain in JavaScript or always
 reactive in SolidJS), then it can be given as a boolean. If it is a boolean, it
 also overrides `initReactive` to do the same when there is a need to initialize.
 
-## `runtime.reactive.importName`
-**type**: `"default" | string`
-**default**: `default`
-
-The name of the reactive function to import from the loader file.
-
-## `runtime.reactive.wrapInit`
+### `runtime.reactive.wrapInit`
 **type**: `(expr: string) => string`
 **default**: Depends on adapter
 
@@ -275,7 +229,7 @@ expression of the runtime to customize it to the behaviour of the library. For
 example, for Svelte, the default is wrapping it inside `$derived` and for
 SolidJS, making it a function, pairing it with `wrapUse` below.
 
-## `runtime.reactive.wrapUse`
+### `runtime.reactive.wrapUse`
 **type**: `(expr: string) => string`
 **default**: Depends on adapter
 
@@ -284,15 +238,10 @@ of the runtime to customize it to the behaviour of the library. For example,
 for Svelte, no wrapping is needed while for SolidJS, since it's a function, it
 has to be called so it needs `()` before use.
 
-## `runtime.plain.importName`
-**default**: `get`
-
-Like [`runtime.reactive.importName`](#runtimereactiveimportname) but for the non-reactive function.
-
-## `runtime.plain.wrapInit`
+### `runtime.plain.wrapInit`
 
 Like [`runtime.reactive.wrapInit`](#runtimereactivewrapinit) but for the non-reactive runtime.
 
-## `runtime.plain.wrapUse`
+### `runtime.plain.wrapUse`
 
 Like [`runtime.reactive.wrapUse`](#runtimereactivewrapuse) but for the non-reactive runtime.

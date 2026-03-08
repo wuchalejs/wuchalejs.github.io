@@ -1,0 +1,11 @@
+{"file":"ai/index.ts","name":"AI","opts":{}}
+type AIPassThruOpts = {
+    batchSize: number
+    parallel: number
+    group: Record<string, string[][]>
+}
+
+type AI = AIPassThruOpts & {
+    name: string
+    translate: (messages: string, instruction: string) => Promise<string>
+}

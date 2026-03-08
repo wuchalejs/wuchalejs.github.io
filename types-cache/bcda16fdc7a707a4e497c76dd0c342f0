@@ -1,0 +1,8 @@
+{"file":"adapters.ts","name":"GlobConf","opts":{}}
+type GlobConf =
+    | string
+    | string[]
+    | {
+          include: string | string[]
+          ignore: string | string[]
+      }

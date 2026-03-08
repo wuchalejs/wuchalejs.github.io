@@ -1,0 +1,37 @@
+{"file":"adapters.ts","name":"Message","opts":{}}
+type TxtScope = 'script' | 'markup' | 'attribute'
+
+type HeuristicDetailsBase = {
+    scope: TxtScope
+    element?: string
+    attribute?: string
+}
+
+type ScriptDeclType = 'variable' | 'function' | 'class' | 'expression'
+
+type HeuristicDetails = HeuristicDetailsBase & {
+    file: string
+    /* the type of the top level declaration */
+    declaring?: ScriptDeclType
+    /* the name of the function being defined, '' for arrow or null for global */
+    funcName?: string | null
+    /* whether the function being defined is nested inside another, null for no function */
+    funcIsNested?: boolean
+    /* whether inside a script file/<script> instead of an expression inside markup */
+    insideProgram: boolean
+    /* the name of the call at the top level */
+    topLevelCall?: string
+    /* the name of the nearest call (for arguments) */
+    call?: string
+}
+
+type MessageType = 'message' | 'url'
+
+type Message = {
+    msgStr: string[] // array for plurals
+    plural: boolean
+    context?: string
+    placeholders: [number, string][]
+    details: HeuristicDetails
+    type: MessageType
+}

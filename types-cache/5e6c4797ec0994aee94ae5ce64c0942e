@@ -1,0 +1,8 @@
+{"file":"ai/gemini.ts","name":"GeminiOpts","opts":{"ignore":["AIPassThruOpts"]}}
+type GeminiOpts = Partial<
+    AIPassThruOpts & {
+        apiKey: string
+        model: string
+        think: boolean
+    }
+>

@@ -1,0 +1,2 @@
+{"file":"url.ts","name":"URLLocalizer","opts":{}}
+type URLLocalizer = (url: string, locale: string) => string

@@ -1,0 +1,17 @@
+{"file":"adapters.ts","name":"RuntimeConf","opts":{}}
+type DecideReactiveDetails<RTCtxT> = RTCtxT & { funcName?: string; nested: boolean; file: string }
+
+type WrapFunc = (expr: string) => string
+
+type RuntimeConfDetails = {
+    wrapInit: WrapFunc
+    wrapUse: WrapFunc
+}
+
+type RuntimeConf<RTCtxT = {}> = {
+    /** return null to disable */
+    initReactive: (details: DecideReactiveDetails<RTCtxT>) => boolean | null
+    useReactive: boolean | ((details: DecideReactiveDetails<RTCtxT>) => boolean)
+    plain: RuntimeConfDetails
+    reactive: RuntimeConfDetails
+}

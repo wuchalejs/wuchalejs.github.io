@@ -3,6 +3,8 @@ title: Configuration Reference
 description: Configure wuchale with wuchale.config.js - set source and target locales, choose adapters, enable HMR, and integrate Gemini live translation for efficient i18n workflows.
 ---
 
+import ShowType from '@/lib/ShowType.astro';
+
 ## Main configuration
 
 `wuchale` can be configured using `wuchale.config.js` at the root of your
@@ -90,15 +92,7 @@ application state and avoiding full reloads.
 **type**: `AI`
 **default**: `gemini()`
 
-```ts
-type AI = {
-    name: string
-    batchSize: number
-    group: Record<string, string[][]>
-    translate: (messages: string, instruction: string) => Promise<string>
-    parallel: number
-}
-```
+<ShowType file="ai/index.ts" name="AI" />
 
 Here you can give your own AI interface for live translation. The `batchSize`
 decides the maximum messages to translate in a single request, over which
@@ -117,14 +111,7 @@ translations, just like a human translator.
 The default is `gemini()` which you can import and provide options to customize
 like `ai: gemini({...})`. The options should conform to the following type:
 
-```ts
-type GeminiOpts = {
-    apiKey?: string
-    batchSize?: number
-    think?: boolean
-    parallel?: number
-}
-```
+<ShowType file="ai/gemini.ts" name="GeminiOpts" ignore="AIPassThruOpts" />
 
 You can provide your API key here in `apiKey` directly, or use the special
 value `env` (default) to use the `GEMINI_API_KEY` environment variable. If the

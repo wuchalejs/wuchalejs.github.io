@@ -1,0 +1,5 @@
+{"file":"adapters.ts","name":"URLConf","opts":{}}
+type URLConf = {
+    patterns?: string[]
+    localize?: boolean | string
+}
