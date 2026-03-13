@@ -47,18 +47,16 @@ export default defineConfig({
                 {
                     label: 'Introduction',
                     items: [
-                        { slug: 'intro/start' },
                         { slug: 'intro/why' },
+                        { slug: 'intro/start' },
                         { slug: 'intro/approaches' },
+                        { slug: 'intro/howitworks' },
+                        { slug: 'intro/concepts' },
                     ],
                 },
                 {
                     label: 'Guides',
                     autogenerate: { directory: 'guides' },
-                },
-                {
-                    label: 'Concepts',
-                    autogenerate: { directory: 'concepts' },
                 },
                 {
                     label: 'Official Adapters',

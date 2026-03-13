@@ -24,7 +24,7 @@ You can see where exactly these files are using the command `npx wuchale status`
 :::
 
 Each loader file has one job: loading the [compiled
-catalogs](/concepts/catalogs#compiled-catalogs), creating runtime objects from
+catalogs](/intro/concepts#compiled-catalogs), creating runtime objects from
 them, and providing them to the transformed modules.
 
 The loader file has to export two functions:
@@ -41,7 +41,7 @@ Apart from this, their job is the same. Where they are used is
 [configurable](/reference/adapter-common/#runtimeusereactive).
 
 The transformed modules then import them, call them with their
-[`loadID`](/concepts/catalogs/#loadid)s and expect a `Runtime` object. To
+[`loadID`](/intro/concepts/#loadid)s and expect a `Runtime` object. To
 be specific, the transformed modules will have something like this (depending
 on the adapter):
 
