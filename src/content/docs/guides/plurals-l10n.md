@@ -5,8 +5,9 @@ description: Implement pluralization and localization in wuchale - define a reus
 
 As `wuchale` is not a library you import from, but a compile time tool, you can
 tell it to look for patterns you write in the code to achieve pluralization and
-localization. This is done using the [`patterns`](/reference/adapter-common/#patterns).
-Two methods are supported.
+localization. This is done using the
+[`patterns`](/reference/adapter-common/#patterns). Two methods are supported.
+In most cases the first one is sufficient and doesn't need any other package.
 
 ## Built-in pluralization
 
@@ -15,7 +16,7 @@ the messages (e.g. in PO file headers) and the candidates are listed in each
 item. This approach is sufficient for most cases and it doesn't require
 installing additional libraries.
 
-The pattern for this is [`configured as default`](/reference/adapter-common/#patterns).
+The pattern for this is [configured as default](/reference/adapter-common/#patterns).
 
 ### Usage
 
@@ -71,7 +72,7 @@ msgstr[0] "Un artículo"
 msgstr[1] "# artículos"
 ```
 
-Then it takes the rule and puts it as a function in the compiled catalog when the use of plurales is detected (according to the [`default pattern`](/reference/adapter-common/#patterns)).
+Then it takes the rule and puts it as a function in the compiled catalog when the use of plurales is detected (according to the [default pattern](/reference/adapter-common/#patterns)).
 
 ```js
 // es.compiled.js
@@ -109,7 +110,7 @@ a function with a different name if you want.
 ## ICU style pluralization and localization
 
 In this approach, the pluralization rule is mixed with the messages inside a
-single big string. While it may have it's complexity, it can be used to
+single big string. While it may have its complexity, it can be used to
 construct complex combinations, even mixing with other data types like genders
 and dates.
 
@@ -168,7 +169,7 @@ const msg = formatMsg(_w_runtime_(0), { numPhotos: 1000 }, _w_runtime_.l);
 And you will find that big string in the catalog storage (PO file), and can
 translate it, changing the rules as you want.
 
-```po
+```po title="es.po"
 msgid ""
 "\n"
 "{numPhotos, plural,\n"
@@ -180,10 +181,15 @@ msgid ""
 msgstr ""
 "\n"
 "{numPhotos, plural,\n"
-"=0 {You have no photos.}\n"
-"=1 {You have one photo.}\n"
-"other {You have # photos.}\n"
+"=0 {No tienes fotos.}\n"
+"=1 {Tienes una foto.}\n"
+"other {Tienes # fotos.}\n"
 "}\n"
 ""
 ```
 
+And it's put in the compiled catalogs as is (because the parsing and interpolation is now done by the library you choose):
+
+```js
+export let c = ['\n{numPhotos, plural,\n=0 {No tienes fotos.}\n=1 {Tienes una foto.}\nother {Tienes # fotos.}\n}\n']
+```
