@@ -129,9 +129,9 @@ export const p = n => n == 1 ? 0 : 1
 That's all. No keys, no unnecessary data. During development there is HMR
 related code added but not for production.
 
-Depending on the configuration, there can be one compiled catalog per `.po`
-file, or more. If [`granularLoad`](/reference/adapter-common/#granularload) is
-enabled, for example, the above single `.po` file will become two compiled
+Depending on the configuration, there can be one compiled catalog per locale,
+or more. If [`granularLoad`](/reference/adapter-common/#granularload) is
+enabled, for example, the above single catalog will become two compiled
 catalogs per the source file (`source1.svelte` and `source2.svelte`)
 
 ```js

@@ -37,3 +37,10 @@ There are just two exchange interactions with wuchale: saving data and loading d
 Putting it all together, what wuchale expects as a storage is a `StorageFactory` function that accepts `StorageFactoryOpts` options from wuchale, and returns a `CatalogStorage` object.
 
 <ShowType file="storage.ts" name="StorageFactory" ignore="LoadData,SaveData" />
+
+:::note
+wuchale uses the same storage for multiple storages have the same `key`. The
+key can be any string, it is just for wuchale to know when to group storages.
+If a second adapter provides a storage with the same `key` as a previous one,
+the previous storage will be used instead.
+:::

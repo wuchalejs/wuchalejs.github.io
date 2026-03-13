@@ -43,16 +43,13 @@ that no two adapters have overlapping `files` patterns. Each file should be
 accounted for by a single adapter. You can check the default option for this in
 the adapter page and override it if it can clash with other adapters.
 
-### `catalog`
+### `storage`
 
-This option controls where the catalogs (PO files, and compiled catalogs if
-`writeFiles.compiled` is enabled) are written, and also is used to compute the
-default loader location for the adapter. The default is common to all adapters.
+This option controls where/how the catalogs are written. Adapters can share the
+same catalog storage as long as they use different loaders.
 
-Adapters can share the same catalog as long as they use different loaders.
-
-- If you want to keep their catalogs separate, specify different `catalog` options for them.
-- If you want them to share the same catalog, which means they will write to the same PO files, you can specify the same `catalog` option for them. They will be coordinated to prevent race conditions by using shared states.
+- If you want to keep their catalogs separate, configure them differently (e.g. different `dir` for `pofile`).
+- If you want them to share the same catalog, which means they will write to the same storage, you can specify the same `storage` option for them. They will be coordinated to prevent race conditions by using shared state.
 
 ## Example
 

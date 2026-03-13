@@ -31,10 +31,10 @@ translating](/guides/ai) using AI!
 This is only done during development though. No HMR related manipulation is
 done during production builds or extraction using the CLI.
 
-## Editing PO files
+## Editing catalog storage files
 
-PO files are not edited as frequently and therefore editing them triggers a
-full reload instead of small localized updates.
+Catalog storage files are not edited as frequently and therefore editing them
+triggers a full reload instead of small localized updates.
 
 ## Disabling
 

@@ -47,11 +47,11 @@ Now, what happens next is two things.
 
 ## Pattern translation and manifest
 
-The first is that the patterns themselves are put inside the same PO files so
-that they are translated by the translator. This makes it consistent that all
-translation can be handled by the translator. But URLs patterns should be
-handled carefully. Therefore, by default, the `pofile` handler puts them in a
-separate `*.url.po` file, like this:
+The first is that the patterns themselves are put inside the catalog storage
+(e.g. `.po`) files so that they are translated by the translator. This makes it
+consistent that all translation can be handled by the translator. But URLs
+patterns should be handled carefully. Therefore, by default, the `pofile`
+handler puts them in a separate `*.url.po` file, like this:
 
 ```po
 # es.po

@@ -102,11 +102,11 @@ make in parallel.
 If you want multiple target locales to be translated in the same prompt, you
 can provide the list of the groups to `group`.
 
-The `translate` function receives the messages in a stringified PO format with
-empty places for the translated messages, along with the instruction that
+The `translate` function receives the messages in a stringified JSON format
+with empty places for the translated messages, along with the instruction that
 explains what to do like from which language to which language, the expected
-format, etc. And the expected format is the same PO format, but with filled
-translations, just like a human translator.
+format, etc. And the expected format is a JSON of translations by locale for
+each locale.
 
 The default is `gemini()` which you can import and provide options to customize
 like `ai: gemini({...})`. The options should conform to the following type:

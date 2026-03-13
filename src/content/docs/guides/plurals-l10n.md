@@ -66,8 +66,8 @@ Then `wuchale` will extract and transform it into:
 const msg = formatMsg(_w_runtime_(0), { numPhotos: 1000 }, _w_runtime_.l);
 ```
 
-And you will find that big string in the PO file, and can translate it,
-changing the rules as you want.
+And you will find that big string in the catalog storage (PO file), and can
+translate it, changing the rules as you want.
 
 ```po
 msgid ""
@@ -88,13 +88,14 @@ msgstr ""
 ""
 ```
 
-## PO style pluralization
+## Built-in pluralization
 
 ### Usage
 
-In this approach, the plural rule is written inside the PO file headers and the
-candidates are listed in each item. This approach is sufficient for most cases
-and it doesn't require installing additional libraries.
+In this approach, the plural rule is written inside the catalog storage with
+the messages (e.g. in PO file headers) and the candidates are listed in each
+item. This approach is sufficient for most cases and it doesn't require
+installing additional libraries.
 
 The pattern for this is [`configured as default`](/reference/adapter-common/#patterns).
 

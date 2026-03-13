@@ -3,9 +3,9 @@ title: Mixed and nested structures
 description: Handle mixed and nested structures in wuchale - extract template literals and markup with expressions, manage nested content with numeric tags, and ensure seamless translation rendering.
 ---
 
-While simple messages are easy to extract, mixed and nested messages are
-not. But `wuchale` handles them seamlessly. When writing them in the [`.po`
-files](/intro/concepts/#po-files), it uses a simple convention that is easy
+While simple messages are easy to extract, mixed and nested messages are not.
+But `wuchale` handles them seamlessly. When writing them in the [catalog
+storage](/intro/concepts/#catalogs), it uses a simple convention that is easy
 to work with for translators.
 
 ## Text mixed with expressions
@@ -156,8 +156,7 @@ your code but internationalized.
 
 When compiling the translations, you may think, how do I escape special
 characters like `<>{}`? `wuchale` comes with its own message compiler that is
-very strict, so strict that it makes escaping unnecessary. If the message is
-valid in the PO syntax, it should work.
+very strict, so strict that it makes escaping unnecessary.
 
 The way it works is this: it only considers valid numeric tags and numeric
 references as special, nothing else. And it is not tolerant to whitespace
