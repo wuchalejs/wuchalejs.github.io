@@ -7,17 +7,18 @@ const dir = resolve(import.meta.dirname, '../../../wuchale/packages/wuchale')
 const src = 'src'
 const tsconfig = dir + '/tsconfig.json'
 
-let compilerOptions: ts.CompilerOptions
+let program: ts.Program
 
-function getCompilerOpts() {
-    if (!compilerOptions) {
-        compilerOptions = ts.parseJsonConfigFileContent(
+function getProgram() {
+    if (!program) {
+        const tsconfigCont = ts.parseJsonConfigFileContent(
             ts.readConfigFile(tsconfig, ts.sys.readFile).config,
             ts.sys,
             dir
-        ).options
+        )
+        program = ts.createProgram(tsconfigCont.fileNames, tsconfigCont.options)
     }
-    return compilerOptions
+    return program
 }
 
 export type Opts = {
@@ -36,10 +37,6 @@ function getSourceText(node: ts.Node): string {
     return sf.text.slice(start, node.getEnd()).trim()
 }
 
-function isFromNodeModules(node: ts.Node): boolean {
-    return node.getSourceFile().fileName.includes('node_modules')
-}
-
 function collectReferences(node: ts.Node, name: string, collected: Map<string, string>, visited: Set<string>, checker: ts.TypeChecker, opts: Opts) {
     if (ts.isTypeReferenceNode(node)) {
         const typeName = node.typeName.getText(node.getSourceFile())
@@ -56,7 +53,7 @@ function collectReferences(node: ts.Node, name: string, collected: Map<string, s
                 ? checker.getAliasedSymbol(symbol)
                 : symbol)
             const decl = resolved?.getDeclarations()?.[0]
-            if (decl && !isFromNodeModules(decl)) {
+            if (decl && !decl.getSourceFile().fileName.includes('node_modules')) {
                 // Recurse into this declaration's references first (depth-first)
                 collectReferences(decl, name, collected, visited, checker, opts)
                 if (typeName !== name) {
@@ -72,8 +69,7 @@ function collectReferences(node: ts.Node, name: string, collected: Map<string, s
 
 export function getType(file: string, name: string, opts: Opts) {
     const resolvedPath = resolve(dir, src, file)
-    const program = ts.createProgram([resolvedPath], getCompilerOpts())
-    const source = program.getSourceFile(resolvedPath)
+    const source = getProgram().getSourceFile(resolvedPath)
     if (!source) {
         throw new Error(`ShowType: Could not load source file "${file}"`)
     }

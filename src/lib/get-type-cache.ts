@@ -29,6 +29,7 @@ export async function updateCache() {
         const cacheFile = resolve(cacheDir, cacheFil)
         const content = await readFile(cacheFile, {encoding: 'utf8'})
         const info = content.slice(0, content.indexOf('\n'))
+        console.log('updating', cacheFil, info)
         const {file, name, opts} = JSON.parse(info)
         const type = getType(file, name, opts)
         await writeFile(cacheFile, `${info}\n${type}`)
