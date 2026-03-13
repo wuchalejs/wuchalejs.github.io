@@ -1,0 +1,5 @@
+{"file":"pofile.ts","name":"POFileOptions","opts":{}}
+type POFileOptions = {
+    dir: string
+    separateUrls: boolean
+}
