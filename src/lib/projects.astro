@@ -1,0 +1,103 @@
+---
+type Project = {
+    href: string
+    icon: string
+    name: string
+    description: string
+}
+
+const projects: Project[] = [
+    {
+        href: 'https://blitz.gg/',
+        icon: 'https://blitz.gg/favicon.svg',
+        name: 'Blitz',
+        description: 'In-game overlays, meta stats, and tier lists for games like League of Legends, VALORANT, and more'
+    },
+    {
+        href: 'https://github.com/AlchemillaHQ/Sylve',
+        icon: 'https://raw.githubusercontent.com/AlchemillaHQ/Sylve/refs/heads/master/web/static/logo/black.svg',
+        name: 'AlchemillaHQ/Sylve',
+        description: 'Lightweight GUI for managing Bhyve, Jails, ZFS, networking, and more on FreeBSD'
+    },
+    {
+        href: 'https://nook.software/',
+        icon: 'https://nook.software/favicon.png',
+        name: 'Nook',
+        description: 'Run local AI models in your browser for chat, audio transcription, text to speech and background removal'
+    },
+    {
+        href: 'https://cigaleapp.github.io/cigale/',
+        icon: 'https://media.gwen.works/cigale/static/favicon.png',
+        name: 'CIGALE',
+        description: 'Intelligent Classification and Management of Arthropods and Entomofauna'
+    },
+    {
+        href: 'https://simadvisor.com/en',
+        icon: 'https://simadvisor.com/favicon.svg',
+        name: 'SimAdvisor',
+        description: 'Travel eSIM comparison'
+    },
+    {
+        href: 'https://www.payqual.nl/',
+        icon: 'https://www.payqual.nl/_next/image?url=%2Flogo.png&w=48&q=75',
+        name: 'Payqual',
+        description: 'A tool for the European payment transparency directive.'
+    },
+    {
+        href: 'https://svelte-apps.me/',
+        icon: 'https://svelte-apps.me/favicon/favicon-96x96.png',
+        name: 'Svelte-MiniApps',
+        description: 'A SvelteKit Progressive Web App containing multiple single-purpose productivity mini-apps'
+    },
+    {
+        href: 'https://prikkert.nl/en',
+        icon: 'https://codeberg.org/qcoret/prikkert/raw/branch/main/src/lib/assets/icon.svg',
+        name: 'Prikkert',
+        description: 'An open-source app for scheduling group events. Always free, no ads.'
+    }
+]
+---
+
+<proj-container>
+    {projects.map(({href, icon, name, description}) => 
+        <proj-single>
+            <a href={href} target="_blank">
+                <img src={icon} alt={name} />
+                <span>{name}</span>
+            </a>
+            <small>{description}</small>
+        </proj-single>
+    )}
+</proj-container>
+
+<style>
+proj-container {
+    display:flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+proj-single {
+    padding: 1em;
+    width: 12em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 1em;
+}
+
+a {
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+img {
+    height: 5em;
+}
+
+small {
+    text-align: center;
+}
+</style>
