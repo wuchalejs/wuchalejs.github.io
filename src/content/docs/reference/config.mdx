@@ -5,8 +5,6 @@ description: Configure wuchale with wuchale.config.js - set source and target lo
 
 import ShowType from '@/lib/ShowType.astro';
 
-## Main configuration
-
 `wuchale` can be configured using `wuchale.config.js` at the root of your
 project. TypeScript or other formats for configuration are not supported. An
 example configuration looks like:
@@ -32,7 +30,7 @@ adapter. The adapter accepts a configuration object as an argument. The
 configuration for each adapter is discussed in the adapter's documentation. The
 main configuration is discussed here.
 
-### `locales`
+## `locales`
 
 **type**: `string[]`
 
@@ -67,7 +65,7 @@ pairs and it will check them in that sequence before falling back to the source
 locale. Regional variants fall back to the base locale by default. See the
 [Fallback](/guides/fallback/) guide.
 
-### `adapters`
+## `adapters`
 
 **type**: `Record<string, Adapter>`
 **default**: `{}`
@@ -78,7 +76,7 @@ own keys. The keys are how you can separate different parts of the project into
 smaller pieces and refer to them. The key also has to be a valid keyword like
 locale keys.
 
-### `hmr`
+## `hmr`
 
 **type**: `boolean`
 **default**: `true`
@@ -88,7 +86,7 @@ overhead of live translation updates and work solely with the source language.
 HMR is highly optimized: it updates only the affected components, preserving
 application state and avoiding full reloads.
 
-### `ai`
+## `ai`
 **type**: `AI`
 **default**: `gemini()`
 
@@ -119,7 +117,7 @@ environment variable is not set, Gemini will not be used, as if it was
 disabled. It can also be always disabled by setting this to `null`, in which
 case the environment variable will not be used even if it is set.
 
-### `logLevel`
+## `logLevel`
 
 **type**: `'error' | 'warn' | 'info' | 'verbose'`
 **default**: `info`
