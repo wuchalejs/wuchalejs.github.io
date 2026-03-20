@@ -6,8 +6,11 @@ description: Configure wuchale with wuchale.config.js - set source and target lo
 import ShowType from '@/lib/ShowType.astro';
 
 `wuchale` can be configured using `wuchale.config.js` at the root of your
-project. TypeScript or other formats for configuration are not supported. An
-example configuration looks like:
+project. TypeScript support depends on your JS runtime, meaning wuchale can
+import `wuchale.config.ts` but it doesn't do anything extra, which will work if
+your runtime supports directly importing/running TS files (Node.js 22+, Bun,
+Deno). Other formats for configuration are not supported. An example
+configuration looks like:
 
 ```javascript
 // wuchale.config.js
@@ -34,10 +37,9 @@ main configuration is discussed here.
 
 **type**: `string[]`
 
-The locales the app should be available in. If the source language needs to be
-presented to the user (in almost all cases it is), then it should also be
-included here. If the app includes some files written in another spoken
-language, those files should be handled by a separate adapter config and the
+The locales the app should be available in, including the source locale(s). If
+the app includes some files written in another spoken language, those files
+should be handled by a separate adapter config and the
 [`sourceLocale`](/reference/adapter-common/#sourcelocale) can be specified
 there, which only applies to that adapter config.
 
