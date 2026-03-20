@@ -14,7 +14,6 @@ type FileRef = {
 }
 
 interface Item {
-    id: string[]
     context?: string
     translations: Map<string, string[]>
     references: FileRef[]
