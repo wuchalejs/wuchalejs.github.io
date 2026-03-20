@@ -22,37 +22,28 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
     <Tabs syncKey="adapter">
         <TabItem label="React">
             ```bash
-            npm install wuchale @wuchale/jsx @wuchale/vite-plugin
+            npm install wuchale @wuchale/jsx
             ```
         </TabItem>
         <TabItem label="Svelte">
             ```bash
-            npm install wuchale @wuchale/svelte @wuchale/vite-plugin
+            npm install wuchale @wuchale/svelte
             ```
         </TabItem>
         <TabItem label="SolidJS">
             ```bash
-            npm install wuchale @wuchale/jsx @wuchale/vite-plugin
+            npm install wuchale @wuchale/jsx
             ```
         </TabItem>
         <TabItem label="Astro">
             ```bash
-            npm install wuchale @wuchale/astro @wuchale/vite-plugin
+            npm install wuchale @wuchale/astro
             ```
         </TabItem>
         <TabItem label="Vanilla">
-            <Tabs syncKey="vanillaVite">
-                <TabItem label="With Vite">
-                    ```bash
-                    npm install wuchale @wuchale/vite-plugin
-                    ```
-                </TabItem>
-                <TabItem label="Without Vite">
-                    ```bash
-                    npm install wuchale
-                    ```
-                </TabItem>
-            </Tabs>
+            ```bash
+            npm install wuchale
+            ```
         </TabItem>
     </Tabs>
 
@@ -64,7 +55,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             // vite.config.js
             import { defineConfig } from 'vite'
             import react from '@vitejs/plugin-react'
-            +import { wuchale } from '@wuchale/vite-plugin'
+            +import { wuchale } from 'wuchale/vite'
 
             export default defineConfig({
                 plugins: [ wuchale(), react() ],
@@ -77,7 +68,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                     ```diff lang="js" add="wuchale()"
                     // vite.config.js
                     import { svelte } from '@sveltejs/vite-plugin-svelte'
-                    +import { wuchale } from '@wuchale/vite-plugin'
+                    +import { wuchale } from 'wuchale/vite'
                     
                     export default {
                         plugins: [ wuchale(), svelte() ]
@@ -88,7 +79,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                     ```diff lang="js" add="wuchale()"
                     // vite.config.js
                     import { sveltekit } from '@sveltejs/kit/vite'
-                    +import { wuchale } from '@wuchale/vite-plugin'
+                    +import { wuchale } from 'wuchale/vite'
                     
                     export default {
                         plugins: [ wuchale(), sveltekit() ]
@@ -102,7 +93,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
             // vite.config.js
             import { defineConfig } from 'vite';
             import solidPlugin from 'vite-plugin-solid';
-            +import { wuchale } from '@wuchale/vite-plugin';
+            +import { wuchale } from 'wuchale/vite';
 
             export default defineConfig({
                 plugins: [wuchale(), solidPlugin()],
@@ -112,7 +103,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
         <TabItem label="Astro">
             ```diff lang="js"
             // astro.config.js
-            import { wuchale } from '@wuchale/vite-plugin';
+            import { wuchale } from 'wuchale/vite';
             import { defineConfig } from 'astro/config';
 
             // https://astro.build/config
@@ -140,7 +131,7 @@ import { Steps, Tabs, TabItem } from '@astrojs/starlight/components';
                 <TabItem label="With Vite">
                     ```diff lang="js" add="wuchale()"
                     // vite.config.js
-                    +import { wuchale } from '@wuchale/vite-plugin'
+                    +import { wuchale } from 'wuchale/vite'
 
                     export default {
                         plugins: [wuchale()]
