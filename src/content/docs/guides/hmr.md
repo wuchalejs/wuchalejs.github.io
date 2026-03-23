@@ -42,16 +42,11 @@ You can disable this HMR behavior entirely using the
 [`hmr`](/reference/config/#hmr) config.
 
 You can also temporarily disable it without restarting the dev server by
-writing a file in the `localesDir` (experimental):
+writing a file in the `{localesDir}/.wuchale`:
 
 ```sh
-echo '{"hmr":false}' > src/locales/confUpdate.json
+echo '{"hmr":false}' > src/locales/.wuchale/confUpdate.json
 ```
-
-There is a known limitation with this that it only sees changes to the file,
-not creation, so you should write again if the file is new. You may also need
-to gitignore it as it's not a necessary file in the source. These will be fixed
-in the next version.
 
 You can use this to make it play nice with e.g. git while rebasing, by putting
 the command in a hook.
