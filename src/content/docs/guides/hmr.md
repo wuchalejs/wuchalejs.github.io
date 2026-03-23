@@ -8,7 +8,8 @@ components. That presented a challenge because now updating the catalog to add
 a single word means invalidating all of the files that use the catalog. This
 was how `wuchale` initially worked. While it was fast, it became annoying on a
 non trivial application because the whole state of the application was lost due
-to a change in a small component.
+to a change in a small component. And so a more granular implementation was
+necessary, especially when editing source files.
 
 HMR support is implemented in two directions.
 
