@@ -39,8 +39,8 @@ Putting it all together, what wuchale expects as a storage is a `StorageFactory`
 <ShowType file="storage.ts" name="StorageFactory" ignore="LoadData,SaveData" />
 
 :::note
-wuchale uses the same storage for multiple storages have the same `key`. The
-key can be any string, it is just for wuchale to know when to group storages.
-If a second adapter provides a storage with the same `key` as a previous one,
-the previous storage will be used instead.
+When multiple adapters have storages with the same `key`, wuchale uses the
+first one for all of them. The key can be any string, it is just for wuchale to
+know when to group storages. This can be used to share catalog storages among
+adapters, and is used in the examples.
 :::

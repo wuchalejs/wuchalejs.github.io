@@ -5,19 +5,12 @@ description: Adapter API reference
 
 import ShowType from '@/lib/ShowType.astro';
 
-An adapter handles a file dealing with the specific syntax. It has to:
-
-- Extract the strings (messages and URLs) from the file
-- Transform the file into a version that uses the catalogs
-- Provide configuration parameters `localesDir`
-- Define behaviors like when to use the reactive runtime
-- Provide available loaders
-
-An adapter uses some configuration values for itself internally and some, it
-has to pass to the main handler. But it's important to provide a uniform
-interface to the user (for use in `wuchale.config.js`. Therefore, the adapter
-should be a function that takes a config object and creates an adapter object,
-to be used like this in the config:
+An [adapter](/intro/concepts/#adapters) uses some configuration values for
+itself internally and some, it has to pass to the main handler. But it's
+important to provide a uniform interface to the user (for use in
+`wuchale.config.js`. Therefore, the adapter should be a function that takes a
+config object and creates an adapter object, to be used like this in the
+config:
 
 ```ts
 adapter({
