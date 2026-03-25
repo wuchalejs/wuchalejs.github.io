@@ -37,8 +37,6 @@ Examples:
 
 ### In `attribute` (`<div title="Info">`)
 
-#### Messages
-
 - The element must not be ignored.
 - If the attribute is `href` and the value matches one of [`url.patterns`](/reference/adapter-common/#url) it is extracted as a URL.
 - If the first character is a lowercase English letter (`[a-z]`), it is ignored.
