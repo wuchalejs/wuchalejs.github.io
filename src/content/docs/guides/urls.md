@@ -104,9 +104,9 @@ do any specificity checks. Therefore, put the catch-all patterns last.
 
 ## Link handling
 
-The other part is this, when it gets a text fragment that is probably a link,
-it translates it from the pattern translation so that the it is translated
-exactly the same way as the routing and prevent 404s.
+The other part is this, when it gets a text fragment that is [matched as a
+URL](/guides/rules/), it translates it from the pattern translation so that the
+it is translated exactly the same way as the routing and prevent `404` errors.
 
 Let's take the following example:
 

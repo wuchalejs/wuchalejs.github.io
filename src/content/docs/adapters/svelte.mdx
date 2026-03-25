@@ -171,8 +171,9 @@ additional restrictions.
 
 - The string can be in a variable at the top level, and if it is, it is auto wrapped inside `$derived`.
 - It should pass the base heuristic from the Vanilla adapter.
+- If the value is inside `goto()` it is extracted as a URL (can be disabled by using the heuristic `svelteDefaultHeuristic` from this package).
 - If the value is inside `$inspect()` calls, it is ignored.
-- Otherwise, it is extracted.
+- Otherwise, it is extracted as a message.
 
 Examples:
 

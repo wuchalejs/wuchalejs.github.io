@@ -37,15 +37,19 @@ Examples:
 
 ### In `attribute` (`<div title="Info">`)
 
+#### Messages
+
 - The element must not be ignored.
+- If the attribute is `href` and the value matches one of [`url.patterns`](/reference/adapter-common/#url) it is extracted as a URL.
 - If the first character is a lowercase English letter (`[a-z]`), it is ignored.
 - The `method` attribute of a `form` is ignored.
-- Otherwise, it is extracted.
+- Otherwise, it is extracted as a message.
 
 Examples:
 
 ```svelte
 <img alt="Profile Picture" class="not-extracted" />
+<a href="/extracted/if/matching">Link</a>
 ```
 
 ### In `script` (`<script>` and `.js/ts`)
