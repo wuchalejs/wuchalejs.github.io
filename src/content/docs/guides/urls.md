@@ -196,3 +196,41 @@ export const reroute = ({url}) => {
 ```
 
 The implementation of `deLocalize` is left as an exercise.
+
+## Path translation
+
+Most of the time, when the locale in a page is changed (using a drop-down for
+example), it is desired to go to the corresponding page in the new locale
+instead of jumping to the home page. To achieve this, the current path must be
+translated to the new locale. The steps are as follow:
+
+1. DeLocalize the path to remove any prefixes
+1. Extract the dynamic params for that path and get the alternate patterns
+1. Fill the params on the pattern of the desired new locale
+1. Localize the new path with the new locale
+
+wuchale provides the utilities to do these easily. For example, with the default localization:
+
+```ts
+// src/lib/utils.js
+
+import {deLocalizeDefault, fillParams, localizeDefault} from "wuchale/url"
+import {matchUrl} from "../locales/main.url.js"
+
+/**
+ * @param {string} url
+ * @param {import("../locales/data.js").Locale} locale
+ */
+function translateUrl(url, locale) {
+    const [pathOnly, prevLocale] = deLocalizeDefault(url, locales);
+    const result = matchUrl(pathOnly, prevLocale)
+    if (result.path !== null) {
+        const targetPath = fillParams(result.params, result.altPatterns[locale])
+        return localizeDefault(targetPath, locale)
+    }
+    return localizeDefault(url, locale)
+}
+```
+
+If you use other ways of localization/de-localization, you can adapt it by
+changing the corresponding functions.
