@@ -55,6 +55,7 @@ export default {
     name: "ChatGPT", // e.g.
     batchSize: 50,
     parallel: 10,
+    group: {},
     translate: (content, instruction) => {
       // logic
       return translatedContent;
