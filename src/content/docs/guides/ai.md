@@ -113,16 +113,19 @@ When some locales are very similar (such as `fr` and `fr-CH`), you may not want
 different wordings for the same things just because they were translated in
 isolation. You may want as much consistency as possible, and only have the
 messages that are actually different be translated differently. In that case,
-you can group these locales to be in the same prompt:
+you can group these locales to be in the same prompt, providing the groups for
+each `sourceLocale`:
 
 ```js
 export default defineConfig({
     ai: {
         // ...
-        group: [
-            ['fr', 'fr-CH'],
-            // other groups
-        ]
+        group: {
+            en: [
+                ['fr', 'fr-CH'],
+                // other groups
+            ]
+        }
     }
 })
 ```
