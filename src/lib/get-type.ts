@@ -3,7 +3,7 @@
 import { resolve } from 'node:path'
 import ts from 'typescript'
 
-const dir = resolve(import.meta.dirname, '../../../wuchale/packages/wuchale')
+const dir = resolve('../wuchale/packages/wuchale')
 const src = 'src'
 const tsconfig = dir + '/tsconfig.json'
 

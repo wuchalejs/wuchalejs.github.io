@@ -5,7 +5,7 @@ import { getType, type Opts } from './get-type.ts'
 import { createHash } from 'crypto'
 import { writeFile, readFile, readdir } from 'node:fs/promises'
 
-const cacheDir = resolve(import.meta.dirname, '../../types-cache')
+const cacheDir = resolve('types-cache')
 
 export async function getTypeCache(file: string, name: string, opts: Opts) {
     const info = JSON.stringify({file, name, opts})
