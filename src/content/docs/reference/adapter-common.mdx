@@ -62,6 +62,11 @@ The files to extract from. Only these files will be extracted from. Other files 
 
 <ShowType file="adapters.ts" name="GlobConf" />
 
+:::note
+The patterns should be relative to the wuchale config file, not absolute paths.
+wuchale always checks them against relative paths.
+:::
+
 ## `url`
 **type**: `URLConf | undefined`
 **default**: `undefined`
