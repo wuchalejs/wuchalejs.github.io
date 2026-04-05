@@ -54,6 +54,12 @@ const projects: Project[] = [
         icon: 'https://codeberg.org/qcoret/prikkert/raw/branch/main/src/lib/assets/icon.svg',
         name: 'Prikkert',
         description: 'An open-source app for scheduling group events. Always free, no ads.'
+    },
+    {
+        href: 'https://hopbox.net/',
+        icon: 'https://hopbox.net/logo.png',
+        name: 'Hopbox',
+        description: 'Run Networks on Autopilot'
     }
 ]
 ---
@@ -62,7 +68,9 @@ const projects: Project[] = [
     {projects.map(({href, icon, name, description}) => 
         <proj-single>
             <a href={href} target="_blank">
-                <img src={icon} alt={name} />
+                <logo-cont>
+                    <img src={icon} alt={name} />
+                </logo-cont>
                 <span>{name}</span>
             </a>
             <small>{description}</small>
@@ -93,8 +101,16 @@ a {
     align-items: center;
 }
 
-img {
+logo-cont {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 5em;
     height: 5em;
+}
+
+logo-cont img {
+    width: 100%
 }
 
 small {
