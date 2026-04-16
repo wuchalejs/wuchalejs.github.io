@@ -1,0 +1,72 @@
+---
+import {readFile, writeFile} from 'node:fs/promises'
+
+const spFile = 'sponsors.json'
+
+type Data = {sponsors: string[], backers: string[]}
+type Sponsor = {id: number, username: string}
+type FullData = {sponsors: Sponsor[], backers: Sponsor[]}
+
+let fullData: FullData
+
+try {
+    fullData = JSON.parse(await readFile(spFile, 'utf-8'))
+} catch (err: any) {
+    if (err.code !== 'ENOENT') {
+        throw err
+    }
+    const url = `https://raw.githubusercontent.com/wuchalejs/wuchale/refs/heads/main/scripts/sponsors.json`
+    const res = await fetch(url)
+    const data = await res.json() as Data
+    fullData = {sponsors: [], backers: []}
+    for (const [key, spons] of Object.entries(data)) {
+        const ress = await Promise.all(spons.map(s => fetch(`https://api.github.com/users/${s}`)))
+        const jsons = (await Promise.all(ress.map(r => r.json()))) as { id: number }[]
+        fullData[key as keyof Data] = jsons.map((j, i) => ({id: j.id, username: spons[i]}))
+    }
+    await writeFile(spFile, JSON.stringify(fullData))
+}
+---
+
+<p>
+    This project is supported by the community. Become a sponsor and get your name
+    or logo listed on the README and here on the website!
+</p>
+
+<p>
+    <a href="https://github.com/sponsors/K1DV5">
+        <img alt="Sponsor on GitHub" src="https://img.shields.io/badge/Sponsor%20on-GitHub-%23ea4aaa?logo=github&logoColor=white" />
+    </a>
+</p>
+
+<center>
+<h5>Sponsors</h5>
+
+<div class="sponsors">
+    {fullData.sponsors.map(s => <a class="sponsor" href={'https://github.com/' + s.username}>
+        <img src={`https://avatars.githubusercontent.com/u/${s.id}?v=4&s=96`} />
+    </a>)}
+</div>
+
+<h5>Special thanks to our backers</h5>
+
+<div class="sponsors">
+    {fullData.backers.map(s => <a class="sponsor" href={'https://github.com/' + s.username}>
+        <img src={`https://avatars.githubusercontent.com/u/${s.id}?v=4&s=48`} />
+    </a>)}
+</div>
+
+</center>
+
+<style>
+
+.sponsors {
+    display: flex;
+    justify-content: center;
+}
+
+.sponsor {
+    margin: .3em;
+}
+
+</style>
