@@ -1,22 +1,23 @@
 {
   "sponsors": [
     {
-      "id": 24351170,
-      "username": "mightygroup"
+      "username": "mightygroup",
+      "id": 24351170
     }
   ],
   "backers": [
     {
-      "id": 3922884,
-      "username": "hayzamjs"
+      "username": "hayzamjs",
+      "id": 3922884
     },
     {
-      "id": 9084532,
-      "username": "p-mercury"
+      "username": "p-mercury",
+      "id": 9084532
     },
     {
-      "id": 1526654,
-      "username": "perdix"
+      "username": "perdix",
+      "id": 1526654
     }
-  ]
+  ],
+  "private": 1
 }

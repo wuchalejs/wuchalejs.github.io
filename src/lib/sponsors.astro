@@ -3,28 +3,21 @@ import {readFile, writeFile} from 'node:fs/promises'
 
 const spFile = 'sponsors.json'
 
-type Data = {sponsors: string[], backers: string[]}
 type Sponsor = {id: number, username: string}
-type FullData = {sponsors: Sponsor[], backers: Sponsor[]}
+type Data = {sponsors: Sponsor[], backers: Sponsor[], private: number}
 
-let fullData: FullData
+let data: Data
 
 try {
-    fullData = JSON.parse(await readFile(spFile, 'utf-8'))
+    data = JSON.parse(await readFile(spFile, 'utf-8'))
 } catch (err: any) {
     if (err.code !== 'ENOENT') {
         throw err
     }
     const url = `https://raw.githubusercontent.com/wuchalejs/wuchale/refs/heads/main/scripts/sponsors.json`
     const res = await fetch(url)
-    const data = await res.json() as Data
-    fullData = {sponsors: [], backers: []}
-    for (const [key, spons] of Object.entries(data)) {
-        const ress = await Promise.all(spons.map(s => fetch(`https://api.github.com/users/${s}`)))
-        const jsons = (await Promise.all(ress.map(r => r.json()))) as { id: number }[]
-        fullData[key as keyof Data] = jsons.map((j, i) => ({id: j.id, username: spons[i]}))
-    }
-    await writeFile(spFile, JSON.stringify(fullData))
+    data = await res.json() as Data
+    await writeFile(spFile, JSON.stringify(data, null, '  '))
 }
 ---
 
@@ -43,7 +36,7 @@ try {
 <h5>Sponsors</h5>
 
 <div class="sponsors">
-    {fullData.sponsors.map(s => <a class="sponsor" href={'https://github.com/' + s.username}>
+    {data.sponsors.map(s => <a class="sponsor" href={'https://github.com/' + s.username}>
         <img src={`https://avatars.githubusercontent.com/u/${s.id}?v=4&s=96`} />
     </a>)}
 </div>
@@ -51,10 +44,12 @@ try {
 <h5>Special thanks to our backers</h5>
 
 <div class="sponsors">
-    {fullData.backers.map(s => <a class="sponsor" href={'https://github.com/' + s.username}>
+    {data.backers.map(s => <a class="sponsor" href={'https://github.com/' + s.username}>
         <img src={`https://avatars.githubusercontent.com/u/${s.id}?v=4&s=48`} />
     </a>)}
 </div>
+
+<p>And one private donor 🙏</p>
 
 </center>
 
