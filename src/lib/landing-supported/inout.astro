@@ -1,6 +1,13 @@
 ---
-import { Code, CardGrid, Tabs, TabItem, LinkButton } from '@astrojs/starlight/components';
-const {input, output, lang} = Astro.props
+import { Code } from '@astrojs/starlight/components';
+
+type Props = {
+    input: string
+    output?: string
+    lang: string
+}
+
+const {input, output, lang}: Props = Astro.props
 ---
 
 <div class="versions">
@@ -8,7 +15,7 @@ const {input, output, lang} = Astro.props
         <Code code={input} lang={lang} title="INPUT" />
     </div>
     <div>
-        <Code code={output} lang={lang} title="OUTPUT" />
+        <Code code={output ?? input} lang={lang} title="OUTPUT" />
     </div>
 </div>
 

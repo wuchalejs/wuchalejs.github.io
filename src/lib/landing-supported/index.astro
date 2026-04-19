@@ -1,0 +1,135 @@
+---
+import { Code, Tabs, TabItem } from '@astrojs/starlight/components';
+import InOut from './inout.astro';
+import enPO from './en.po?raw'
+import esPO from './es.po?raw'
+import enCompiled from './en.compiled.js?raw'
+import esCompiled from './es.compiled.js?raw'
+import type {Supported} from './interaction.ts'
+
+const supported: Supported[] = [
+    {label: 'react', name: 'React', color: '#00D8FF', ext: 'jsx'},
+    {label: 'preact', name: 'Preact', color: '#673ab8', ext: 'jsx'},
+    {label: 'solid', name: 'SolidJS', color: '#76B3E1', ext: 'jsx'},
+	{label: 'svelte', name: 'Svelte', color: '#FF3E00'},
+	{label: 'astro', name: 'Astro', color: '#DD365C'},
+	{label: 'js', name: 'JavaScript', color: '#F7DF1E'},
+	{label: 'ts', name: 'TypeScript', color: '#3178C6'},
+    {label: 'python', name: 'Python*', color: '#327EBD', future: true, ext: 'py'},
+	{label: 'go', name: 'Golang*', color: '#00ACD7', future: true},
+]
+
+const examples = new Map<string, string>(await Promise.all(supported.flatMap(({label, ext, future}) => {
+    const imps = [[label, 'in', ext ?? label]]
+    if (!future) {
+        imps.push([label, 'out', ext ?? label])
+    }
+    return imps
+}).map(async ([label, part, ext]) => [
+    `${label}.${part}`,
+    (await import(`../../../supported-examples/${label}.${part}.${ext}?raw`)).default
+] as const)))
+
+const active = 'react'
+const inactiveSty = 'filter: grayscale(.7)'
+const futureSty = 'filter: grayscale(1)'
+---
+
+<div
+    class="container"
+    data-supported={JSON.stringify(supported)}
+    data-inactivesty={inactiveSty}
+    data-futuresty={futureSty}
+    data-active={active}
+>
+	{supported.map(({name, label, future, color}) => 
+        <div class="item">
+			<div class="imgContainer" style={label === active && `border-color: ${color}`}>
+                <img
+                    style={future ? futureSty : label === active ? null : inactiveSty}
+                    alt={`${name} Logo`}
+                    src={`/images/${label}.svg`}
+                />
+            </div>
+			<span style={label === active && `color: ${color}`}>{name}</span>
+        </div>
+    )}
+</div>
+
+{supported.map(({label, ext}) => <div style={label !== active ? 'display: none' : ''} class={`code-${label}`}>
+    <InOut
+        input={examples.get(`${label}.in`)!}
+        output={examples.get(`${label}.out`)}
+        lang={ext ?? label}
+    />
+</div>)}
+
+<div class="translations-container">
+	<Tabs syncKey="locale">
+		<TabItem label="English">
+			<div class="translations">
+				<div>
+                    <Code code={enPO + '\u200B' /* to keep whitespace */} lang="po" title="PO file (for translators)" />
+				</div>
+				<div>
+					<Code code={enCompiled} lang="js" title="Compiled JS (for runtime)" />
+				</div>
+			</div>
+		</TabItem>
+		<TabItem label="Spanish (translated)">
+			<div class="translations">
+				<div>
+					<Code code={esPO + '\u200B'} lang="po" title="PO file (for translators)" />
+				</div>
+				<div>
+					<Code code={esCompiled} lang="js" title="Compiled JS (for runtime)" />
+				</div>
+			</div>
+		</TabItem>
+	</Tabs>
+</div>
+
+<script>
+import addListeners from './interaction.ts'
+addListeners()
+</script>
+
+<style>
+    .container {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+    }
+    .item {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 1em;
+        cursor: pointer;
+    }
+    .imgContainer {
+        width: 4em;
+        height: 4em;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        border: .1em solid grey;
+    }
+    img {
+        width: 60%;
+        margin: 1em;
+    }
+
+    .translations {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-start;
+        width: 100%;
+    }
+
+    .translations div {
+        margin: 0;
+        flex-grow: 1;
+    }
+</style>
