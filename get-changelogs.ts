@@ -7,6 +7,7 @@ const packages = [
     ['svelte', '@wuchale/svelte'],
     ['jsx', '@wuchale/jsx'],
     ['astro', '@wuchale/astro'],
+    ['json', '@wuchale/json'],
 ]
 
 for (const [name, packageName] of packages) {

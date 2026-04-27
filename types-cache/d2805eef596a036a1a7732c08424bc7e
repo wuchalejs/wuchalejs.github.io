@@ -1,8 +1,8 @@
 {"file":"adapters.ts","name":"Adapter","opts":{"nodeps":true}}
-type Adapter<RTCtxT extends {} = {}> = AdapterPassThruOpts<RTCtxT> & {
+type Adapter = AdapterPassThruOpts & {
     transform: TransformFunc | TransformFuncAsync
     /** possible filename extensions for loader. E.g. `.js` */
-    loaderExts: string[]
+    loaderExts: [string, ...string[]]
     /** default loaders to copy, `null` means custom */
     defaultLoaderPath: LoaderPath | string | null
     /** names to import from loaders, should avoid collision with code variables */

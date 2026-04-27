@@ -1,6 +1,6 @@
 {"file":"storage.ts","name":"Item","opts":{}}
 type FileRefEntry = {
-    link?: string // for URLs
+    link?: string | undefined // for URLs
     placeholders: [number, string][]
 }
 
@@ -14,7 +14,7 @@ type FileRef = {
 }
 
 interface Item {
-    context?: string
+    context?: string | undefined
     translations: Map<string, string[]>
     references: FileRef[]
     urlAdapters: string[] // for URLs

@@ -1,6 +1,12 @@
 ---
-title: Custom storage
+title: Storage drivers
 ---
+
+Storage drivers are the layer that handles the storage of translations, to be
+exchanged with a translator for example. wuchale supports swapping them as long
+as they conform to the [expected shape](/reference/storage). The default
+storage driver is the PO file driver, which can be imported from
+`wuchale/pofile`.
 
 While PO files are solid for most projects, they have issues that might make them less ideal for a project.
 

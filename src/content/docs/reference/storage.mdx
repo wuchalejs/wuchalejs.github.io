@@ -32,11 +32,24 @@ There are just two exchange interactions with wuchale: saving data and loading d
 <ShowType file="storage.ts" name="SaveData" nodeps />
 <ShowType file="storage.ts" name="LoadData" nodeps />
 
+## File system
+
+Since almost all of the data exchanged is text files, wuchale provides a file
+system abstraction layer that reads and handles non existing file errors,
+returning `null`, and such conveniences. However, the reason for its existence
+is swappability for testing and for the `npx wuchale check --full` command
+which goes through the normal process of extraction but doesn't write anything
+because it uses a read-only instance of the file system layer. To make a new
+storage interface work like that, you can use this layer, provided by wuchale.
+It looks like this:
+
+<ShowType file="fs.ts" name="FS" />
+
 ## Whole interface
 
 Putting it all together, what wuchale expects as a storage is a `StorageFactory` function that accepts `StorageFactoryOpts` options from wuchale, and returns a `CatalogStorage` object.
 
-<ShowType file="storage.ts" name="StorageFactory" ignore="LoadData,SaveData" />
+<ShowType file="storage.ts" name="StorageFactory" ignore="FS,LoadData,SaveData" />
 
 :::note
 When multiple adapters have storages with the same `key`, wuchale uses the
