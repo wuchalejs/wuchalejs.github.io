@@ -1,22 +1,28 @@
 // $$ node %f
 
 import { resolve } from 'node:path'
-import ts from 'typescript'
+import ts, { type Program } from 'typescript'
 
-const dir = resolve('../wuchale/packages/wuchale')
+const dirBase = resolve('../wuchale/packages')
+const packageDef = 'wuchale'
 const src = 'src'
-const tsconfig = dir + '/tsconfig.json'
 
-let program: ts.Program
+const programs = new Map<string, Program>()
 
-function getProgram() {
+function getProgram(pacDir: string) {
+    let program = programs.get(pacDir)
     if (!program) {
+        const tsconfig = pacDir + '/tsconfig.build.json'
         const tsconfigCont = ts.parseJsonConfigFileContent(
             ts.readConfigFile(tsconfig, ts.sys.readFile).config,
             ts.sys,
-            dir
+            pacDir,
         )
+        for (const err of tsconfigCont.errors) {
+            console.error(err.messageText)
+        }
         program = ts.createProgram(tsconfigCont.fileNames, tsconfigCont.options)
+        programs.set(pacDir, program)
     }
     return program
 }
@@ -24,6 +30,7 @@ function getProgram() {
 export type Opts = {
     nodeps?: boolean
     ignore?: string[]
+    package?: string
 }
 
 function getSourceText(node: ts.Node): string {
@@ -68,8 +75,10 @@ function collectReferences(node: ts.Node, name: string, collected: Map<string, s
 }
 
 export function getType(file: string, name: string, opts: Opts) {
-    const resolvedPath = resolve(dir, src, file)
-    const source = getProgram().getSourceFile(resolvedPath)
+    const pacDir = resolve(dirBase, opts.package ?? packageDef)
+    const resolvedPath = resolve(pacDir, src, file)
+    const program = getProgram(pacDir)
+    const source = program.getSourceFile(resolvedPath)
     if (!source) {
         throw new Error(`ShowType: Could not load source file "${file}"`)
     }
