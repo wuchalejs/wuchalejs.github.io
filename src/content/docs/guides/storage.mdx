@@ -1,0 +1,236 @@
+---
+title: Storage drivers
+---
+
+import ShowType from '@/lib/ShowType.astro';
+
+Different projects have different priorities, and that can affect the desired
+way of storing the translations. As an example, when there are dedicated
+translators per language, separate files with complete information are the
+ideal and they allow translations to different languages to be managed
+independently. But when there is one developer who also handles the
+translation, multiple files are just overhead and it may be better to manage
+all translations in one place.
+
+Wuchale offers a [storage interface (reference)](/reference/storage/) that
+accepts any implementation as long as it conforms to the interface. This opens
+the possibility to store messages in any format like JSON, YAML, or anything
+else. The storage handler basically has to exchange data with wuchale, and
+where/how it stores it is up to its implementation.
+
+## PO file
+
+The default storage driver is the Gettext PO file driver, which is built-in and can be
+imported from `wuchale`, and can be customized by giving options as an objects
+of the type:
+
+<ShowType file="pofile.ts" name="POFileOptions" />
+
+to configure the directory where the catalogs are stored and whether
+to keep the URLs in separate catalogs.
+
+The PO file format is a solid choice for most projects (that's why it is the
+default). It is specifically created for translations. However, it has issues
+that might be relevant for some projects.
+
+- It is designed [with English as the source
+language](https://www.gnu.org/software/gettext/manual/html_node/Plural-forms.html)
+in mind (as the GNU's coding standards require English). This has the
+implication that they only have two places for plural forms in the source
+(`msgid` and `msgid_plural`). If the source language has more plural forms
+(e.g. Slavic languages, Arabic, etc), it is unusable.
+- It supports only one file per locale. This makes a lot of the contents
+duplicated (references, extracted comments, etc.) This is for a good reason
+because they are to be given to translators who need as much context as
+possible to correctly translate. But if that is not a requirement, the large
+number of duplicated lines of code may be undesirable.
+
+## JSON and co.
+
+The JSON storage is provided as an alternative to PO files, and it is provided
+in the package: `@wuchale/json`. It currently only supports storing all
+translations in the same file. It can be used like:
+
+```js
+// wuchale.config.js
+import { json } from "@wuchale/json";
+
+export default {
+    // ...
+    adapters: {
+        main: svelte({
+            // ...
+            storage: json({/* options */}),
+        }),
+    },
+};
+```
+
+It accepts some customization options:
+
+<ShowType file="index.ts" name="JSONOpts" package="json" />
+
+- `mergeSameRegionals`: deduplicate same translations in regional variants like `fr` and `fr-CH` (for compactness)
+- `removePlaceholders`: skip saving placeholder info
+- `flattenTranslations`: instead of putting the translations under the key `translations` in each item, store them on the top level of the item directly
+- `stringForSingle`: when there is only one message (non-plural), store it as a string instead of an array with a single string
+- `parse` and `stringify`: Another serialization implementation (see below)
+- `extension`: file extension to use when using another serializer
+
+The first ones of these options change the whole format, and can cause errors
+if used to read a file that was saved with another option. Therefore, if you
+want to change them after you already have data in the files, migrate to a new
+file (another `dir`) using the migration config (see below).
+
+This driver supports not just JSON, but it can accept other serialization
+functions (`parse` and `stringify`) to work with other formats, as long as they
+behave like the JSON functions. One example is YAML, which can be installed
+from the package [`yaml`](https://www.npmjs.com/package/yaml) which provides
+these functions. If that is used, the extension can also be changed to `yml`.
+
+## Migration
+
+wuchale provides a migration function `migrateStorage` from `wuchale` that
+behaves itself as a storage driver which can be temporarily used. The way to migrate is:
+
+1. Replace the `storage` option with the config like `migrateStorage([fromDriver()], toDriver())`
+2. Run `npx wuchale`
+3. Replace the `storage` option with `toDriver()`
+
+For example, to migrate from the `pofile` to `json` driver, the intermediate config looks like:
+
+```js
+// wuchale.config.js
+
+import { defineConfig, pofile, migrateStorage } from "wuchale";
+import { json } from "@wuchale/json";
+
+export default defineConfig({
+  // ...
+  adapters: {
+    main: svelte({
+      // ...
+      storage: migrateStorage([pofile()], json()),
+    }),
+  },
+});
+```
+
+This can also be used to try out a new storage without destroying the existing
+one. Because it uses the existing one only for reading.
+
+:::note
+You may have noticed that the `fromDriver` part is in an array. That is because
+it also supports consolidating multiple storage drivers into one.
+:::
+
+## Custom storage
+
+As an example, we can implement a simple JSON storage handler using it. An
+example exchanged data (both for save and load operations, they have similar
+shapes except that when loading there are some relaxations) looks like:
+
+```ts
+const data = {
+    pluralRules: new Map([
+        ['en', { nplurals: 2, plural: 'n == 1 ? 0 : 1' }],
+        ['es', { nplurals: 2, plural: 'n == 1 ? 0 : 1' }],
+    ]),
+    items: [
+        // this is a message item
+        {
+            id: ['Welcome'],
+            translations: new Map([
+                ['en', ['Welcome']],
+                ['es', ['Bienvenido']],
+            ]),
+            references: [{
+                file: 'src/routes/page.svelte',
+                refs: [ null ]
+            }],
+            urlAdapters: []
+        },
+        // this is a URL item
+        {
+            id: ['/items/{0}'],
+            context: 'original: /items/*rest',
+            translations: new Map([
+                ['en', ['/items/{0}']],
+                ['es', ['/elementos/{0}']],
+            ]),
+            references: [{
+                file: 'src/routes/page.svelte',
+                refs: [
+                    {
+                        link: '/items/{0}/details',
+                        placeholders: [[0, 'id']],
+                    }
+                ]
+            }],
+            urlAdapters: ['main']
+        }
+    ]
+}
+```
+
+Now a storage handler for this can easily be implemented that saves to and
+loads from a single JSON file. But care must be taken to handle Maps when doing
+that because the JSON (de)serializer doesn't handle them, so they have to be
+converted into/from objects.
+
+```js
+import {readFile, writeFile} from 'fs/promises'
+
+const filename = 'src/locales/catalog.json'
+function jsonHandler(opts /* not used for brevity */) {
+    return {
+        key: filename, // will be used to deduplicate when sharing it among adapters
+        files: [filename], // make Vite watch this file
+        async save(data) {
+            const json = JSON.stringify({
+                // convert to objects
+                pluralRules: Object.fromEntries([...data.pluralRules]),
+                items: data.items.map(item => ({
+                    ...item,
+                    // convert to objects
+                    translations: Object.fromEntries(item.translations),
+                })),
+            })
+            await writeFile(filename, json)
+        },
+        async load() {
+            const raw = JSON.parse(await readFile(filename, 'utf8'))
+            return {
+                // convert from objects
+                pluralRules: new Map(Object.entries(raw.pluralRules)),
+                items: raw.items.map(item => ({
+                    ...item,
+                    // convert from objects
+                    translations: new Map(Object.entries(item.translations)),
+                })),
+            }
+        }
+    }
+}
+```
+
+And we can provide this to the adapter:
+
+```js
+// wuchale.config.js
+
+export default {
+    // ...
+    adapters: {
+        main: svelte({
+            // ...
+            storage: jsonHandler,
+        })
+    }
+}
+```
+
+Now to build something more sophisticated, you will need more details from
+wuchale. That's where the `opts` comes in, it gives you details like locales,
+the project root directory, source locale of the calling adapter, etc. with the
+shape [`StorageFactoryOpts`](/reference/storage/#whole-interface).

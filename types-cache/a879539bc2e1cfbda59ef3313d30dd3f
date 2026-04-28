@@ -1,0 +1,11 @@
+{"file":"index.ts","name":"JSONOpts","opts":{"package":"json"}}
+type JSONOpts = {
+    dir: string
+    extension: string
+    mergeSameRegionals: boolean
+    removePlaceholders: boolean
+    flattenTranslations: boolean
+    stringForSingle: boolean
+    parse: typeof JSON.parse
+    stringify: typeof JSON.stringify
+}
