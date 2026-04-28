@@ -32,6 +32,12 @@ languageNamesEs.of("es"); // "español"
 This is what `wuchale` itself uses when displaying the names in the CLI status
 messages.
 
+## Detecting user locale
+
+There are many ways of detecting the user's locale without them explicitly
+selecting one. A good resource for this is [Detecting a User’s Locale in a Web
+App](https://phrase.com/blog/posts/detecting-a-users-locale/).
+
 ## Event names
 
 In some cases it may be necessary to use DOM event names as strings. But
