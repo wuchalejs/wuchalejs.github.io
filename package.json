@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "node update-types.ts && astro dev",
     "start": "astro dev",
-    "prebuild": "node get-changelogs.ts",
+    "prebuild": "node get-repo-data.ts",
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro"

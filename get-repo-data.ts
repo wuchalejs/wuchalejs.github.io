@@ -2,6 +2,8 @@
 
 import { mkdir, writeFile } from 'node:fs/promises'
 
+// CHANGELOGs
+
 const packages = [
     ['wuchale', 'wuchale'],
     ['svelte', '@wuchale/svelte'],
@@ -20,3 +22,10 @@ for (const [name, packageName] of packages) {
     await mkdir('./src/content/docs/changelogs', {recursive: true})
     await writeFile(`./src/content/docs/changelogs/${name}.md`, `---\ntitle: "${packageName}"\n---\n${content}`)
 }
+
+// SPONSORs
+
+const url = `https://raw.githubusercontent.com/wuchalejs/wuchale/refs/heads/main/scripts/sponsors.json`
+const res = await fetch(url)
+const data = await res.json()
+await writeFile('sponsors.json', JSON.stringify(data, null, '  '))
