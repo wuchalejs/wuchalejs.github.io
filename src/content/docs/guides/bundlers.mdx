@@ -1,0 +1,49 @@
+---
+title: Bundlers
+description: Configure wuchale's bundler plugin to integrate with your build pipeline. Bundler plugins handle source file transformation, catalog watching, and HMR during development.
+---
+
+Bundler plugins are included in the `wuchale` package and currently only Vite is supported.
+
+## Vite
+
+```js
+// vite.config.js
+import { defineConfig } from 'vite'
+import { wuchale } from 'wuchale/vite'
+
+export default defineConfig({
+    plugins: [ wuchale({/* config */}) ],
+})
+```
+
+import ShowType from '@/lib/ShowType.astro';
+
+The Vite plugin accepts Vite-specific configuration through an object:
+
+<ShowType name="PluginConf" file="bundlers/vite.ts" />
+
+The following options are supported:
+
+### `configPath`
+
+If you put the wuchale config somewhere else or with a different name, you can provide it.
+
+### `hmrDelayThreshold`
+
+During development, wuchale considers detected writes to the catalog files
+within this threshold after a source file is modified as self initiated
+(different from the catalog files being edited manually) and doesn't initiate a
+page reload. You don't need to touch it unless your disk is so slow that it
+takes forever to write the catalog files and wuchale initiates a full page
+reload when you edit source files.
+
+### `trimQueryParams`
+
+Vite and other plugins append query parameters to file names to distinguish
+different things. And that may cause a mismatch when wuchale checks them
+against the configured file globs. For that reason, known query parameters are
+trimmed before matching. You can provide additional query parameters if you
+find that another plugin is causing a mismatch. Currently, Vite's and Sentry's
+are trimmed by default. If you use Tanstack Router file-based routing, you can
+set `trimQueryParams: ["tsr-split"]` (will be added to default in the future).

@@ -1,0 +1,6 @@
+{"file":"bundlers/vite.ts","name":"PluginConf","opts":{}}
+type PluginConf = {
+    configPath?: string
+    hmrDelayThreshold?: number
+    trimQueryParams?: string[]
+}
