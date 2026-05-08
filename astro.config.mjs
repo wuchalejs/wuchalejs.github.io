@@ -56,11 +56,11 @@ export default defineConfig({
                 },
                 {
                     label: 'Guides',
-                    autogenerate: { directory: 'guides' },
+                    items: [{autogenerate: { directory: 'guides' },}]
                 },
                 {
                     label: 'Official Adapters',
-                    autogenerate: { directory: 'adapters' },
+                    items: [{autogenerate: { directory: 'adapters' },}]
                 },
                 {
                     label: 'Reference',
@@ -74,7 +74,7 @@ export default defineConfig({
                 },
                 {
                     label: 'Changelogs',
-                    autogenerate: { directory: 'changelogs' },
+                    items: [{autogenerate: { directory: 'changelogs' },}]
                 },
             ],
         }),
