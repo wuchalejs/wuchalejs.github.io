@@ -1,5 +1,5 @@
 {"file":"pofile.ts","name":"POFileOptions","opts":{}}
 type POFileOptions = {
-    dir: string
-    separateUrls: boolean
+    /** in the form like 'path/to/dir/{locale}.po' */
+    location: string
 }

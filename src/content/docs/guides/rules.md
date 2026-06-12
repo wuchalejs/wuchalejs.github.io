@@ -55,7 +55,8 @@ Examples:
 - If the value is not inside a function definition, it is ignored.
 - If the value is inside `console.*()` or `fetch` calls, it is ignored.
 - If the first character is a lowercase English letter (`[a-z]`) or is any
-    non-letter character, it is ignored.
+    non-letter character, and is not a placeholder followed by natural text like
+    `{0} days`, it is ignored.
 - Otherwise, it is extracted.
 
 Examples:

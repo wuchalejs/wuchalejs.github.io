@@ -30,8 +30,8 @@ them, and providing them to the transformed modules.
 The loader file has to export two functions:
 
 ```ts
-getRuntime(loadID: string): import('wuchale/runtime').Runtime | null | undefined
-getRuntimeRx(loadID: string): import('wuchale/runtime').Runtime | null | undefined
+getRuntime(loadID: number): import('wuchale/runtime').Runtime | null | undefined
+getRuntimeRx(loadID: number): import('wuchale/runtime').Runtime | null | undefined
 ```
 
 They should be two because some libraries (specifically React) restrict using
@@ -87,10 +87,10 @@ Moreover, the transformed modules only need the data, nothing else.
 How the loaders load the actual catalog modules is then completely in your
 control. But infrastructure is provided to help you with that.
 
-## `bundleLoad` config
+## `loading.direct` config
 
 It is important to mention that if you use
-[`bundleLoad`](/reference/adapter-common/#bundleload), then you don't have to
+[`loading.direct`](/reference/adapter-common/#loadingdirect), then you don't have to
 deal with anything below.
 
 Instead of the `loadID`, the loader function will receive an object with the
@@ -149,23 +149,23 @@ They can be imported (loaded) in one of two ways:
     ```
 
 And now using these, you can return suitable catalog modules. Assuming one
-`loadID`, `main`:
+`loadID`, `0`:
 
 ```js
 // src/locales/main.loader.js
 
 import toRuntime from 'wuchale/runtime'
-import * as enMain from './.wuchale/main.main.en.compiled.js'
-import * as esMain from './.wuchale/main.main.es.compiled.js'
+import * as enMain from './.wuchale/main.0.en.compiled.js'
+import * as esMain from './.wuchale/main.0.es.compiled.js'
 
 let locale = 'en' // maybe controlled by state
 
-const catalogs = {
-    main: {
+const catalogs = [
+    {
         en: enMain,
         es: enMain,
     },
-}
+]
 
 export const getRuntimeRx = loadID => toRuntime(catalogs[loadID]?.[locale], locale)
 export const getRuntime = getRuntimeRx
@@ -175,7 +175,7 @@ export const getRuntime = getRuntimeRx
 
 Manually importing all of the available catalogs, building the `catalogs`
 object and keeping track of the `loadID`s is repetitive error prone, especially
-when using [`granularLoad`](/reference/adapter-common/#granularload). For that
+when using [`loading.granular`](/reference/adapter-common/#loadinggranular). For that
 reason, proxies are provided.
 
 Proxies are convenience modules that import the catalogs, build the object, and
@@ -196,19 +196,19 @@ What they provide is the same (only different in being asynchronous).
 - A function to load a catalog module, given the `loadID` and the locale:
     - Synchronous
         ```ts
-        export function loadCatalog(loadID: string, locale: string): import('wuchale/runtime').CatalogModule
+        export function loadCatalog(loadID: number, locale: string): import('wuchale/runtime').CatalogModule
         ```
     - Asynchronous
         ```ts
-        export function loadCatalog(loadID: string, locale: string): Promise<import('wuchale/runtime').CatalogModule>
+        export function loadCatalog(loadID: number, locale: string): Promise<import('wuchale/runtime').CatalogModule>
         ```
-- An array of `loadID`s that will be requested:
+- The number of available `loadID`s:
     ```ts
-    export const loadIDs: string[]
+    export const loadCount: number
     ```
-- The adapter's key from the config:
+- An array of the patterns that are grouped for each `loadID`
     ```ts
-    export const key: string
+    export const patterns: import('wuchale').LoadGroupPatt[]
     ```
 
 Now, the above loader can be simplified, and generalized, to:
@@ -217,13 +217,13 @@ Now, the above loader can be simplified, and generalized, to:
 // src/locales/main.loader.js
 
 import toRuntime from 'wuchale/runtime'
-import { loadCatalog, loadIDs } from './.wuchale/main.proxy.sync.js'
+import { loadCatalog, loadCount } from './.wuchale/main.proxy.sync.js'
 
 let locale = 'en' // maybe controlled by state
 const locales = ['en', 'es']
-const runtimes = {}
+const runtimes = []
 
-for (const loadID of loadIDs) {
+for (let loadID = 0; loadID < loadCount; loadID++) {
     runtimes[loadID] = runtimes[loadID] ?? {}
     for (const locale of locales) {
         runtimes[loadID][locale] = toRuntime(loadCatalog(loadID, locale), locale)
@@ -235,7 +235,7 @@ export const getRuntime = getRuntime
 ```
 
 Now this can work for any number of `loadID`s and you don't have to keep track
-of them even if you use `granularLoad`.
+of them even if you use `loading.granular`.
 
 ## Loading utilities
 
@@ -249,16 +249,16 @@ Here there is only one user, so using a single global state to load the
 catalogs to is appropriate. The module used for this is `wuchale/load-utils`.
 
 The setup is done in two steps. The first step is registering the load
-functions with the `loadID`s at the central registry. This is done in the
+functions with the `loadCount`s at the central registry. This is done in the
 loader. Continuing with the above example loader, and now intending to load the
 catalogs asynchronously, it now becomes very simple.
 
 ```js
 // src/locales/main.loader.js
-import { loadCatalog, loadIDs, key } from './.wuchale/main.proxy.js'
+import { loadCatalog, loadCount, key } from './.wuchale/main.proxy.js'
 import { registerLoaders } from 'wuchale/load-utils'
 
-export const getRuntimeRx = registerLoaders(key, loadCatalog, loadIDs)
+export const getRuntimeRx = registerLoaders(key, loadCatalog, loadCount)
 export const getRuntime = getRuntimeRx
 ```
 
@@ -270,8 +270,8 @@ loaders in a global store, and later we can call `loadLocale` (see below)
 
 ```ts
 type CatalogCollection = {
-    get: (loadID: string) => CatalogModule
-    set: (loadID: string, catalog: CatalogModule) => void
+    get: (loadID: number) => CatalogModule
+    set: (loadID: number, catalog: CatalogModule) => void
 }
 ```
 
@@ -287,14 +287,14 @@ Svelte), there is a function provided from `load-utils` called
 You can use it like this (example in Svelte):
 
 ```js
-import { loadCatalog, loadIDs } from './.wuchale/main.proxy.js'
+import { loadCatalog, loadCount } from './.wuchale/main.proxy.js'
 import { registerLoaders, defaultCollection } from 'wuchale/load-utils'
 
 const key = 'main'
 
 const catalogs = $state({})
 
-export const getRuntimeRx = registerLoaders(key, loadCatalog, loadIDs, defaultCollection(catalogs))
+export const getRuntimeRx = registerLoaders(key, loadCatalog, loadCount, defaultCollection(catalogs))
 export const getRuntime = getRuntimeRx
 ```
 
@@ -334,13 +334,13 @@ catalogs to be loaded and be ready.
 ```js
 // src/locales/main.loader.js
 
-import { loadCatalog, loadIDs } from './main.proxy.sync.js'
+import { loadCatalog, loadCount } from './main.proxy.sync.js'
 import { loadLocales } from 'wuchale/load-utils/server'
 import { locales } from './data.js'
 
 const key = 'main'
 
-export const getRuntimeRx = await loadLocales(key, loadIDs, loadCatalog, locales)
+export const getRuntimeRx = await loadLocales(key, loadCount, loadCatalog, locales)
 export const getRuntime = getRuntime
 ```
 
@@ -362,17 +362,18 @@ app.get('/:locale', (req, res) => {
 ### Side-effect-free loading
 
 One last loading convenience provided is this. You already know the locale, you
-have the `loadID`s and the load function from the proxy, you just want a
-direct, no side effect way to load the catalogs. For that, the
-`wuchale/load-utils/pure` provides another function, which can be used like this:
+select `loadID`s within the range of the `loadCount`, and get the load function
+from the proxy, you just want a direct, no side effect way to load the
+catalogs. For that, the `wuchale/load-utils/pure` provides another function,
+which can be used like this:
 
 ```js
 import { loadCatalogs } from 'wuchale/load-utils/pure'
-import { loadIDs, loadCatalog } from '../locales/main.loader.js'
+import { loadCatalog, loadCount } from '../locales/main.loader.js'
 
 let locale = 'en'
 
-const catalogs = await loadCatalogs(locale, loadIDs, loadCatalog)
+const catalogs = await loadCatalogs(locale, [0, 1] /* e.g. loadCount = 3 */, loadCatalog)
 ```
 
 Then `catalogs` becomes an object with the `loadID`s as the keys and loaded
@@ -386,7 +387,7 @@ use when. That depends on some factors.
 ### Client
 
 For an application that contains a relatively small number of messages as a
-whole, a single adapter without `granularLoad` (i.e. the default config) is
+whole, a single adapter without `loading.granular` (i.e. the default config) is
 sufficient. For a large application, there are multiple methods to manage it:
 
 #### Multiple adapter configurations
@@ -416,7 +417,7 @@ This is useful when the number of messages per file is not big but the number of
 the files themselves is big. The files can share the same catalogs within their
 adapter configuration.
 
-#### Single adapter with `granularLoad`
+#### Single adapter with `loading.granular`
 
 ```js
 // wuchale.config.js
@@ -424,8 +425,10 @@ export default defineConfig({
     locales: ['en', 'es'],
     adapters: {
         main: svelte({
-            granularLoad: true,
-            // generateLoadID can be used optionally
+            loading: {
+                granular: true,
+                // group can optionally be specified
+            }
         }),
     }
 })

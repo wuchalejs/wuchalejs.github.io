@@ -1,7 +1,7 @@
 {"file":"index.ts","name":"JSONOpts","opts":{"package":"json"}}
 type JSONOpts = {
-    dir: string
-    extension: string
+    /** can include `{locale}` when used for specific locales */
+    location: string
     mergeSameRegionals: boolean
     removePlaceholders: boolean
     flattenTranslations: boolean

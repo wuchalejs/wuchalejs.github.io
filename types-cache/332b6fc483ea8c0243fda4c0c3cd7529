@@ -1,7 +1,7 @@
 {"file":"storage.ts","name":"Item","opts":{}}
 type FileRefEntry = {
     link?: string | undefined // for URLs
-    placeholders: [number, string][]
+    placeholders: [string, string][]
 }
 
 type FileRef = {

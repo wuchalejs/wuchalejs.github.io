@@ -26,10 +26,11 @@ Commands:
     check   Check for errors
 
 Options:
-    --config         use another config file instead of wuchale.config.js|wuchale.config.mjs|wuchale.config.ts|wuchale.config.mts
-    --clean, -c      remove unused messages from catalogs
-    --watch, -w      continuously watch for file changes
-    --sync           extract sequentially instead of in parallel
+    --config         Use another config file instead of wuchale.config.js|wuchale.config.mjs|wuchale.config.ts|wuchale.config.mts
+    --clean, -c      Remove unused messages from catalogs
+    --watch, -w      Continuously watch for file changes
+    --sync           Extract sequentially instead of in parallel
+    --modify a1,a2   Modify files in place for adapters a1, a2, etc.
     --log-level, -l  {error,warn,info,verbose} (only when no commands) set log level
     --help, -h       Show this help
 
@@ -60,17 +61,32 @@ npx wuchale
 
 This scans all of the files that match the [configured
 pattern](/reference/adapter-common#files) for the adapters and extracts the
-messages. And if `writeFiles` is enabled, it writes the generated files. This
-can be used when Vite is not used/needed (for example, for server only
-projects). Watch mode is also supported.
+messages.
 
-Additionally, if it is running in the project for the first time, it ceates the
-necessay files, doing the following, for each adapter configuration:
+If `--modify adapter1,adapter2` is given, it writes the generated transformed
+files for those adapters back to disk. This can be used when Vite is not
+used/needed (for example, for server only projects and other bundlers).
 
-- If the loader specified is one of the provided ones, not `custom`, it is created/overwritten.
-- If the loader specified is `custom`, it doesn't touch the existing loader files.
+:::note
+`--modify` OVERWRITES the files, therefore only use it when you are certain,
+and have Git already setup and in a clean state, so that you can restore them.
+Normally you should use it only when you use an unsupported bundler and in that
+case you should only run it in CI just before deployment. Or you can use it for
+debugging (and restore with Git.)
+:::
 
 ## `status`
+
+```console
+$ npx wuchale status --help
+
+Usage:
+    wuchale status {options}
+
+Options:
+    --json           output info as structured JSON instead of table and text
+    --help, -h       Show this help
+```
 
 This shows the status information of the setup like if the loader files exist
 and are not empty, the number of total messages, untranslated, obsolete.
@@ -78,6 +94,17 @@ and are not empty, the number of total messages, untranslated, obsolete.
 An optional `--json` flag can be specified to get the information in a JSON format.
 
 ## `check`
+
+```console
+$ npx wuchale check --help
+
+Usage:
+    wuchale check {options}
+
+Options:
+    --full           check if there are unextracted and newly obsolete messages in source code as well
+    --help, -h       Show this help
+```
 
 This checks for any possible unintended errors. It checks for two things:
 

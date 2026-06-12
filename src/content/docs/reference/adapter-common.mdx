@@ -50,7 +50,7 @@ the loader file naming convention (client and server):
 ```
 
 Where
-- `localesDir` is... (see below)
+- `localesDir` is [this](/reference/config/#localesdir)
 - `adapterKey` is the key you used for the adapter config in `wuchale.config.js`, e.g. `main`
 - `ext` is one of the supported loader extensions by the adapter (see in the beginning of its page).
 
@@ -153,30 +153,24 @@ The value of `topLevelCall` would be `topLevel`
 
 The name of the nearest call. In the above example, this would be `non.topLevel`.
 
-## `granularLoad`
+## `loading.granular`
 **type**: `boolean`
 **default**: `false`
 
 Whether to split the compiled catalog into smaller parts. By default it splits
 them into parts for each file, so that each file has its own compiled catalog.
 
-## `generateLoadID`
-**type**: `(filename: string) => string`
+## `loading.group`
+**type**: `LoadGroupPatt`
 **default**: `defaultGenerateLoadID`
 
-This applies only when `granularLoad` is enabled. It should generate IDs for
-the individual parts of the compiled catalog. The IDs should be valid
-keywords,they can only contain alphanumeric characters and `_`.
+<ShowType file="adapters.ts" name="LoadGroupPatt" />
 
-If the same IDs are returned for multiple files, the resulting compiled catalog
-will be shared by the files. This can be used to combine and share the same
-compiled catalog between files with a small number of messages to reduce the
-number of requests.
+This applies only when `loading.granular` is enabled. It should be an array of
+glob pattern(s) for each desired group. Any file that belongs to the adapter
+but is not matched by any group will have its own "one-member group".
 
-The default generator converts the file paths into compatible IDs by replacing
-every special character by `_`.
-
-## `bundleLoad`
+## `loading.direct`
 **type**: `boolean`
 **default**: `false`
 

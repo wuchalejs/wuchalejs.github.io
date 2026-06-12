@@ -47,3 +47,10 @@ trimmed before matching. You can provide additional query parameters if you
 find that another plugin is causing a mismatch. Currently, Vite's and Sentry's
 are trimmed by default. If you use Tanstack Router file-based routing, you can
 set `trimQueryParams: ["tsr-split"]` (will be added to default in the future).
+
+## Other bundlers
+
+Other bundlers are not currently directly supported. But that doesn't mean you
+can't use them at all. There is the [CLI](/guides/cli) with `--modify`. The
+only thing missing then is the seamless preview/automatic extraction during dev
+and auto transformation during build.

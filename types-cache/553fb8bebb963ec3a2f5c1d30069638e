@@ -1,0 +1,2 @@
+{"file":"adapters.ts","name":"LoadGroupPatt","opts":{}}
+type LoadGroupPatt = string | string[]

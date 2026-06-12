@@ -88,10 +88,15 @@ behave like the JSON functions. One example is YAML, which can be installed
 from the package [`yaml`](https://www.npmjs.com/package/yaml) which provides
 these functions. If that is used, the extension can also be changed to `yml`.
 
-## Migration
+## Composing
 
-wuchale provides a migration function `migrateStorage` from `wuchale` that
-behaves itself as a storage driver which can be temporarily used. The way to migrate is:
+The storage interface allows for composing storages for different purposes.
+These are the built-in ones that can be imported from `wuchale`. They conform
+to the interface while being based on other storages.
+
+### `migrateStorage`
+
+This can be temporarily used to migrate between drivers. The way to migrate is:
 
 1. Replace the `storage` option with the config like `migrateStorage([fromDriver()], toDriver())`
 2. Run `npx wuchale`
@@ -123,6 +128,30 @@ one. Because it uses the existing one only for reading.
 You may have noticed that the `fromDriver` part is in an array. That is because
 it also supports consolidating multiple storage drivers into one.
 :::
+
+### `storageByType`
+
+This can be used to separate items by type (`message`, `url`) into different
+storages. For example, to store URL translations in the `json` storage (which
+stores all locales in a single file), and normal messages in `pofile`:
+
+```js
+  storage: storageByType({
+    message: pofile(),
+    url: json()
+  }),
+```
+
+### `storageByLocale`
+
+This separates the messages by locale. For example, `en` in `pofile` and `es` and `de` in `json`:
+
+```js
+  storage: storageByLocale([
+    [['en'], pofile()],
+    [['es', 'de'], json()],
+  ]),
+```
 
 ## Custom storage
 

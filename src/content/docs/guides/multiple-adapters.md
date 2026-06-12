@@ -68,37 +68,39 @@ Then the configuration will look like this:
 ```js
 // wuchale.config.js
 // @ts-check
-import { defineConfig, defaultGenerateLoadID, pofile } from "wuchale"
+import { defineConfig, pofile } from "wuchale"
 import { adapter as svelte } from '@wuchale/svelte'
 import { adapter as vanilla } from "wuchale/adapter-vanilla"
 
 export default defineConfig({
-    locales: ['en', 'es'],
+    locales: ['en', 'es-es'],
     adapters: {
         // Applies over the components inside the single route as well as the top level route.
         // Uses a single compiled catalog per locale, downloaded once.
         single: svelte({
+            loader: 'sveltekit',
+            storage: pofile({location: './src/locales/single/{locale}.po'}),
             files: [
-                './src/routes/[locale]/{single,server}/**/*.svelte',
-                './src/routes/[locale]/single/**/*.svelte.{js,ts}',
-                './src/routes/[locale]/*.svelte',
-                './src/routes/[locale]/*.svelte.{js,ts}'
+                './src/routes/{single,server}/**/*.svelte',
+                './src/routes/single/**/*.svelte.{js,ts}',
+                './src/routes/*.svelte',
+                './src/routes/*.svelte.{js,ts}'
             ],
         }),
         // Applies over the granular route.
         // Uses one compiled catalog per locale per each file/component
-        //   unless they contain /group/ in which case they will share one compiled catalog.
+        //   unless they contain 'grouped' in which case they will share one compiled catalog.
         // Which one to download is decided at runtime
         granularLoad: svelte({
-            files: './src/routes/[locale]/granular/**/*',
-            storage: pofile({dir: './src/locales/granular'}),
-            granularLoad: true,
-            generateLoadID: filename => {
-                if (filename.includes('grouped')) {
-                    return 'grouped'
-                }
-                return defaultGenerateLoadID(filename)
-            },
+            loader: 'sveltekit',
+            files: './src/routes/granular/**/*.svelte',
+            storage: pofile({location: './src/locales/granular/{locale}.po'}),
+            loading: {
+                granular: true,
+                group: [
+                    '**/*grouped*',
+                ]
+            }
         }),
         // Applies over the granular-bundle route.
         // Each file directly imports all locale variants of its own catalog,
@@ -106,15 +108,22 @@ export default defineConfig({
         // It only takes the locale identifier string from the loader at runtime.
         // This mimicks how ParaglideJS downloads catalogs but is not recommended.
         granularLoadBundle: svelte({
-            files: './src/routes/[locale]/granular-bundle/**/*',
-            storage: pofile({dir: './src/locales/granular-bundle'}),
-            granularLoad: true,
-            bundleLoad: true,
+            loader: 'sveltekit',
+            files: './src/routes/granular-bundle/**/*.svelte',
+            storage: pofile({location: './src/locales/granular-bundle/{locale}.po'}),
+            loading: {
+                granular: true,
+                direct: true,
+            }
         }),
         // Used for messages that are sent from the server instead of being rendered client-side.
         // Uses one compiled catalog because bundle size optimizations are irrelevant on the server.
-        // Since node.js is not a reactive environment, we have to initialize the runtime inside functions.
+        // It is necessary to write the loader proxy and the compiled catalogs to disk
+        //   because node.js doesn't support virtual modules.
+        // Also since node.js is not a reactive environment, we have to initialize the runtime inside functions.
         server: vanilla({
+            loader: 'server',
+            storage: pofile({location: './src/locales/single/{locale}.po'}),
             files: './src/**/*.server.{js,ts}',
         }),
     },

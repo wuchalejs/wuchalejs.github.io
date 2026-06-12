@@ -89,8 +89,8 @@ import { runWithLocale, loadLocales } from 'wuchale/load-utils/server';
 import { locales } from './locales/data.js'
 
 // load at server startup
-loadLocales(main.key, main.loadIDs, main.loadCatalog, locales)
-loadLocales(js.key, js.loadIDs, js.loadCatalog, locales)
+loadLocales(main.key, main.loadCount, main.loadCatalog, locales)
+loadLocales(js.key, js.loadCount, js.loadCatalog, locales)
 
 /** @type {import('@sveltejs/kit').Handle} */
 export const handle = async ({ event, resolve }) => {

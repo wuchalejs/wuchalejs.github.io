@@ -25,15 +25,18 @@ type HeuristicDetails = HeuristicDetailsBase & {
     topLevelCall?: string | undefined
     /** the name of the nearest call (for arguments) */
     call?: string | undefined
+    /** inside an export const ... etc */
+    exported?: boolean | undefined
+    /** object property path */
+    property?: string | undefined
 }
 
 type MessageType = 'message' | 'url'
 
 type Message = {
     msgStr: string[] // array for plurals
-    plural: boolean
     context?: string | undefined
-    placeholders: [number, string][]
+    placeholders: [string, string][]
     details: HeuristicDetails
     type: MessageType
 }

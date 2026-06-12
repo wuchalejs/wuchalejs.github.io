@@ -130,7 +130,7 @@ That's all. No keys, no unnecessary data. During development there is HMR
 related code added but not for production.
 
 Depending on the configuration, there can be one compiled catalog per locale,
-or more. If [`granularLoad`](/reference/adapter-common/#granularload) is
+or more. If [`loading.granular`](/reference/adapter-common/#loadinggranular) is
 enabled, for example, the above single catalog will become two compiled
 catalogs per the source file (`source1.svelte` and `source2.svelte`)
 
@@ -152,15 +152,13 @@ of messages.
 ### `loadID`
 
 When using the default configuration, there is only one compiled catalog per
-locale for one adapter. But when using `granularLoad`, then the compiled
+locale for one adapter. But when using `loading.granular`, then the compiled
 catalog is broken into smaller parts. This necesitates a way to refer to those
-different parts when loading them. This identifier is called a `loadID`.
+different parts when loading them. This identifier is a number and is called a
+`loadID`.
 
-When not using `granularLoad` there is only one `loadID` and it is the same as
-the adapter key. (E.g. `main`).
+When not using `loading.granular` there is only one `loadID` and it is `0`,
+covering all messages for the adapter.
 
-But when using `granularLoad`, a `loadID` is generated from each file name,
-using the [`generateLoadID`](/reference/adapter-common/#generateloadid)
-function. That function can return unique identifiers to have separate compiled
-catalogs per file, or it can selectively return the same identifiers for
-multiple file names to make them share the same compiled catalogs.
+But when using `loading.granular`, a `loadID` is generated for each file or
+[`group`](/reference/adapter-common/#loadinggroup) by incrementing from `0`.

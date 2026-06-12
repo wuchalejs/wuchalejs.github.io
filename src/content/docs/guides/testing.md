@@ -39,8 +39,8 @@ import * as js from '../locales/js.loader.server.js'
 import { loadLocales, runWithLocale } from 'wuchale/load-utils/server';
 import { locales } from '../locales/data.js'
 
-await loadLocales(main.key, main.loadIDs, main.loadCatalog, locales)
-await loadLocales(js.key, js.loadIDs, js.loadCatalog, locales)
+await loadLocales(main.key, main.loadCount, main.loadCatalog, locales)
+await loadLocales(js.key, js.loadCount, js.loadCatalog, locales)
 
 test('Greeting', () => {
     // test with Spanish

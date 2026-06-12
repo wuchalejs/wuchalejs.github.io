@@ -4,7 +4,7 @@ description: Implement placeholders in wuchale for client-side rendering - displ
 ---
 
 If you are developing for client side rendering, and are using async loading
-insiead of [`bundleLoad`](/reference/adapter-common/#bundleload), there are two
+insiead of [`loading.direct`](/reference/adapter-common/#loadingdirect), there are two
 ways of showing the messages:
 
 1. **Loading message**: Showing a loading indicator message instead of the

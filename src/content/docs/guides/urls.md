@@ -14,9 +14,29 @@ There are two parts to this:
 
 And both are supported and you can combine them into: `/es/acerca-de`.
 
-You first specify the patterns that should be internationalized in the config. Since wuchale
-uses [path-to-regexp](https://www.npmjs.com/package/path-to-regexp) for the actual handling
-of the patterns, you can use any syntax supported by it.
+You first specify the patterns that should be internationalized in the config. wuchale
+uses its own matching algorithm, which supports glob-like syntax:
+
+- `*` for a required placeholder
+- `?` for an optional placeholder
+- `**` for deep nested placeholder
+
+Examples:
+
+| Pattern | URL | Matches | Captures |
+|---|---|---|---|
+| `/foo/bar` | `/foo/bar` | Yes | - |
+| `/foo/bar` | `/foo/baz` | No | - |
+| `/foo/*` | `/foo/bar` | Yes | `/bar` |
+| `/foo/*` | `/foo/bar/baz` | No | - |
+| `/foo-*/bar` | `/foo-123/bar` | Yes | `123` |
+| `/foo/?/bar` | `/foo/bar` | Yes | *(empty)* |
+| `/foo/?/bar` | `/foo/baz/bar` | Yes | `/baz` |
+| `/**/foo` | `/bar/baz/foo` | Yes | `/bar/baz` |
+| `/foo/**` | `/foo` | Yes | *(empty)* |
+| `/foo/*/**` | `/foo/bar` | Yes | `/bar` |
+
+It can be configured like:
 
 ```js
 // wuchale.config.js
@@ -30,7 +50,7 @@ export default {
                     '/about',
                     '/items{/*rest}',
                     '/',
-                    '/*rest',
+                    '/**',
                 ],
                 // you can also pass a filename that supports a localize function
                 localize: true,
@@ -57,16 +77,12 @@ handler puts them in a separate `*.url.po` file, like this:
 # es.po
 #: main
 #, url:main,url:js
-msgctxt "original: /items{/*rest}"
-msgid "/items{0}"
-msgstr "/elementos{0}"
+msgid "/items/**"
+msgstr "/elementos/**"
 ```
 
-- It sets the `url:{adapterKey}` flags to convey that they are used as URL patterns by these adapters
-- To prevent accidental translation of parameters which could cause problems when they are used, it converts them into its own placeholder notation
-- But it puts the original pattern in the context above it to
-    - give more context to the translator and
-    - distinguish between patterns that would become the same after the params are converted into `{0}`
+It sets the `url:{adapterKey}` flags to convey that they are used as URL
+patterns by these adapters
 
 Then, after the translation, it generates a URL manifest file and a
 corresponding file, `urls.js` in the locales directory, which exports a
@@ -114,9 +130,9 @@ Let's take the following example:
 <a href="/items/foo/{itemId}">Item</a>
 ```
 
-It checks if it matches any of the patterns, in this case this matches `items{/*rest}`. It then:
+It checks if it matches any of the patterns, in this case this matches `items/**`. It then:
 
-- Gets the translated pattern, `/elementos{/*rest}`
+- Gets the translated pattern, `/elementos/**`
 - Replaces the parameter to make it like any other message, `/elementos/foo/{0}`
 - Compiles and includes it in the compiled catalog
 - Transforms the code to use the compiled value, and wraps it with the configured `localize` function
