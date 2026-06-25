@@ -2,7 +2,7 @@ import { getRuntime as _w_load_ } from "./main.loader.js"
 // comment
 
 export function Greeting(props) {
-	const _w_runtime_ = _w_load_('main')
+	const _w_runtime_ = _w_load_()
 	return {
 		greeting: _w_runtime_(0),
 		title: _w_runtime_(1),

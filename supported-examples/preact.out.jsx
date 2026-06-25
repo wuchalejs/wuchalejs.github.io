@@ -3,7 +3,7 @@ import { getRuntimeRx as useW_load_rx_, getRuntime as _w_load_ } from "./main.lo
 import W_tx_ from "@wuchale/jsx/runtime.jsx"
 
 export function Greeting({ username }) {
-	const _w_runtime_ = useW_load_rx_('main')
+	const _w_runtime_ = useW_load_rx_()
 	return (
 		<div>
 			<p>{_w_runtime_(0)}</p>

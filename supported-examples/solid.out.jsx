@@ -2,7 +2,7 @@
 import { getRuntimeRx as useW_load_rx_, getRuntime as _w_load_ } from "./main.loader.js"
 import W_tx_ from "@wuchale/jsx/runtime.solid.jsx"
 
-const _w_runtime_ = () => useW_load_rx_('main')
+const _w_runtime_ = () => useW_load_rx_()
 export function Greeting({ username }) {
 	return (
 		<div>
