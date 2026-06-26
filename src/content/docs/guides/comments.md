@@ -7,11 +7,32 @@ To control some aspects of the extraction process, you can use comments and
 they apply to the next thing that comes after them. This will be familiar if
 you have written TypeScript.
 
-A comment directive applies to the whole thing that comes after, including its
-children, unless overridden by another one for the children.
-
 The specific syntax of the comment may differ depending on the syntax of the
 file but the content is the same.
+
+:::tip
+
+A comment directive applies to the whole scope of a single non-comment thing
+that comes after, including its children, unless overridden by another one for
+the children.
+
+```ts
+export function status(t: number): string {
+    // @wc-include
+    // comment, bypassed
+    switch (t) {
+        case 1:
+            return "deleted" // included
+        case 2:
+            return "invited" // included
+        default:
+            // @wc-ignore
+            return 'Active' // ignored
+    }
+    return 'no status' // ignored because of heuristic, @wc-include is reset
+}
+```
+:::
 
 ## `@wc-ignore`
 
