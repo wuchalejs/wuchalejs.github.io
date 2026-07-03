@@ -48,7 +48,7 @@ export default {
             url: {
                 patterns: [
                     '/about',
-                    '/items{/*rest}',
+                    '/items/**',
                     '/',
                     '/**',
                 ],
