@@ -113,7 +113,7 @@ The default value is a pattern to support [built-in pluralization](/guides/plura
 
 ## `heuristic`
 
-**type**: `(msg: Message) => boolean | null | undefined`
+**type**: `(msg: Message) => 'message' | 'url' | false | null | undefined`
 **default**: (depends on adapter)
 
 This is a function that decides whether a message is to be extracted or not. It
