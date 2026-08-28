@@ -8,12 +8,13 @@
 
     ```diff lang="js" add="wuchale()"
     // vite.config.js
+    import { defineConfig } from 'vite'
     import { sveltekit } from '@sveltejs/kit/vite'
     +import { wuchale } from 'wuchale/vite'
 
-    export default {
+    export default defineConfig({
         plugins: [ wuchale(), sveltekit() ]
-    }
+    })
     ```
 
 3. **Create Configuration**

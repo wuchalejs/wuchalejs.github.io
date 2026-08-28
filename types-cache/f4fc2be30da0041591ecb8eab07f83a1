@@ -8,6 +8,32 @@ type StorageFactoryOpts = {
     fs: FS
 }
 
+type FileRefEntry = {
+    link?: string | undefined // for URLs
+    placeholders: [string, string][]
+}
+
+type FileRef = {
+    file: string
+    /**
+     * multiple references in the same file
+     * null when there is no link or placeholders just that it's referenced
+     */
+    refs: (FileRefEntry | null)[]
+}
+
+interface Item {
+    context?: string | undefined
+    translations: Map<string, string | string[]>
+    references: FileRef[]
+    urlAdapters: string[] // for URLs
+    attribs: {
+        ai?: boolean | undefined
+        // for things that should survive the round trip with the storage
+        [key: string]: unknown
+    }
+}
+
 type CatalogStorage = {
     /**
      * the key to check if two storages share the same location
@@ -15,8 +41,8 @@ type CatalogStorage = {
      * two storages with same keys means they are the same/shared
      */
     key: string
-    load(): LoadData | Promise<LoadData>
-    save(data: SaveData): void | Promise<void>
+    load(): Item[] | Promise<Item[]>
+    save(items: Item[]): void | Promise<void>
     /** the files controlled by this storage, for e.g. for Vite to watch */
     files: string[]
 }

@@ -94,8 +94,8 @@ attributes that contain the `+` character, the custom heuristic would be:
     //...
     adapters: {
         main: svelte({
-            heuristic: (msg) => {
-                if (msg.details.attribute === 'title' && msg.msgStr[0].includes('+')) {
+            heuristic: (txt) => {
+                if (txt.path.some(s => s.type === 'attribute' && s.name === 'title') && txt.body.includes('+')) {
                     return false
                 }
             }

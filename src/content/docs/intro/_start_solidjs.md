@@ -8,9 +8,9 @@
 
     ```diff lang="js" add="wuchale()"
     // vite.config.js
-    import { defineConfig } from 'vite';
-    import solidPlugin from 'vite-plugin-solid';
-    +import { wuchale } from 'wuchale/vite';
+    import { defineConfig } from 'vite'
+    import solidPlugin from 'vite-plugin-solid'
+    +import { wuchale } from 'wuchale/vite'
 
     export default defineConfig({
         plugins: [wuchale(), solidPlugin()],

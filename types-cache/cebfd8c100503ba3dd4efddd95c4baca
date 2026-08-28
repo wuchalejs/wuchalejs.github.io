@@ -1,4 +1,6 @@
-{"file":"adapters.ts","name":"RuntimeConf","opts":{}}
+{"file":"text.ts","name":"Text","opts":{}}
+type TextType = 'message' | 'url'
+
 type ElementScope = {
     type: 'element'
     name: string
@@ -72,23 +74,10 @@ type Scope =
     | CallScope
     | PropertyScope
 
-type DecideReactiveArgs<RTCtxT = any /* can be changed at the adapter */> = [
-    path: Scope[],
-    file: string,
-    ctx: RTCtxT,
-]
-
-type WrapFunc = (expr: string) => string
-
-type RuntimeConfDetails = {
-    wrapInit: WrapFunc
-    wrapUse: WrapFunc
-}
-
-type RuntimeConf = {
-    /** return null to disable */
-    initReactive: (...args: DecideReactiveArgs) => boolean | null
-    useReactive: boolean | ((...args: DecideReactiveArgs) => boolean)
-    plain: RuntimeConfDetails
-    reactive: RuntimeConfDetails
+type Text = {
+    type: TextType
+    body: string | string[] // array for plurals
+    context?: string | undefined
+    placeholders: [string, string][]
+    path: Scope[]
 }

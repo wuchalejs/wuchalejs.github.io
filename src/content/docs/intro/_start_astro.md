@@ -4,32 +4,18 @@
     npm install wuchale @wuchale/astro
     ```
 
-2. **Configure Vite**
+2. **Configure Astro**
 
     ```diff lang="js"
     // astro.config.js
-    import { wuchale } from 'wuchale/vite';
-    import { defineConfig } from 'astro/config';
+    import { defineConfig } from 'astro/config'
+    +import { wuchale } from '@wuchale/astro/integration'
 
     // https://astro.build/config
     export default defineConfig({
-    +    vite: {
-    +        plugins: [wuchale()],
-    +    },
-    +    i18n: {
-    +        locales: ['en', 'es'],
-    +        defaultLocale: 'en',
-    +        routing: {
-    +            prefixDefaultLocale: true,
-    +        }
-    +    },
+    +    integrations: [wuchale()],
     });
     ```
-    :::note
-    **Additionally**, since we will use path prefixes using Astro's `i18n`
-    routing, everything inside `src/pages` has to be moved to
-    `src/[locale]/pages` and imports have to be adjusted accordingly.
-    :::
 
 3. **Create Configuration**
 

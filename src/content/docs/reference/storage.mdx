@@ -19,19 +19,6 @@ And this is the unit that forms the basis for what exchanged with wuchale.
 The placeholders are only for context during translation so they are not required by wuchale. If they are not important and you want to keep what you store lean, you can omit them and just use `null` for normal messages.
 :::
 
-## Plural rules
-
-An additional thing that has to be stored with the translations is the plural rules.
-
-<ShowType file="storage.ts" name="PluralRules" />
-
-## Exchanged data
-
-There are just two exchange interactions with wuchale: saving data and loading data. And what the storage has to exchange is this:
-
-<ShowType file="storage.ts" name="SaveData" nodeps />
-<ShowType file="storage.ts" name="LoadData" nodeps />
-
 ## File system
 
 Since almost all of the data exchanged is text files, wuchale provides a file

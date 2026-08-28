@@ -5,7 +5,6 @@ type JSONOpts = {
     mergeSameRegionals: boolean
     removePlaceholders: boolean
     flattenTranslations: boolean
-    stringForSingle: boolean
     parse: typeof JSON.parse
     stringify: typeof JSON.stringify
 }

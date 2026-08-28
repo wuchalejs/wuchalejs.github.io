@@ -113,45 +113,34 @@ The default value is a pattern to support [built-in pluralization](/guides/plura
 
 ## `heuristic`
 
-**type**: `(msg: Message) => 'message' | 'url' | false | null | undefined`
+**type**: `(msg: Text, file: string) => 'message' | 'url' | false | null | undefined`
 **default**: (depends on adapter)
 
 This is a function that decides whether a message is to be extracted or not. It
 can use the message and its details and return a boolean value to indicate its
 decision.
 
-If it returns `null` or `undefined`, the default heuristic will be used. Here is the full definition of the `Message` type
+If it returns `null` or `undefined`, the default heuristic will be used. Here is the full definition of the `Text` type
 
-<ShowType file="adapters.ts" name="Message" />
+<ShowType file="text.ts" name="Text" />
 
-A few interesting properties of the details are:
-
-#### `file`
-
-The file path where the message is located, relative to the root directory.
-
-#### `declaring`
-
-The type of the top level declaration (if in `script`).
-
-#### `insideFuncDef`
-
-Whether the message is inside a function definition. Can also be an arrow function.
-
-#### `topLevelCall`
-
-The name of the call at the top level. For example,
+The `Text.path` property is very useful because it gives very useful
+information about the location of the text. It is from top to bottom. For
+example, if there is a text with a body of `Hello` and this `path`:
 
 ```js
-const a = topLevel({
-    bar: non.topLevel('Hello'),
-})
+[
+    {type: 'element', name: 'p'},
+    {type: 'expression'},
+    {type: 'call', kind: 'tagged', name: 'foo'},
+]
 ```
-The value of `topLevelCall` would be `topLevel`
 
-#### `call`
+Then the heuristic can deduce that it's something like:
 
-The name of the nearest call. In the above example, this would be `non.topLevel`.
+```svelte
+<p>{foo`Hello`}</p>
+```
 
 ## `loading.granular`
 **type**: `boolean`

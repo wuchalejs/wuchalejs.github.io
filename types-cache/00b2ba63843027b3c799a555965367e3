@@ -1,5 +1,0 @@
-{"file":"storage.ts","name":"SaveData","opts":{"nodeps":true}}
-type SaveData = {
-    pluralRules: PluralRules // will always be provided
-    items: Item[]
-}

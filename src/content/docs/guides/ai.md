@@ -136,7 +136,7 @@ but may you have to weigh that against the translation quality as the models
 may perform less when they have to translate to different targets in the same
 prompt. YMMV.
 
-## Mistake handling
+## Mistake handling and Review
 
 The output of the LLM is validated to check if it didn't miss any placeholders
 or change any structure which would cause runtime problems. If the it makes
@@ -168,10 +168,11 @@ msgid "Welcom-"
 msgstr "Bienven-"
 
 msgid "Welcome {0}!"
-msgstr ""
+msgstr "Welcome!"
 ```
 
-Then `wuchale` retries for the following:
+Then `wuchale` validates the returned translations as strictly as possible, and
+retries for the failing messages:
 
 ```po
 msgid "Welcome"
@@ -182,7 +183,24 @@ msgstr ""
 ```
 
 And if it still makes mistakes, the process continues until all messages are
-translated.
+correctly translated. After that, since these translations still need human
+review, it puts the `ai` flag on them. These flags don't affect any
+functionality, they only serve to convey that review is needed, and they can be
+removed after review:
+
+```po
+#, ai
+msgid "Hello"
+msgstr "Hola"
+
+#, ai
+msgid "Welcome"
+msgstr "Bienvenido"
+
+#, ai
+msgid "Welcome {0}!"
+msgstr "Bienvenido {0}!"
+```
 
 ## Usage limit optimization
 

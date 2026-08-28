@@ -75,15 +75,16 @@ catalogs.
 ### `.po` files
 
 This is the default catalog storage format of the messages. It contains some
-headers with some metadata and the plural rule for the language, the
-untranslated messages as message IDs and the translations. There is one catalog
-storage file per locale. A simple example of the contents, before translation
-is this:
+headers with some metadata and the plural variants with CLDR order for the
+language, the untranslated messages as message IDs and the translations. There
+is one catalog storage file per locale. A simple example of the contents,
+before translation is this:
 
 ```po
 # es.po
 # ...other headers
-"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"Plural-Forms: nplurals=3;\n"
+"X-Plurals-Order: one, many, other;\n"
 
 #: src/path/to/source1.svelte
 msgid "Hello world!"
@@ -100,7 +101,8 @@ the translation like this:
 ```po
 # es.po
 # ...other headers
-"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"Plural-Forms: nplurals=3;\n"
+"X-Plurals-Order: one, many, other;\n"
 
 #: src/path/to/source1.svelte
 msgid "Hello world!"
@@ -123,7 +125,6 @@ example catalog, after compilation becomes:
 ```js
 // es.compiled.main.js
 export const c = ["¡Hola Mundo!", "Bienvenido"]
-export const p = n => n == 1 ? 0 : 1
 ```
 
 That's all. No keys, no unnecessary data. During development there is HMR
@@ -137,13 +138,11 @@ catalogs per the source file (`source1.svelte` and `source2.svelte`)
 ```js
 // es.compiled.src_path_to_source1_svelte.js
 export const c = ["¡Hola Mundo!"]
-export const p = n => n == 1 ? 0 : 1
 ```
 
 ```js
 // es.compiled.src_path_to_source2_svelte.js
 export const c = ["Bienvenido"]
-export const p = n => n == 1 ? 0 : 1
 ```
 
 This may be desired to reduce the bundle size when each page hash a huge number

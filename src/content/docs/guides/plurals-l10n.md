@@ -11,101 +11,90 @@ In most cases the first one is sufficient and doesn't need any other package.
 
 ## Built-in pluralization
 
-In this approach, the plural rule is written inside the catalog storage with
-the messages (e.g. in PO file headers) and the candidates are listed in each
-item. This approach is sufficient for most cases and it doesn't require
-installing additional libraries.
+A file `{localesDir}/plural.js` is written automatically based on the
+configured `locales`. It exports a function:
 
-The pattern for this is [configured as default](/reference/adapter-common/#patterns).
+```js
+function plural(n: number, candidates: string[], locale?: Locale): string
+```
+
+The plural rules are based on the CLDR project which covers [100+
+languages](https://cldr.unicode.org/#:~:text=to%20know%20about-,100%2B%20languages,-.%20It%20is%20the).
+The environment exposes these rules through the
+[`Intl.PluralRules`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/PluralRules)
+global object, which the written `plural` function relies on. This means there
+is no need to define the rules as long as they are one of the supported
+languages.
 
 ### Usage
 
-You first define your own function that selects the correct message from provided
-candidates based on the number, replaces the placeholder if needed, and returns
-the final message. The only requirement is that the signature has to match that of
-the below example.
-
-```javascript
-// src/utils.ts
-export function plural(num, candidates, rule = n => n === 1 ? 0 : 1) {
-    const index = rule(num)
-    return candidates[index].replace('#', num)
-}
-```
-
-Notice that this is still not about `wuchale`, you are just defining a
-convenient reusable function with pluggable selection rules.
-
-To be more specific, the signature has to be:
-
-```ts
-function plural(num: number, candidates: string[], rule?: (n: number) => number): string
-```
-
-Now you use your function in your codebase:
+The `plural` function accepts the number and the candidate messages as
+arguments. The third argument `locale` is to be provided by wuchale at
+transformation time. Therefore you can just import and use it like:
 
 ```svelte
 <script>
-    import {plural} from '/src/utils.js'
+    import plural from '../locales/plural.js'
     let itemCount = 5
 </script>
 
 <p>{plural(itemCount, ['One item', '# items'])}</p>
 ```
 
-That's it. `wuchale` has enough information to take it from there.
+That's it. `wuchale` has enough information to take it from there. It takes the
+source messages and creates the plural entry (e.g. Spanish in PO, after
+translation):
 
-### How it works
-
-The rules for plurals are taken from the catalogs (e.g. PO file headers). For
-example, you can edit the `.po` file for Spanish and make it look like:
-
-```po title="es.po" ins="Un artículo" ins="# artículos" ins="nplurals=2; plural=n == 1 ? 0 : 1"
+```po title="es.po" ins="Un artículo" ins="# artículos" ins="# de artículos"
 msgid ""
 msgstr ""
 "...{other headers}"
-"Plural-Forms: nplurals=2; plural=n == 1 ? 0 : 1;\n"
+"Plural-Forms: nplurals=3;\n"
+"X-Plurals-Order: one, many, other;\n"
 
 msgid "One item"
 msgid_plural "# items"
 msgstr[0] "Un artículo"
 msgstr[1] "# artículos"
+msgstr[2] "# de artículos"
 ```
 
-Then it takes the rule and puts it as a function in the compiled catalog when the use of plurales is detected (according to the [default pattern](/reference/adapter-common/#patterns)).
+The headers are there to convey the expected order of the plurals. To see what
+exactly they mean for the specific language, with examples, you can use the
+[Unicode
+table](https://www.unicode.org/cldr/charts/48/supplemental/language_plural_rules.html).
+The order is important to make sure that the correct one is selected at
+runtime, because the same order is also written with the `plural` function.
+
+### Languages outside CLDR
+
+In the case of the rarer languages that are not covered by CLDR, you can define
+your own `plural` function with the same signature elsewhere, and use that
+instead of the default one. To help with that, a second `Map` object is
+exported from `plural.js` so that you can get the CLDR rules for the locales
+that are supported and use your own for the ones that are not. For example:
 
 ```js
-// es.compiled.js
-export const c = [['Un artículo', '# artículos']]
-export const p = n => n == 1 ? 0 : 1
+// src/lib/plural.js
+import { indices } from '../locales/plural.js'
+
+// some other rule to select the candidate index
+const otherRule = n => n === 3 ? 0 : 1
+
+export default function plural(n, candidates, locale = 'en') {
+    const rule = locale === 'other' ? otherRule : indices.get(locale)
+    return candidates[rule(n)]?.replace('#', n.toString())
+}
+
 ```
 
-In this example, there are only two plural forms because Spanish has two. Some
-languages have more, and they are supported too, it's just a matter of having
-the correct `nplurals` and explaining the rule using the `plural` expression in
-the catalog and wuchale prepares uses them accordingly.
+### Pattern configuration
 
-Then during transformation, your code gets updated to use the current locale's data:
-
-```svelte
-<script>
-    import _w_rt_ from '../locales/main.loader.svelte.js'
-    const _w_runtime_ = _w_rt_('main')
-    import {plural} from '/src/utils.js'
-    let itemCount = 5
-</script>
-
-<p>{plural(itemCount, _w_runtime_.p(0), _w_runtime_._.p)}</p>
-```
-
-That way, the function that you define doesn't have to know about the number of
-possible plural rules; it gets the candidates and the selection rule specific
-to the locale. It just have to select the candidate, do the necessary
-modification (replacing `#` for example) and return the resulting single
-string.
-
-You can configure [patterns](/reference/adapter-common/#patterns) to work with
-a function with a different name if you want.
+Wuchale doesn't track import relationships, rather only names and signatures.
+Therefore if you don't agree with the naming or arguments order, you can define
+your own function (like above), and configure the pattern in
+[patterns](/reference/adapter-common/#patterns). The pattern for the above
+signature of `plural` is configured by default.
 
 ## ICU style pluralization and localization
 

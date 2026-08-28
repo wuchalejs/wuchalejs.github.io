@@ -7,5 +7,5 @@ type AIPassThruOpts = {
 
 type AI = AIPassThruOpts & {
     name: string
-    translate: (messages: string, instruction: string) => Promise<string>
+    translate: (body: string, instruction: string) => Promise<string>
 }

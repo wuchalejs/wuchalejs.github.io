@@ -94,7 +94,7 @@ export const adapter = (args: Partial<FooArgs> = defaultArgs): Adapter => {
             // transform logic...
             return {
                 output: {code: '...', map: {/*...*/} },
-                msgs: [/*...*/],
+                txts: [/*...*/],
             }
         },
         loaderExts: ['.js', '.ts'],
@@ -115,7 +115,7 @@ Each relevant property will be discussed below.
 The transform function is where the main work happens. It takes the code,
 extracts messages and transforms the code, returning:
 
-- `msgs`: the messages extracted, and
+- `txts`: the messages extracted, and
 - `output`: a function that receives the header (imports, and preparation code) and returns:
     - `code`: the final edited code
     - `map`: a source map for the edits
@@ -205,31 +205,31 @@ class FooTransformer {
         this.mstr = new MagicString(content)
     }
 
-    visitElement = (node: AST.Element): Message[] => {
-        const msgs: Message[] = []
+    visitElement = (node: AST.Element): Text[] => {
+        const txts: Text[] = []
         for (const att of node.attributes) {
-            msgs.push(...this.visit(att))
+            txts.push(...this.visit(att))
         }
         for (const ch of node.children) {
-            msgs.push(...this.visit(ch))
+            txts.push(...this.visit(ch))
         }
-        return msgs
+        return txts
     }
 
-    visitAttribute = (node: AST.Attribute): Message[] => {
-        const msgs: Message[] = []
+    visitAttribute = (node: AST.Attribute): Text[] => {
+        const txts: Text[] = []
         // logic to transform and get messages
-        return msgs
+        return txts
     }
 
-    visit = (node: AST.Node): Message[] => {
+    visit = (node: AST.Node): Text[] => {
         return this[`visit${node.type}`]?.(node) ?? []
     }
 
     transform() {
         const ast = parseFoo(this.content)
         return {
-            msgs: this.visit(ast),
+            txts: this.visit(ast),
             output: header => {
                 this.mstr.prependRight(0, header)
                 return {

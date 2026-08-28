@@ -1,5 +1,0 @@
-{"file":"storage.ts","name":"LoadData","opts":{"nodeps":true}}
-type LoadData = {
-    pluralRules?: PluralRules | undefined // optional if it's the first time etc, will be filled by the default one
-    items: Item[]
-}
