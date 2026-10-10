@@ -19,17 +19,7 @@ const data: Data = JSON.parse(await readFile(spFile, 'utf-8'))
     </a>)}
 </div>
 
-<h5>Special thanks to our backers</h5>
-
-<div class="sponsors">
-    {data.backers.map(s => <a class="sponsor" href={'https://github.com/' + s.username}>
-        <img src={`https://avatars.githubusercontent.com/u/${s.id}?v=4&s=48`} />
-    </a>)}
-</div>
-
-<p>And one private donor 🙏</p>
-
-<p>Become a sponsor and get your name or logo listed on the README and here on the website!</p>
+<p>Become a sponsor and get your name or logo listed here!</p>
 
 <p>
     <a href="https://github.com/sponsors/K1DV5">
